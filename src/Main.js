@@ -18,6 +18,14 @@ import MenuTopComp from './componenst/MenuTopComp'
 
 // Page
 import HomePage from './page/HomePage'
+import ProductPage from './page/ProductPage'
+
+import {
+    BrowserRouter as Router,
+    Switch,
+    Route,
+    Link
+  } from "react-router-dom";
 
 
 export default function Main(props) {
@@ -34,8 +42,19 @@ export default function Main(props) {
                 <MenuTopComp/>
             </div>
         </div>
-        <HomePage/>
+        {/* <HomePage/> */}
         <OpenChatComp/>
+
+        <Router>
+            <Switch>
+            <Route path="/home">
+                <HomePage/>
+            </Route>
+            <Route path="/product">
+                <ProductPage />
+            </Route>
+            </Switch>
+        </Router>
             
         </>
     )
