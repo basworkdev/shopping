@@ -15,6 +15,7 @@ import 'bootstrap/dist/js/bootstrap.bundle.min';
 import OpenChatComp from './componenst/OpenChatComp'
 import NavBarTopComp from './componenst/NavBarTopComp'
 import MenuTopComp from './componenst/MenuTopComp'
+import FooterComp from './componenst/FooterComp'
 
 // Page
 import HomePage from './page/HomePage'
@@ -37,12 +38,11 @@ export default function Main(props) {
         <>
 
         <NavBarTopComp/>
-        <div className="container" style={{zIndex : "99"}}>
-            <div className="row text-center">
+        <div style={{zIndex : "99"}}>
+            <div className="row text-center" style={{marginRight :"0px" ,marginLeft :"0px"}}>
                 <MenuTopComp/>
             </div>
         </div>
-        {/* <HomePage/> */}
         <OpenChatComp/>
 
         <Router>
@@ -55,6 +55,7 @@ export default function Main(props) {
             </Route>
             </Switch>
         </Router>
+        <FooterComp/>
             
         </>
     )

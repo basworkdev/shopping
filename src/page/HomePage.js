@@ -3,7 +3,6 @@ import React ,{useState} from "react";
 // Comp
 import SlideComp from '../componenst/SlideComp'
 import CardProductComp from '../componenst/CardProductComp'
-import FooterComp from '../componenst/FooterComp'
 
 // CSS
 import '../assets/css/home-page.css'
@@ -167,7 +166,7 @@ const [campingState , setCampingState] = useState(
             <div class="slide-container">
                 <SlideComp className=""/>
                 <div className="slide-top-left">
-                    <img src="../image/slide-top.png" width="100%"/>
+                    <img src="../image/slide-top2.png" width="100%"/>
                 </div>
                 <div className="slide-bottom-left">
                     <img src="../image/slide-bottom.png" width="100%"/>
@@ -222,7 +221,7 @@ const [campingState , setCampingState] = useState(
                             <p style={{textDecoration: "line-through"}} className="text-secondary">35,000</p>
                             <p style={{fontSize : "2rem",marginTop:"-20px"}} className="font-weight-bold">30,000</p>
                             <div style={{width:"100%",marginTop:"-54px"}} className="text-right">
-                                <a href="#" class="btn btn-danger btn-sm" style={{width:"100px"}}>ซื้อ</a>
+                                <a href="#" class="btn btn-danger btn-sm" style={{width:"100px"}}>รายละเอียด</a>
                             </div>
                             </div>
                             
@@ -235,9 +234,9 @@ const [campingState , setCampingState] = useState(
                 <div className="row">
                     {setCardProduct(rooftopTentState)}
                 </div>
-                <center>
+                <div className="text-right other-btn">
                     <button type="button" class="btn btn-primary">เพิ่มเติม</button>
-                </center>
+                </div>
                 <br/>
             </div>
             <div className="bg-camping1">
@@ -253,22 +252,25 @@ const [campingState , setCampingState] = useState(
                 <div className="row">
                     {setCardProduct(tentState)}
                 </div>
+                <div className="text-right other-btn">
+                    <button type="button" class="btn btn-primary">เพิ่มเติม</button>
+                </div>
             </div>
-            <br/>
             <br/>
             <div className="container">
                 <div className="line-product-title">
                     <h4>อุปกรณ์แคมป์ปิ้ง</h4>
                     <p className="p-product-title text-secondary">เต็นท์สำหรับรถยนต์ ไม่ว่าจะรถเล็กหรือรถใหญ่ก็สามารถติดตั้งได้</p>
                 </div>
-                <br/>
                 <div className="row">
                     {setCardProduct(campingState)}
+                </div>
+                <div className="text-right other-btn">
+                    <button type="button" class="btn btn-primary">เพิ่มเติม</button>
                 </div>
             </div>
             <br/>
             <br/>
-            <FooterComp/>
         </>
     )
 }

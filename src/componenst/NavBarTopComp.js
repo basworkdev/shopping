@@ -2,9 +2,9 @@ import React , {useState , useEffect} from "react";
 export default function NavBarTopComp(props) {
     return (
         <>
-        <div style={{width:"100%" , backgroundColor : "#000000"}}>
+        <div style={{width:"100%" , backgroundColor : "#5d5d5d"}}>
             <div className="container">
-                <ul class="nav justify-content-end bg-primary nav-top-bar-icon" style={{padding : "5px 0px 5px 0px"}}>
+                <ul class="nav justify-content-end bg-secondary text-white nav-top-bar-icon" style={{padding : "5px 0px 5px 0px"}}>
                     {/* <li class="nav-item">
                         <a class="nav-link text-white" href="#"><i class="fab fa-facebook-square"></i></a>
                     </li>

@@ -18,12 +18,12 @@ export default function CardProductComp(props) {
                             <td width="70%">
                                 {/* <a href="#" class="btn btn-primary btn-block">รายละเอียด</a> */}
                                 
-                                <p className="price">{numeral(productState.price).format('0,0')}.-</p>
+                                <p className="price font-weight-bold">{numeral(productState.price).format('0,0')}.-</p>
                                 {productState.originalPrice ? <p className="discount">{numeral(productState.originalPrice).format('0,0')}</p> : <div style={{height:"1rem"}}></div>}
                                 
                             </td>
                             <td width="30%" valign="top" className="btn-buy-box">
-                                <a href="#" class="btn btn-danger btn-block btn-sm">ซื้อ</a>
+                                {/* <a href="#" class="btn btn-danger btn-block btn-sm">ซื้อ</a> */}
                             </td>
                         </tr>
                     </table>

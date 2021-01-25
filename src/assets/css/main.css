@@ -134,3 +134,7 @@ body {
 .footer-brand-image {
     width: 70px;
 }
+
+.other-btn {
+    margin-top: -10px;
+}
