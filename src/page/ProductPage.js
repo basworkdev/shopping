@@ -202,7 +202,7 @@ export default function ProductPage(props) {
                     {setCardProduct(rooftopTentState)}
                 </div>
                 <div className="text-right other-btn">
-                    <button type="button" class="btn btn-primary">เพิ่มเติม</button>
+                    <a href="/catalog" type="button" class="btn btn-primary">เพิ่มเติม</a>
                 </div>
             </div>
             <br/>

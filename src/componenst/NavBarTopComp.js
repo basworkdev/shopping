@@ -1,5 +1,8 @@
 import React , {useState , useEffect} from "react";
+import { useHistory } from "react-router-dom";
+
 export default function NavBarTopComp(props) {
+    let history = useHistory();
     return (
         <>
         <div style={{width:"100%" , backgroundColor : "#5d5d5d"}}>

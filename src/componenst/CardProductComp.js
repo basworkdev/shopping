@@ -4,6 +4,7 @@ export default function CardProductComp(props) {
     const numeral = require('numeral');
     return (
         <>
+        <a href="/product" style={{textDecoration: "none" }}>
         <div className="card-product">
             <div className="img-product-card-home">
                 <img src={productState.image1} class="card-img-top" width="100%" alt="..."/>
@@ -31,6 +32,7 @@ export default function CardProductComp(props) {
             </div>
         </div>
             <br/>
+            </a>
         </>
     )
 }

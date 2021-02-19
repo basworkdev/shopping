@@ -1,6 +1,10 @@
 import React , {useState , useEffect} from "react";
+import { useHistory } from "react-router-dom";
+
+// Comp
 import SearchComp from './SearchComp'
 export default function MenuTopComp(props) {
+    let history = useHistory();
     return (
         <>
         <nav class="navbar navbar-expand-lg navbar-dark bg-primary text-left" style={{width:"100%"}}>
@@ -9,18 +13,18 @@ export default function MenuTopComp(props) {
                 <span class="navbar-toggler-icon"></span>
             </button>
             <SearchComp/>
-            <a class="navbar-brand logo-menu" href="#"><img src="../image/logo2.png" width="80px"/></a>
+            <a class="navbar-brand logo-menu" style={{cursor : "pointer"}} onClick={()=>history.push("/home")}><img src="../image/logo2.png" width="80px"/></a>
             
             <div class="collapse navbar-collapse" id="navbarTogglerDemo03">
                 <ul class="navbar-nav mr-auto mt-2 mt-lg-0">
                 <li class="nav-item active">
-                    <a class="nav-link" href="#">Home <span class="sr-only">(current)</span></a>
+                    <a class="nav-link" href="#">หน้าหลัก <span class="sr-only">(current)</span></a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="#">Link</a>
+                    <a class="nav-link" href="#">สินค้า</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link disabled" href="#" tabindex="-1" aria-disabled="true">Disabled</a>
+                    <a class="nav-link" href="#">ติดต่อเรา</a>
                 </li>
                 </ul>
                 <div class="form-inline my-2 my-lg-0">
