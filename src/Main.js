@@ -5,6 +5,7 @@ import './assets/bootstrap-4.5.3/css/bootstrap-grid.css'
 import './assets/bootstrap-4.5.3/css/bootstrap-reboot.css'
 import './assets/bootstrap-4.5.3/css/bootstrap.css'
 import './assets/css/main.css'
+import './assets/css/main-admin.css'
 import './assets/fontawesome-free-5.15.1-web/css/all.css'
 
 // JS
@@ -13,6 +14,7 @@ import 'bootstrap/dist/js/bootstrap.bundle.min';
 
 // Admin Page
 import LoginPage from './page/admin/LoginPage'
+import DashboardPage from './page/admin/DashboardPage'
 
 // Page
 import HomePage from './page/HomePage'
@@ -26,6 +28,10 @@ import MenuTopComp from './componenst/MenuTopComp'
 import FooterComp from './componenst/FooterComp'
 import TopUpComp from './componenst/TopUpComp'
 
+// Admin Components
+import AdminMenuTopComp from './componenst/admin/MenuTopComp'
+import AllProductsPage from './page/admin/products/AllProductsPage'
+
 
 import {
     BrowserRouter as Router,
@@ -37,7 +43,7 @@ import {
 
 export default function Main(props) {
     const [typeUserState , setTypeUserState] = useState("");
-
+    const [subUrlState , setSubUrlState] = useState([]);
     const navbarMenu = {
         paddingTop : "1rem"
     }
@@ -45,27 +51,32 @@ export default function Main(props) {
     useEffect(()=>{
         let url = window.location
         let typeUser = url.pathname.split("/")[1];
+        setSubUrlState(url.pathname.split("/"));
         setTypeUserState(typeUser);
     },[])
     return (
         <>
         <Router>
-        {typeUserState === "admin" ?
+        {typeUserState !== "admin" ?
         <>
-        
+        <NavBarTopComp/>
+        <div style={{zIndex : "99"}}>
+            <div className="row text-center" style={{marginRight :"0px" ,marginLeft :"0px"}}>
+                <MenuTopComp/>
+            </div>
+        </div>
+        <OpenChatComp/>
         </>
         : 
         <>
-            <NavBarTopComp/>
-            <div style={{zIndex : "99"}}>
-                <div className="row text-center" style={{marginRight :"0px" ,marginLeft :"0px"}}>
-                    <MenuTopComp/>
-                </div>
-            </div>
-            <OpenChatComp/>
-            <TopUpComp/>
+            {subUrlState[2] !== "login" 
+            ? 
+            <><AdminMenuTopComp/></> 
+            : 
+            <></>}
         </>
         }
+        <TopUpComp/>
         
 
         
@@ -84,6 +95,12 @@ export default function Main(props) {
             {/* Admin */}
             <Route path="/admin/login">
                 <LoginPage/>
+            </Route>
+            <Route path="/admin/dashboard">
+                <DashboardPage/>
+            </Route>
+            <Route path="/admin/all-product">
+                <AllProductsPage/>
             </Route>
             </Switch>
         </Router>

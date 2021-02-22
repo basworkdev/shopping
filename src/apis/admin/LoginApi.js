@@ -1,8 +1,8 @@
 import axios from "axios";
 
-const doserviceGetProduct = (token) => {
+const doserviceLogin = (data) => {
     return new Promise((resolve, reject) => {
-        axios.get(`${process.env.REACT_APP_ENGINE_URL}mProduct?token=${token}`,{
+        axios.post(`${process.env.REACT_APP_ENGINE_URL}login`, data , {
             headers: {
                 'Access-Control-Allow-Origin': '*'
             }
@@ -14,25 +14,9 @@ const doserviceGetProduct = (token) => {
         })
     });
 }
-const doserviceGetProductDetail = (data) => {
-    return new Promise((resolve, reject) => {
-        axios.post(`${process.env.REACT_APP_AZUREWEBSITES}get-round-information`, data, {
-            headers: {
-                'Access-Control-Allow-Origin': '*',
-                // 'Authorization' : token
-            }
-        })
-        .then(res => {
-            resolve(res.data);
-        }).catch(reason => {
-            reject(reason);
-        })
-    });
-}
 
 const apis = {
-    doserviceGetProduct,
-    doserviceGetProductDetail
+    doserviceLogin
 }
 
 export default apis;

@@ -5,14 +5,16 @@ import $ from "jquery"
 import '../assets/css/top-up.css'
 
 export default function TopUpComp(props) {
-
+    const [myBtnState , setMyBtnState] = useState("none");
     // When the user scrolls down 20px from the top of the document, show the button
     window.onscroll = function() {scrollFunction()};
 
     function scrollFunction() {
         if (document.body.scrollTop > 20 || document.documentElement.scrollTop > 20) {
+            // setMyBtnState("block");
             document.getElementById("myBtn").style.display = "block";
         } else {
+            // setMyBtnState("none");
             document.getElementById("myBtn").style.display = "none";
         }
     }
@@ -27,7 +29,7 @@ export default function TopUpComp(props) {
 
     return (
         <>
-        <button onClick={()=>topFunction()} id="myBtn" title="Go to top" style={{fontSize: "30px", display: "block"}}>
+        <button onClick={()=>topFunction()} id="myBtn" title="Go to top" style={{fontSize: "30px", display: "block" }}>
             <i class="fas fa-angle-up"></i>
         </button>
         </>
