@@ -51,27 +51,27 @@ export default function FooterComp(props) {
                             <div className="row footer-icon">
                                 <div className="col-1"></div>
                                 <div className="col-2">
-                                    <i class="fab fa-facebook"></i>
+                                    <i className="fab fa-facebook"></i>
                                 </div>
                                 <div className="col-2">
-                                    <i class="fab fa-instagram"></i>
+                                    <i className="fab fa-instagram"></i>
                                 </div>
                                 <div className="col-2">
-                                    <i class="fab fa-youtube"></i>
+                                    <i className="fab fa-youtube"></i>
                                 </div>
                                 <div className="col-2">
-                                    <i class="fab fa-twitter"></i>
+                                    <i className="fab fa-twitter"></i>
                                 </div>
                                 <div className="col-2">
-                                    <i class="fab fa-line"></i>
+                                    <i className="fab fa-line"></i>
                                 </div>
                                 <div className="col-1"></div>
                             </div>
                             
                             <h5 style={{marginTop:"25px"}}>ติดต่อเรา</h5>
                             
-                            <p style={{marginBottom : "0px"}}><i class="fas fa-mobile-alt"></i> : 087-4451121</p>
-                            <p><i class="fas fa-envelope"></i> : rodxoffroad@gmail.com</p>
+                            <p style={{marginBottom : "0px"}}><i className="fas fa-mobile-alt"></i> : 087-4451121</p>
+                            <p><i className="fas fa-envelope"></i> : rodxoffroad@gmail.com</p>
                             </center>
                             
                         </div>

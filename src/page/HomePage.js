@@ -164,7 +164,7 @@ export default function HomePage(props) {
 
     return(
         <>
-            <div class="slide-container">
+            <div className="slide-container">
                 <SlideComp className=""/>
                 <div className="slide-top-left">
                     <img src="../image/slide-top2.png" width="100%"/>
@@ -212,8 +212,8 @@ export default function HomePage(props) {
                                     <p className="triangle-topright-number font-weight-bold">-20%</p>
                                     </div>
                                 </div>
-                                <h4 class="card-title" style={{marginTop:"20px"}}>เต็นท์ Thule 2</h4>
-                                <p class="card-text text-black-50 card-product-detail">
+                                <h4 className="card-title" style={{marginTop:"20px"}}>เต็นท์ Thule 2</h4>
+                                <p className="card-text text-black-50 card-product-detail">
                                     A rugged rooftop tent for exploring off-road campsites
                                     600D ripstop blend fabric is durable and protects from weather
                                     Removable annex offers privacy and gear storage
@@ -222,7 +222,7 @@ export default function HomePage(props) {
                             <p style={{textDecoration: "line-through"}} className="text-secondary">35,000</p>
                             <p style={{fontSize : "2rem",marginTop:"-20px"}} className="font-weight-bold">30,000</p>
                             <div style={{width:"100%",marginTop:"-60px"}} className="text-right">
-                                <a href="/product" class="btn btn-danger" style={{width:"100px"}}>รายละเอียด</a>
+                                <a href="/product" className="btn btn-danger" style={{width:"100px"}}>รายละเอียด</a>
                             </div>
                             </div>
                             
@@ -236,7 +236,7 @@ export default function HomePage(props) {
                     {setCardProduct(rooftopTentState)}
                 </div>
                 <div className="text-right other-btn">
-                    <a href="/catalog" type="button" class="btn btn-primary">เพิ่มเติม</a>
+                    <a href="/catalog" type="button" className="btn btn-primary">เพิ่มเติม</a>
                 </div>
                 <br/>
             </div>
@@ -254,7 +254,7 @@ export default function HomePage(props) {
                     {setCardProduct(tentState)}
                 </div>
                 <div className="text-right other-btn">
-                    <a href="/catalog" type="button" class="btn btn-primary">เพิ่มเติม</a>
+                    <a href="/catalog" type="button" className="btn btn-primary">เพิ่มเติม</a>
                 </div>
             </div>
             <br/>
@@ -267,7 +267,7 @@ export default function HomePage(props) {
                     {setCardProduct(campingState)}
                 </div>
                 <div className="text-right other-btn">
-                    <a href="/catalog" type="button" class="btn btn-primary">เพิ่มเติม</a>
+                    <a href="/catalog" type="button" className="btn btn-primary">เพิ่มเติม</a>
                 </div>
             </div>
             <br/>

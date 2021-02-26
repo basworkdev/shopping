@@ -7,24 +7,24 @@ export default function CardProductComp(props) {
         <a href="/product" style={{textDecoration: "none" }}>
         <div className="card-product">
             <div className="img-product-card-home">
-                <img src={productState.image1} class="card-img-top" width="100%" alt="..."/>
+                <img src={productState.image1} className="card-img-top" width="100%" alt="..."/>
                 {productState.sell ? <div className="sell">-{productState.sell}%</div> : ""}
             </div>
             <div className="card-product-main-detail">
-                <h5 class="card-title">{productState.name}</h5>
-                <p class="card-text text-black-50 card-product-detail">{productState.subDetail}</p>
+                <h5 className="card-title">{productState.name}</h5>
+                <p className="card-text text-black-50 card-product-detail">{productState.subDetail}</p>
                 <div className="price-box">
                     <table width="100%">
                         <tr>
                             <td width="70%">
-                                {/* <a href="#" class="btn btn-primary btn-block">รายละเอียด</a> */}
+                                {/* <a href="#" className="btn btn-primary btn-block">รายละเอียด</a> */}
                                 
                                 <p className="price font-weight-bold">{numeral(productState.price).format('0,0')}.-</p>
                                 {productState.originalPrice ? <p className="discount">{numeral(productState.originalPrice).format('0,0')}</p> : <div style={{height:"1rem"}}></div>}
                                 
                             </td>
                             <td width="30%" valign="top" className="btn-buy-box">
-                                {/* <a href="#" class="btn btn-danger btn-block btn-sm">ซื้อ</a> */}
+                                {/* <a href="#" className="btn btn-danger btn-block btn-sm">ซื้อ</a> */}
                             </td>
                         </tr>
                     </table>

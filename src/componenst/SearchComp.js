@@ -6,7 +6,7 @@ export default function SearchComp(props) {
         <div className="search-box">
             <form className="form-search" action="">
                 <input type="search" className="input-search"/>
-                <i class="fa fa-search"></i>
+                <i className="fa fa-search"></i>
             </form>
         </div>
         </>

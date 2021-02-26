@@ -31,6 +31,7 @@ import TopUpComp from './componenst/TopUpComp'
 // Admin Components
 import AdminMenuTopComp from './componenst/admin/MenuTopComp'
 import AllProductsPage from './page/admin/products/AllProductsPage'
+import CreateProductPage from './page/admin/products/CreateProductPage'
 
 
 import {
@@ -81,6 +82,9 @@ export default function Main(props) {
 
         
             <Switch>
+            {/* <Route path="/">
+                <HomePage/>
+            </Route> */}
             <Route path="/home">
                 <HomePage/>
             </Route>
@@ -101,6 +105,9 @@ export default function Main(props) {
             </Route>
             <Route path="/admin/all-product">
                 <AllProductsPage/>
+            </Route>
+            <Route path="/admin/create-product">
+                <CreateProductPage/>
             </Route>
             </Switch>
         </Router>

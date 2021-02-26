@@ -35,17 +35,17 @@ export default function LoginPage(props) {
         <div className="container" style={{paddingTop : "100px",paddingBottom : "100px"}}>
             <h1 className="text-center font-weight-bold">Login</h1>
             <form onSubmit={handleSubmit(onSubmit)}>
-                <div class="form-group">
+                <div className="form-group">
                     <label>User</label>
-                    <input type="text" name="userName" ref={register({ required: true })} class="form-control"/>
-                    {errors.userName && <small class="form-text text-danger">{conTxt.validate.requestFiles}</small>}
+                    <input type="text" name="userName" ref={register({ required: true })} className="form-control"/>
+                    {errors.userName && <small className="form-text text-danger">{conTxt.validate.requestFiles}</small>}
                 </div>
-                <div class="form-group">
+                <div className="form-group">
                     <label>Password</label>
-                    <input type="password" name="password" ref={register({ required: true })} class="form-control"/>
-                    {errors.password && <small class="form-text text-danger">{conTxt.validate.requestFiles}</small>}
+                    <input type="password" name="password" ref={register({ required: true })} className="form-control"/>
+                    {errors.password && <small className="form-text text-danger">{conTxt.validate.requestFiles}</small>}
                 </div>
-                <center><button type="submit" class="btn btn-primary">login</button></center>
+                <center><button type="submit" className="btn btn-primary">login</button></center>
             </form>
         </div>
         </>

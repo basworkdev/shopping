@@ -149,7 +149,7 @@ export default function ProductPage(props) {
                             <p>{productState.subDetail}</p>
                             <h5 style={{paddingTop : "0.5rem"}} className="font-weight-bold">รายละเอียด</h5>
                             <p>{productState.mainDetail}</p>
-                            <button type="button" class="btn btn-outline-primary btn-sm">ข้อมูลเพิ่มเติม</button>
+                            <button type="button" className="btn btn-outline-primary btn-sm">ข้อมูลเพิ่มเติม</button>
                             <p className="pro-price-page font-weight-bold">{productState.pirce}.-</p>
                             {productState.fullPirec !== productState.pirce ? <p className="pro-discount-page">{productState.fullPirec}</p> : ""}
                             <h5 style={{paddingTop : "0.3rem"}} className="font-weight-bold">สี</h5>
@@ -171,18 +171,18 @@ export default function ProductPage(props) {
                                     <div className="col-6">
                                         <h5 style={{paddingTop : "1.2rem"}} className="font-weight-bold">จำนวน</h5>
                                         <div>
-                                            <span class="input-number-decrement">–</span><input class="input-number" type="text" value="1" min="0" max="10"/><span class="input-number-increment">+</span>
+                                            <span className="input-number-decrement">–</span><input className="input-number" type="text" value="1" min="0" max="10"/><span className="input-number-increment">+</span>
                                         </div>
                                     </div>
                                 </div>
                                 <div className="row">
                                     <div className="col-6">
-                                        <button style={{marginTop:"30px"}} type="button" class="btn btn-primary btn-lg btn-block">
-                                            <i class="fas fa-shopping-basket"></i> เพิ่มในตะกร้า
+                                        <button style={{marginTop:"30px"}} type="button" className="btn btn-primary btn-lg btn-block">
+                                            <i className="fas fa-shopping-basket"></i> เพิ่มในตะกร้า
                                         </button>
                                     </div>
                                     <div className="col-6">
-                                        <button style={{marginTop:"30px"}} type="button" class="btn btn-danger btn-lg btn-block shadow">ซื้อ</button>
+                                        <button style={{marginTop:"30px"}} type="button" className="btn btn-danger btn-lg btn-block shadow">ซื้อ</button>
                                     </div>
                                 </div>
                             </div>
@@ -202,7 +202,7 @@ export default function ProductPage(props) {
                     {setCardProduct(rooftopTentState)}
                 </div>
                 <div className="text-right other-btn">
-                    <a href="/catalog" type="button" class="btn btn-primary">เพิ่มเติม</a>
+                    <a href="/catalog" type="button" className="btn btn-primary">เพิ่มเติม</a>
                 </div>
             </div>
             <br/>

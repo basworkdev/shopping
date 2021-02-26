@@ -7,25 +7,25 @@ export default function NavBarTopComp(props) {
         <>
         <div style={{width:"100%" , backgroundColor : "#5d5d5d"}}>
             <div className="container">
-                <ul class="nav justify-content-end bg-secondary text-white nav-top-bar-icon" style={{padding : "5px 0px 5px 0px"}}>
-                    {/* <li class="nav-item">
-                        <a class="nav-link text-white" href="#"><i class="fab fa-facebook-square"></i></a>
+                <ul className="nav justify-content-end bg-secondary text-white nav-top-bar-icon" style={{padding : "5px 0px 5px 0px"}}>
+                    {/* <li className="nav-item">
+                        <a className="nav-link text-white" href="#"><i className="fab fa-facebook-square"></i></a>
                     </li>
-                    <li class="nav-item">
-                        <a class="nav-link text-white" href="#"><i class="fab fa-youtube"></i></a>
+                    <li className="nav-item">
+                        <a className="nav-link text-white" href="#"><i className="fab fa-youtube"></i></a>
                     </li>
-                    <li class="nav-item">
-                        <a class="nav-link text-white" href="#"><i class="fab fa-line"></i></a>
+                    <li className="nav-item">
+                        <a className="nav-link text-white" href="#"><i className="fab fa-line"></i></a>
                     </li> */}
-                    <li class="nav-item nav-item-top">
+                    <li className="nav-item nav-item-top">
                         <font>ติดตามสินค้า</font>
                     </li>
-                    <li class="nav-item">
-                        <button type="button"  class="btn btn-outline-light btn-sm">ลงชื่อเข้าใช้</button>
+                    <li className="nav-item">
+                        <button type="button"  className="btn btn-outline-light btn-sm">ลงชื่อเข้าใช้</button>
                     </li>
-                    <li class="nav-item" style={{paddingLeft : "20px"}}>
+                    <li className="nav-item" style={{paddingLeft : "20px"}}>
                         <div className="basket">
-                            <i class="fas fa-shopping-basket"></i>
+                            <i className="fas fa-shopping-basket"></i>
                             <div className="in-basket"></div>
                             <div className="num-in-basket">5</div>
                         </div>

@@ -1,8 +1,8 @@
 import axios from "axios";
 
-const doserviceLogin = (data) => {
+const doserviceUploadImage = (formData) => {
     return new Promise((resolve, reject) => {
-        axios.post(`${process.env.REACT_APP_ENGINE_URL}login`, data , {
+        axios.post(`${process.env.REACT_APP_ENGINE_URL}upload`, formData , {
             headers: {
                 'Access-Control-Allow-Origin': '*'
             }
@@ -15,9 +15,8 @@ const doserviceLogin = (data) => {
     });
 }
 
-
 const apis = {
-    doserviceLogin
+    doserviceUploadImage
 }
 
 export default apis;

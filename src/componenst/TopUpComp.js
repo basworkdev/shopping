@@ -30,7 +30,7 @@ export default function TopUpComp(props) {
     return (
         <>
         <button onClick={()=>topFunction()} id="myBtn" title="Go to top" style={{fontSize: "30px", display: "block" }}>
-            <i class="fas fa-angle-up"></i>
+            <i className="fas fa-angle-up"></i>
         </button>
         </>
     )
