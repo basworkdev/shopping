@@ -15,8 +15,16 @@ const doserviceUploadImage = (formData) => {
     });
 }
 
+const percentSell = (fullPrice , price) => {
+    const discount = fullPrice - price;
+    const percent = (discount/fullPrice) * 100;
+    return percent;
+}
+
+
 const apis = {
-    doserviceUploadImage
+    doserviceUploadImage,
+    percentSell
 }
 
 export default apis;

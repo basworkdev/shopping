@@ -75,12 +75,94 @@ const doserviceCreateProduct = (data) => {
     });
 }
 
+const doserviceUpdateProduct = (data) => {
+    return new Promise((resolve, reject) => {
+        axios.post(`${process.env.REACT_APP_ENGINE_URL}updateProduct`,data, {
+            headers: {
+                'Access-Control-Allow-Origin': '*'
+            }
+        })
+        .then(res => {
+            resolve(res.data);
+        }).catch(reason => {
+            reject(reason);
+        })
+    });
+}
+
+const doserviceDeleteProduct = (data) => {
+    return new Promise((resolve, reject) => {
+        axios.post(`${process.env.REACT_APP_ENGINE_URL}deleteProduct`,data, {
+            headers: {
+                'Access-Control-Allow-Origin': '*'
+            }
+        })
+        .then(res => {
+            resolve(res.data);
+        }).catch(reason => {
+            reject(reason);
+        })
+    });
+}
+
+const doserviceDeleteImage = (path) => {
+    let fileName = path.split("/");
+    fileName = fileName[4]
+    return new Promise((resolve, reject) => {
+        axios.post(`${process.env.REACT_APP_ENGINE_URL}deleteImage/${fileName}`, {
+            headers: {
+                'Access-Control-Allow-Origin': '*'
+            }
+        })
+        .then(res => {
+            resolve(res.data);
+        }).catch(reason => {
+            reject(reason);
+        })
+    });
+}
+
+const doserviceGetProductById = (id) => {
+    return new Promise((resolve, reject) => {
+        axios.get(`${process.env.REACT_APP_ENGINE_URL}getProductById/${id}`, {
+            headers: {
+                'Access-Control-Allow-Origin': '*'
+            }
+        })
+        .then(res => {
+            resolve(res.data);
+        }).catch(reason => {
+            reject(reason);
+        })
+    });
+}
+
+const doserviceGetProductByKey = (key) => {
+    return new Promise((resolve, reject) => {
+        axios.get(`${process.env.REACT_APP_ENGINE_URL}getProductByKey/${key}`, {
+            headers: {
+                'Access-Control-Allow-Origin': '*'
+            }
+        })
+        .then(res => {
+            resolve(res.data);
+        }).catch(reason => {
+            reject(reason);
+        })
+    });
+}
+
 const apis = {
     doserviceGetAllProduct,
     doserviceGetBrand,
     doserviceGetProductType,
     doserviceGetConfig,
-    doserviceCreateProduct
+    doserviceCreateProduct,
+    doserviceUpdateProduct,
+    doserviceDeleteProduct,
+    doserviceGetProductById,
+    doserviceGetProductByKey,
+    doserviceDeleteImage
 }
 
 export default apis;

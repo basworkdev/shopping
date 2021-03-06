@@ -88,7 +88,7 @@ export default function Main(props) {
             <Route path="/home">
                 <HomePage/>
             </Route>
-            <Route path="/product">
+            <Route path="/product/:key">
                 <ProductPage />
             </Route>
             <Route path="/catalog">
@@ -106,7 +106,7 @@ export default function Main(props) {
             <Route path="/admin/all-product">
                 <AllProductsPage/>
             </Route>
-            <Route path="/admin/create-product">
+            <Route path="/admin/product/:event/:id">
                 <CreateProductPage/>
             </Route>
             </Switch>

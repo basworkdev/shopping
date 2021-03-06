@@ -1,26 +1,16 @@
 import React , {useState , useEffect} from "react";
-
+import { BrowserRouter as Router, useParams } from "react-router-dom";
+import apis from "../apis/ProductsApi";
+import apisMain from "../apis/MainApi"
 // CSS
 import "../assets/css/product-page.css"
 
 // Comp
 import CardProductComp from "../componenst/CardProductComp"
 export default function ProductPage(props) {
-    const [productState,setProductStae] = useState(
-        {
-            key : "rooftop-tent-01",
-            image : ["../image/TC2-1.jpg","../image/TC2-2.jpg","../image/TC2-3.jpg","../image/TC2-4.jpg","../image/TC2-5.jpg","../image/TC2-6.jpg"],
-            name : "Thule x Tepui 1 เต็นท์หลังคารถ",
-            subDetail : "เต็นท์หลังคารถสำหรับ 2 คน",
-            mainDetail : "เต็นท์หลังคารถ Thule x Tepui 1 ติดตั้ง และใช้งานง่าย สะดวก ปลอดภัย พร้อมไปกับคุณทุกที่ กันน้ำ กันฝน 100% ผ้า cotton 100% ซิป YKK น็อต สแตนแลส โครงสร้าง อลูมิเนียม Water proof coating, Rot-proof coating,UV protection, PU coating อายุการใช่งานยาวนาน ไม่มีค่าบำรุงรักษา หมดปัญหาเรื่องสัตว์ร้าย น้ำท่วม พื้นไม่เรียบ พื้นเปียก และอื่นๆ",
-            detail : "xxxxxxxxxxxxxxxxxxx",
-            pirce : "33000",
-            fullPirec : "35000",
-            discount : "10%",
-            color : ["#ff0000" , "#dddddd" , "#000000"],
-
-        }
-    )
+    const {key} = useParams();
+    const numeral = require('numeral');
+    const [productState,setProductStae] = useState();
     const [rooftopTentState , setRooftopTentState ] = useState(
         [
             {
@@ -90,12 +80,28 @@ export default function ProductPage(props) {
         ]
     )
 
-    const [productImageState , setProductState] = useState(productState.image[0]);
-    const [colorActiveState , setColorActiveState] = useState(productState.color[0])
+    const [productImageState , setProductImageState] = useState();
+    const [colorActiveState , setColorActiveState] = useState()
 
+    useEffect(()=>{
+        getProductByKey();
+    },[])
+
+    const getProductByKey = async () => {
+        let product = await apis.doserviceGetProductByKey(key);
+        if(product.length > 0){
+            product = product[0];
+            product.img = product.img.split(",");
+            product.color = product.color.split(",");
+            setColorActiveState(product.color[0])
+            setProductImageState(product.img[0]);
+            console.log(product);
+            setProductStae(product);
+        }
+    }
 
     const clickViewImage = (img) => {
-        setProductState(img);
+        setProductImageState(img);
     } 
     const colorActive = (color) => {
         setColorActiveState(color);
@@ -114,101 +120,108 @@ export default function ProductPage(props) {
     
     return (
         <>
-            <div className="container">
-                <div className="row">
-                    <div className="col-md-6">
-                        <div className="pro-img-page">
-                            <div className="pro-container-discount-persen-page">
-                                <img src={productImageState} width="100%"/>
-                                <div className="pro-discount-persen-page">
-                                    <p className="pro-box-discount-persen-page shadow font-weight-bold">
-                                        -{productState.discount}
-                                    </p>
+        {productState ? 
+        <div className="container">
+        <div className="row">
+            <div className="col-md-6">
+                <div className="pro-img-page">
+                    <div className="pro-container-discount-persen-page">
+                        <img src={productImageState} width="100%"/>
+                        <div className="pro-discount-persen-page">
+                            <p className="pro-box-discount-persen-page shadow font-weight-bold">
+                                -{ numeral(apisMain.percentSell(productState.fullPrice,productState.price)).format('0')}%
+                            </p>
+                        </div>
+                    </div>
+                    <div className="row" style={{marginTop : "30px"}}>
+                        {productState.img.map((data,index)=>{
+                            return <>
+                                <div className="col-2 col-md-2">
+                                    <div 
+                                        className={`pro-sum-img-page ${data === productImageState ? "active" : ""}`}
+                                        onClick={()=>{clickViewImage(data)}}
+                                    >
+                                        <img src={data} width="100%"/>
+                                    </div>
                                 </div>
-                            </div>
-                            <div className="row" >
-                                {productState.image.map((data,index)=>{
-                                    return <>
-                                        <div className="col-2 col-md-2">
-                                            <div 
-                                                className={`pro-sum-img-page ${data === productImageState ? "active" : ""}`}
-                                                onClick={()=>{clickViewImage(data)}}
-                                            >
-                                                <img src={data} width="100%"/>
-                                            </div>
-                                        </div>
-                                    </>
-                                })}
+                            </>
+                        })}
+                    </div>
+                </div>
+                
+            </div>
+            <div className="col-md-6">
+                <div className="pro-product-page">
+                    <h1 className="pro-name-page font-weight-bold">{productState.name}</h1>
+                    <p>{productState.subDetail}</p>
+                    <h5 style={{paddingTop : "0.5rem"}} className="font-weight-bold">รายละเอียด</h5>
+                    <p>{productState.detail}</p>
+                    <button type="button" className="btn btn-outline-primary btn-sm">ข้อมูลเพิ่มเติม</button>
+                    <p className="pro-price-page font-weight-bold">{numeral(productState.price).format('0,0')}.-</p>
+                    {productState.fullPriec !== productState.price ? <p className="pro-discount-page">{numeral(productState.fullPrice).format('0,0')}</p> : ""}
+                    <h5 style={{paddingTop : "0.3rem"}} className="font-weight-bold">สี</h5>
+                    <div className="pro-color-box-page">
+                        <div className="row">
+                            {productState.color.map((data,index)=>{
+                                return <div className="col-1 col-md-1">
+                                    <div 
+                                        className={`pro-color-page ${colorActiveState === data ? "active" : ""}`} 
+                                        style={{backgroundColor:`${data}` , cursor : "pointer"}}
+                                        onClick={()=>colorActive(data)}
+                                    >
+                                    </div>
+                                </div>
+                            })}
+                            
+                        </div>
+                        <div className="row">
+                            <div className="col-6">
+                                <h5 style={{paddingTop : "1.2rem"}} className="font-weight-bold">จำนวน</h5>
+                                <div>
+                                    <span className="input-number-decrement">–</span><input className="input-number" type="text" value="1" min="0" max="10"/><span className="input-number-increment">+</span>
+                                </div>
                             </div>
                         </div>
-                        
-                    </div>
-                    <div className="col-md-6">
-                        <div className="pro-product-page">
-                            <h1 className="pro-name-page font-weight-bold">{productState.name}</h1>
-                            <p>{productState.subDetail}</p>
-                            <h5 style={{paddingTop : "0.5rem"}} className="font-weight-bold">รายละเอียด</h5>
-                            <p>{productState.mainDetail}</p>
-                            <button type="button" className="btn btn-outline-primary btn-sm">ข้อมูลเพิ่มเติม</button>
-                            <p className="pro-price-page font-weight-bold">{productState.pirce}.-</p>
-                            {productState.fullPirec !== productState.pirce ? <p className="pro-discount-page">{productState.fullPirec}</p> : ""}
-                            <h5 style={{paddingTop : "0.3rem"}} className="font-weight-bold">สี</h5>
-                            <div className="pro-color-box-page">
-                                <div className="row">
-                                    {productState.color.map((data,index)=>{
-                                        return <div className="col-1 col-md-1">
-                                            <div 
-                                                className={`pro-color-page ${colorActiveState === data ? "active" : ""}`} 
-                                                style={{backgroundColor:`${data}` , cursor : "pointer"}}
-                                                onClick={()=>colorActive(data)}
-                                            >
-                                            </div>
-                                        </div>
-                                    })}
-                                    
-                                </div>
-                                <div className="row">
-                                    <div className="col-6">
-                                        <h5 style={{paddingTop : "1.2rem"}} className="font-weight-bold">จำนวน</h5>
-                                        <div>
-                                            <span className="input-number-decrement">–</span><input className="input-number" type="text" value="1" min="0" max="10"/><span className="input-number-increment">+</span>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div className="row">
-                                    <div className="col-6">
-                                        <button style={{marginTop:"30px"}} type="button" className="btn btn-primary btn-lg btn-block">
-                                            <i className="fas fa-shopping-basket"></i> เพิ่มในตะกร้า
-                                        </button>
-                                    </div>
-                                    <div className="col-6">
-                                        <button style={{marginTop:"30px"}} type="button" className="btn btn-danger btn-lg btn-block shadow">ซื้อ</button>
-                                    </div>
-                                </div>
+                        <div className="row">
+                            <div className="col-6">
+                                <button style={{marginTop:"30px"}} type="button" className="btn btn-primary btn-lg btn-block">
+                                    <i className="fas fa-shopping-basket"></i> เพิ่มในตะกร้า
+                                </button>
+                            </div>
+                            <div className="col-6">
+                                <button style={{marginTop:"30px"}} type="button" className="btn btn-danger btn-lg btn-block shadow">ซื้อ</button>
                             </div>
                         </div>
                     </div>
                 </div>
             </div>
-            <hr/>
-            <br/>
-            <div className="container">
-                <div className="line-product-title">
-                    <h4>เต็นท์หลังคารถ</h4>
-                    <p className="p-product-title text-secondary">เต็นท์สำหรับรถยนต์ ไม่ว่าจะรถเล็กหรือรถใหญ่ก็สามารถติดตั้งได้</p>
-                </div>
-                <br/>
-                <div className="row">
-                    {setCardProduct(rooftopTentState)}
-                </div>
-                <div className="text-right other-btn">
-                    <a href="/catalog" type="button" className="btn btn-primary">เพิ่มเติม</a>
-                </div>
-            </div>
-            <br/>
-            <br/>
-            <br/>
-            <br/>
+        </div>
+    </div>
+    
+    : 
+    <div className="container text-center" style={{paddingTop : "70px" , paddingBottom : "70px" , fontSize : "2rem"}}>
+        ไม่พบสินค้า
+    </div>
+    }
+        <hr/>
+    <br/>
+    <div className="container">
+        <div className="line-product-title">
+            <h4>เต็นท์หลังคารถ</h4>
+            <p className="p-product-title text-secondary">เต็นท์สำหรับรถยนต์ ไม่ว่าจะรถเล็กหรือรถใหญ่ก็สามารถติดตั้งได้</p>
+        </div>
+        <br/>
+        <div className="row">
+            {setCardProduct(rooftopTentState)}
+        </div>
+        <div className="text-right other-btn">
+            <a href="/catalog" type="button" className="btn btn-primary">เพิ่มเติม</a>
+        </div>
+    </div>
+    <br/>
+    <br/>
+    <br/>
+    <br/>
         </>
     )
 }
