@@ -1,156 +1,41 @@
-import React ,{useState} from "react";
+import React , {useState , useEffect} from "react";
 import { useHistory } from "react-router-dom";
 
 // Comp
 import SlideComp from '../componenst/SlideComp'
 import CardProductComp from '../componenst/CardProductComp'
+import SpinnerComp from "../componenst/SpinnerComp"
+
+// API
+import apis from "../apis/ProductsApi";
 
 // CSS
 import '../assets/css/home-page.css'
+
 export default function HomePage(props) {
     let history = useHistory();
-    const [rooftopTentState , setRooftopTentState ] = useState(
-        [
-            {
-                name : "เต็นท์ Thule 2",
-                subDetail : "เต็นท์หลังคารถสำหรับ 2 คน",
-                sell : 10,
-                price : 33000,
-                originalPrice : 35000,
-                image1 : "../image/TC1.jpg"
-            },
-            {
-                name : "เต็นท์ Thule 2",
-                subDetail : "เต็นท์หลังคารถสำหรับ 2 คน",
-                sell : "",
-                price : 30000,
-                originalPrice : "",
-                image1 : "../image/TC3.jpg"
-            },
-            {
-                name : "เต็นท์ Thule 3",
-                subDetail : "เต็นท์หลังคารถสำหรับ 3 คน",
-                sell : "",
-                price : 33000,
-                originalPrice : "",
-                image1 : "../image/TC1.jpg"
-            },
-            {
-                name : "เต็นท์ Thule 4",
-                subDetail : "เต็นท์หลังคารถสำหรับ 4 คน",
-                sell : 20,
-                price : 40000,
-                originalPrice : 45000,
-                image1 : "../image/TC3.jpg"
-            },
-            {
-                name : "Thule Awning",
-                subDetail : "Thule Awning",
-                sell : 20,
-                price : 40000,
-                originalPrice : 45000,
-                image1 : "../image/AN1.jpg"
-            },
-            {
-                name : "Rhino-Rack Batwing Awning",
-                subDetail : "Rhino-Rack Batwing Awning",
-                sell : "",
-                price : 40000,
-                originalPrice : "",
-                image1 : "../image/AN2.jpg"
-            },
-            {
-                name : "Rhino-Rack Sunseeker Side Wall",
-                subDetail : "เต็นท์หลังคารถสำหรับ 4 คน",
-                sell : 20,
-                price : 40000,
-                originalPrice : 45000,
-                image1 : "../image/AN3.jpg"
-            },
-            {
-                name : "Thule Mosquito Net Walls for 6ft Awning",
-                subDetail : "เต็นท์หลังคารถสำหรับ 4 คน",
-                sell : 20,
-                price : 40000,
-                originalPrice : 45000,
-                image1 : "../image/AN4.jpg"
-            }
-        ]
-    )
+    const [spinnerState,setSpinnerState] = useState(false);
+    const [rooftopTentState , setRooftopTentState ] = useState([])
+    const [tentState , setTentState] = useState([])
+    const [assistiveDeviceState , setAssistiveDeviceState] = useState([])
 
-    const [tentState , setTentState] = useState(
-        [
-            {
-                name : "Eureka Copper",
-                subDetail : "Canyon LX Tent: 3-Season 8 Person",
-                sell : 10,
-                price : 33000,
-                originalPrice : 35000,
-                image1 : "../image/T1.jpg"
-            },
-            {
-                name : "Kelty Tallboy 6 Tent",
-                subDetail : "6 Person 3 Season",
-                sell : "",
-                price : 30000,
-                originalPrice : "",
-                image1 : "../image/T2.jpg"
-            },
-            {
-                name : "ALPS Mountaineering Camp Creek 4 Tent",
-                subDetail : "4-Person 3-Season",
-                sell : "",
-                price : 33000,
-                originalPrice : "",
-                image1 : "../image/T3.jpg"
-            },
-            {
-                name : "Big Agnes Insulated Tent Comforter",
-                subDetail : "Big Agnes Insulated Tent Comforter",
-                sell : 20,
-                price : 40000,
-                originalPrice : 45000,
-                image1 : "../image/T4.jpg"
-            }
-        ]
-    )
 
-    const [campingState , setCampingState] = useState(
-        [
-            {
-                name : "YETI",
-                subDetail : "YETI Roadie 24 Cooler",
-                sell : 10,
-                price : 33000,
-                originalPrice : 35000,
-                image1 : "../image/C1.jpg"
-            },
-            {
-                name : "MSR Reactor 1.7L Stove System",
-                subDetail : "MSR Reactor 1.7L Stove System",
-                sell : "",
-                price : 30000,
-                originalPrice : "",
-                image1 : "../image/C2.jpg"
-            },
-            {
-                name : "Dometic CFX3 45 Powered Cooler",
-                subDetail : "Dometic CFX3 45 Powered Cooler",
-                sell : "",
-                price : 33000,
-                originalPrice : "",
-                image1 : "../image/C3.jpg"
-            },
-            {
-                name : "Camp Chef Explorer 2 Burner Range",
-                subDetail : "Camp Chef Explorer 2 Burner Range",
-                sell : 20,
-                price : 40000,
-                originalPrice : 45000,
-                image1 : "../image/C4.jpg"
-            }
-        ]
-    )
+    useEffect(async () => {
+        setSpinnerState(true)
+        let roofTopTent = await getProductByType("ROOF_TOP_TENT");
+        let tent = await getProductByType("TENT");
+        let assistiveDevice = await getProductByType("ASSISTIVE-DEVICE");
+
+        setRooftopTentState(roofTopTent);
+        setTentState(tent);
+        setAssistiveDeviceState(assistiveDevice);
+        setSpinnerState(false)
+    }, [])
+
+    const getProductByType = async (typeId) => {
+        let productByType = await apis.doserviceGetProductByType(typeId);
+        return productByType;
+    }
 
     const setCardProduct = (data) => {
         return data.map((data , index) => {
@@ -164,6 +49,7 @@ export default function HomePage(props) {
 
     return(
         <>
+            <SpinnerComp spinner={spinnerState}/>
             <div className="slide-container">
                 <SlideComp className=""/>
                 <div className="slide-top-left">
@@ -232,11 +118,11 @@ export default function HomePage(props) {
                 </div>
             </div>
             <div className="container">
-                <div className="row">
+                <div className="row mt-5">
                     {setCardProduct(rooftopTentState)}
                 </div>
                 <div className="text-right other-btn">
-                    <a href="/catalog" type="button" className="btn btn-primary">เพิ่มเติม</a>
+                    <a href="/catalog/roof_top_tent" type="button" className="btn btn-primary">เพิ่มเติม</a>
                 </div>
                 <br/>
             </div>
@@ -264,7 +150,7 @@ export default function HomePage(props) {
                     <p className="p-product-title text-secondary">เต็นท์สำหรับรถยนต์ ไม่ว่าจะรถเล็กหรือรถใหญ่ก็สามารถติดตั้งได้</p>
                 </div>
                 <div className="row">
-                    {setCardProduct(campingState)}
+                    {setCardProduct(assistiveDeviceState)}
                 </div>
                 <div className="text-right other-btn">
                     <a href="/catalog" type="button" className="btn btn-primary">เพิ่มเติม</a>

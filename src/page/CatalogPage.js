@@ -5,10 +5,12 @@ import proApis from "../apis/ProductsApi";
 import "../assets/css/catalog.css"
 // Comp
 import CardProductComp from "../componenst/CardProductComp"
+import SpinnerComp from "../componenst/SpinnerComp"
 
 
 export default function CatalogPage(props) {
     const {type} = useParams();
+    const [spinnerState,setSpinnerState] = useState(false);
     const [productTypeState , setProductTypeState] = useState([]);
     const [productState , setProductState ] = useState([]);
 
@@ -19,12 +21,23 @@ export default function CatalogPage(props) {
     }, [])
 
     const getProductTypeFunction = async () => {
+       setSpinnerState(true)
        let proType = await proApis.doserviceGetProductType();
+       setSpinnerState(false)
        console.log(proType);
+       proType.unshift({
+        detail: "สินค้าทั้งหมด",
+        id: "all",
+        mane_en: "all product",
+        name_th: "สินค้าทั้งหมด",
+        type_order: 0
+       })
        setProductTypeState(proType);
     }
     const getProductAllByType = async () => {
+        setSpinnerState(true)
         let productList = await proApis.doserviceGetProductAllByType(type);
+        setSpinnerState(false)
         console.log(productList);
         setProductState(productList);
         
@@ -41,12 +54,13 @@ export default function CatalogPage(props) {
     }
 
     const selectProductType = (type) => {
-        window.location.href = `/catalog/${type}`
+        window.location.href = `/catalog/${type.toLowerCase()}`
         // history.push(`/catalog/${type}`)
     }
 
     return (
         <>
+        <SpinnerComp spinner={spinnerState}/>
         <div className="container">
             <div className="header-catalog"></div>
             <div className="row" style={{paddingTop:"40px"}}>

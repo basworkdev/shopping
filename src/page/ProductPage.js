@@ -7,9 +7,12 @@ import "../assets/css/product-page.css"
 
 // Comp
 import CardProductComp from "../componenst/CardProductComp"
+import SpinnerComp from "../componenst/SpinnerComp"
+
 export default function ProductPage(props) {
     const {key} = useParams();
     const numeral = require('numeral');
+    const [spinnerState,setSpinnerState] = useState(false);
     const [productState,setProductStae] = useState();
     const [productTypeState , setProductTypeState ] = useState([])
 
@@ -22,6 +25,7 @@ export default function ProductPage(props) {
     },[])
 
     const getProductByKey = async () => {
+        setSpinnerState(true)
         let product = await apis.doserviceGetProductByKey(key);
         if(product.length > 0){
             product = product[0];
@@ -34,6 +38,7 @@ export default function ProductPage(props) {
             setProductStae(product);
             setProductTypeState(productByType);
         }
+        setSpinnerState(false)
     }
 
     const clickViewImage = (img) => {
@@ -60,6 +65,7 @@ export default function ProductPage(props) {
     
     return (
         <>
+        <SpinnerComp spinner={spinnerState}/>
         {productState ? 
         <div className="container">
         <div className="row">
@@ -166,7 +172,7 @@ export default function ProductPage(props) {
                 {setCardProduct(productTypeState)}
             </div>
             <div className="text-right other-btn">
-                <a href={`/catalog/${productState.typeId}`} type="button" className="btn btn-primary">เพิ่มเติม</a>
+                <a href={`/catalog/${productState.typeId.toLowerCase()}`} type="button" className="btn btn-primary">เพิ่มเติม</a>
             </div>
         </div>
     :
