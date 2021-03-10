@@ -152,6 +152,37 @@ const doserviceGetProductByKey = (key) => {
     });
 }
 
+const doserviceGetProductByType = (typeId) => {
+    return new Promise((resolve, reject) => {
+        axios.get(`${process.env.REACT_APP_ENGINE_URL}getProductByType/${typeId}`, {
+            headers: {
+                'Access-Control-Allow-Origin': '*'
+            }
+        })
+        .then(res => {
+            resolve(res.data);
+        }).catch(reason => {
+            reject(reason);
+        })
+    });
+}
+
+const doserviceGetProductAllByType = (typeId) => {
+    return new Promise((resolve, reject) => {
+        axios.get(`${process.env.REACT_APP_ENGINE_URL}getProductAllByType/${typeId}`, {
+            headers: {
+                'Access-Control-Allow-Origin': '*'
+            }
+        })
+        .then(res => {
+            resolve(res.data);
+        }).catch(reason => {
+            reject(reason);
+        })
+    });
+}
+
+
 const apis = {
     doserviceGetAllProduct,
     doserviceGetBrand,
@@ -162,7 +193,9 @@ const apis = {
     doserviceDeleteProduct,
     doserviceGetProductById,
     doserviceGetProductByKey,
-    doserviceDeleteImage
+    doserviceDeleteImage,
+    doserviceGetProductByType,
+    doserviceGetProductAllByType
 }
 
 export default apis;

@@ -7,6 +7,7 @@ import tc from '../../../config/text.json'
 
 // Comp
 import UploadImageComp from '../../../componenst/admin/UploadImageComp'
+import TinyEditerComp from '../../../componenst/TinyEditerComp'
 
 export default function CreateProductPage(props) {
   let { event,id } = useParams();
@@ -22,6 +23,7 @@ export default function CreateProductPage(props) {
   const [brandState , setBrandState] = useState("");
   const [productState , setProductState] = useState([]);
   const [oldMainImageState , setOldMainImageState] = useState("");
+  const [uploadMainImageState , setUploadMainImageState] = useState(false);
 //   const [mainImgState , setMainImgState] = useState([]);
 
   const tcv = tc.validate.requestFiles;
@@ -81,11 +83,12 @@ export default function CreateProductPage(props) {
   }
 
   const clickUploadMainImg = (e) => {
-    setProductState({...productState, mainImg : `${process.env.REACT_APP_ENGINE_URL+"images/"+e.filename}`});
-  }
+    setProductState({...productState, mainImg : e.filename});
+    setUploadMainImageState(true)
+    }
 
   const clickUpload = (e) => {
-    setImagesUploadState([...imagesUploadState , `${process.env.REACT_APP_ENGINE_URL+"images/"+e.filename}`]);
+    setImagesUploadState([...imagesUploadState , e.filename]);
   }
 
   const removeUpload = (data) => {
@@ -131,7 +134,7 @@ export default function CreateProductPage(props) {
     }
     
     if(create.code === 1) {
-        if(event === "edit") {
+        if(event === "edit" && uploadMainImageState === true) {
             ProductsApi.doserviceDeleteImage(oldMainImageState);
         }
         alert(create.message);
@@ -140,6 +143,10 @@ export default function CreateProductPage(props) {
     }
     
   }
+
+  const tinyEditerChange = (e) => {
+    setProductState({...productState,subDetail : e})
+ }
 
   return(
       <>
@@ -196,14 +203,15 @@ export default function CreateProductPage(props) {
                         </div>
                         <div className="form-group">
                             <label>รายละเอียดเพิ่มเติม</label>
-                            <textarea 
+                            <TinyEditerComp onChangeEditer={(e) => tinyEditerChange(e)} value={productState.subDetail} height="500" />
+                            <input
+                                type="hidden"
                                 rows="3" 
                                 className="form-control" 
                                 name="subDetail" 
                                 ref={register({ required: false })}
                                 defaultValue={productState.subDetail}
-                            >
-                            </textarea>
+                            />
                             {errors.subDetail && <span className="text-danger">{tcv}</span>}
                         </div>
                         <div className="form-group">
@@ -283,7 +291,7 @@ export default function CreateProductPage(props) {
                         <div className="form-group">
                             <label>อัพโหลดรูปภาพหลัก</label>
                             <div style={{width : "50%"}}>
-                                {productState.mainImg ? <img src={productState.mainImg} width="100%"/> : ""}
+                                {productState.mainImg ? <img src={`${process.env.REACT_APP_ENGINE_URL}images/${productState.mainImg}`} width="100%"/> : ""}
                             </div>
                             <br/>
                             <UploadImageComp onClickUpload={(e)=>clickUploadMainImg(e)} />
@@ -302,7 +310,7 @@ export default function CreateProductPage(props) {
                                             style={{marginRight : "10px", cursor : "pointer"}}
                                             onClick={()=>removeUpload(data)}
                                         >
-                                            <img src={data} width="100%"/>
+                                            <img src={`${process.env.REACT_APP_ENGINE_URL}images/${data}`} width="100%"/>
                                         </div>
                                     })}
                                 </div>

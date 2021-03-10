@@ -91,7 +91,7 @@ export default function Main(props) {
             <Route path="/product/:key">
                 <ProductPage />
             </Route>
-            <Route path="/catalog">
+            <Route path="/catalog/:type">
                 <CatalogPage/>
             </Route>
 
