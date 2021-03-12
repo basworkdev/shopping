@@ -14,13 +14,15 @@ import $ from "jquery"
 import 'bootstrap/dist/js/bootstrap.bundle.min';
 
 // Admin Page
-import LoginPage from './page/admin/LoginPage'
+import LoginAdminPage from './page/admin/LoginPage'
 import DashboardPage from './page/admin/DashboardPage'
 
 // Page
 import HomePage from './page/HomePage'
 import ProductPage from './page/ProductPage'
 import CatalogPage from './page/CatalogPage'
+import LoginPage from './page/LoginPage'
+import RegisterPage from './page/RegisterPage'
 
 // Components
 import OpenChatComp from './componenst/OpenChatComp'
@@ -95,11 +97,17 @@ export default function Main(props) {
             <Route path="/catalog/:type">
                 <CatalogPage/>
             </Route>
+            <Route path="/login">
+                <LoginPage/>
+            </Route>
+            <Route path="/register">
+                <RegisterPage/>
+            </Route>
 
 
             {/* Admin */}
             <Route path="/admin/login">
-                <LoginPage/>
+                <LoginAdminPage/>
             </Route>
             <Route path="/admin/dashboard">
                 <DashboardPage/>

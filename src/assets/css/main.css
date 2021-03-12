@@ -200,3 +200,26 @@ body {
   .slider.round:before {
     border-radius: 50%;
   }
+
+.line {
+    display:block; 
+    width:100%; 
+    border-bottom:1px solid #ced4da; 
+    /* margin-top:25px;  */
+    text-align:center
+}
+.line p {
+    /* font-size:15px;  */
+    text-align:center; 
+    position:relative; 
+    top:25px; 
+    padding:0 15px; 
+    display:inline-block; 
+    background:white
+}
+
+.line button {
+    position:relative; 
+    top:20px;  
+    display:inline-block;
+}

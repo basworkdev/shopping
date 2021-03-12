@@ -21,7 +21,7 @@ export default function NavBarTopComp(props) {
                         <font>ติดตามสินค้า</font>
                     </li>
                     <li className="nav-item">
-                        <button type="button"  className="btn btn-outline-light btn-sm">ลงชื่อเข้าใช้</button>
+                        <button type="button"  className="btn btn-outline-light btn-sm" onClick={()=>history.push("/login")}>ลงชื่อเข้าใช้</button>
                     </li>
                     <li className="nav-item" style={{paddingLeft : "20px"}}>
                         <div className="basket">
