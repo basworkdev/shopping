@@ -1,7 +1,10 @@
 import React , {useState , useEffect} from "react";
 import { BrowserRouter as Router, useParams } from "react-router-dom";
+import { useSelector, useDispatch } from "react-redux";
 import apis from "../apis/ProductsApi";
 import apisMain from "../apis/MainApi"
+import tc from '../config/text.json'
+
 // CSS
 import "../assets/css/product-page.css"
 
@@ -9,8 +12,14 @@ import "../assets/css/product-page.css"
 import CardProductComp from "../componenst/CardProductComp"
 import SpinnerComp from "../componenst/SpinnerComp"
 
+// ACT
+import { CartAct } from "../actions/CartAct";
+
+
 export default function ProductPage(props) {
     const {key} = useParams();
+    const tcv = tc.validate;
+    const dispatch = useDispatch();
     const numeral = require('numeral');
     const [spinnerState,setSpinnerState] = useState(false);
     const [productState,setProductStae] = useState();
@@ -19,9 +28,16 @@ export default function ProductPage(props) {
     const [productImageState , setProductImageState] = useState();
     const [colorActiveState , setColorActiveState] = useState();
     const [subDetailState , setSubDetailState] = useState(false);
+    const [orderState , setOrderState] = useState(1);
+    const [stockFullAlertState , setStockFullAlertState] = useState(false);
+
+    const inStore = useSelector(state => {
+        return state.CsCartRedu;
+    });
 
     useEffect(()=>{
         getProductByKey();
+        console.log("inStore",inStore)
     },[])
 
     const getProductByKey = async () => {
@@ -62,7 +78,43 @@ export default function ProductPage(props) {
         setSubDetailState(!subDetailState);
     }
 
-    
+    const setOrderChange = (t) => {
+        let order = orderState;
+        if(t === "+") {
+            if(order >= productState.stock) {
+                order = productState.stock;
+                setStockFullAlertState(true);
+            } else {
+                order += 1;
+                setStockFullAlertState(false);
+            }
+        } else {
+            order -= 1;
+            setStockFullAlertState(false);
+        }
+        if(order <= 0) {
+            order = 1;
+        }
+        
+        setOrderState(order);
+    }
+
+    const addtoCart = () => {
+        let payload = inStore
+        let Cart = {
+            productKey : productState.productKey,
+            color : colorActiveState,
+            price : productState.price,
+            fullPrice : productState.fullPrice,
+            order : orderState
+        }
+        let listForCart = payload.listForCart ? payload.listForCart : []
+        listForCart.push(Cart);
+        payload.listForCart = listForCart
+        localStorage.setItem("listForCart" , JSON.stringify(payload.listForCart))
+        dispatch({ type: CartAct.LOAD_DATA, payload });
+    }
+
     return (
         <>
         <SpinnerComp spinner={spinnerState}/>
@@ -131,16 +183,17 @@ export default function ProductPage(props) {
                             
                         </div>
                         <div className="row">
-                            <div className="col-6">
+                            <div className="col-12">
                                 <h5 style={{paddingTop : "1.2rem"}} className="font-weight-bold">จำนวน</h5>
                                 <div>
-                                    <span className="input-number-decrement">–</span><input className="input-number" type="text" value="1" min="0" max="10"/><span className="input-number-increment">+</span>
+                                    <span className="input-number-decrement" onClick={()=>setOrderChange("-")}>–</span><input className="input-number" type="text" value={orderState} min="0" max="10"/><span className="input-number-increment" onClick={()=>setOrderChange("+")}>+</span>
                                 </div>
+                                <span className="text-danger">{stockFullAlertState ? `${tcv.pullStock} ${productState.stock} ชิ้น` : ""}</span>
                             </div>
                         </div>
                         <div className="row">
                             <div className="col-6">
-                                <button style={{marginTop:"30px"}} type="button" className="btn btn-primary btn-lg btn-block">
+                                <button style={{marginTop:"30px"}} type="button" className="btn btn-primary btn-lg btn-block" onClick={()=>addtoCart()}>
                                     <i className="fas fa-shopping-basket"></i> เพิ่มในตะกร้า
                                 </button>
                             </div>

@@ -34,10 +34,15 @@ body {
     font-size: 1.5rem;
     font-weight: bolder;
 }
-.discount {
+.discount-product {
     font-size: 1rem;
     color: #5d5d5d;
     margin-top: -22px !important;
+    text-decoration: line-through;
+}
+
+.discount {
+    font-size: 1rem;
     text-decoration: line-through;
 }
 .btn-buy-box {

@@ -24,7 +24,7 @@ export default function CardProductComp(props) {
                                 {/* <a href="#" className="btn btn-primary btn-block">รายละเอียด</a> */}
                                 
                                 <p className="price font-weight-bold">{numeral(productState.price).format('0,0')}.-</p>
-                                {productState.fullPrice !== productState.price ? <p className="discount">{numeral(productState.fullPrice).format('0,0')}</p> : <div style={{height:"1rem"}}></div>}
+                                {productState.fullPrice !== productState.price ? <p className="discount-product">{numeral(productState.fullPrice).format('0,0')}</p> : <div style={{height:"1rem"}}></div>}
                                 
                             </td>
                             <td width="30%" valign="top" className="btn-buy-box">

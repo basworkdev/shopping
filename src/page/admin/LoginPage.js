@@ -14,9 +14,10 @@ export default function LoginPage(props) {
 
     
     const onSubmit = async (data) => {
+        let md5 = require('md5');
         let loginData = {
             userName : data.userName,
-            password : data.password
+            password : md5(data.password)
         }
         const login = await LoginApi.doserviceLogin(loginData);
         if(login.code === 1) {

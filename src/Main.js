@@ -1,4 +1,5 @@
 import React , {useState , useEffect} from "react";
+import { useSelector, useDispatch } from "react-redux";
 
 // CSS
 import './assets/bootstrap-4.5.3/css/bootstrap-grid.css'
@@ -23,6 +24,7 @@ import ProductPage from './page/ProductPage'
 import CatalogPage from './page/CatalogPage'
 import LoginPage from './page/LoginPage'
 import RegisterPage from './page/RegisterPage'
+import CartPage from './page/CartPage'
 
 // Components
 import OpenChatComp from './componenst/OpenChatComp'
@@ -36,6 +38,9 @@ import AdminMenuTopComp from './componenst/admin/MenuTopComp'
 import AllProductsPage from './page/admin/products/AllProductsPage'
 import CreateProductPage from './page/admin/products/CreateProductPage'
 
+// ACT
+import { CartAct } from "./actions/CartAct";
+
 
 import {
     BrowserRouter as Router,
@@ -46,18 +51,38 @@ import {
 
 
 export default function Main(props) {
+    const dispatch = useDispatch();
     const [typeUserState , setTypeUserState] = useState("");
     const [subUrlState , setSubUrlState] = useState([]);
     const navbarMenu = {
         paddingTop : "1rem"
     }
 
+    const inStoreCart = useSelector(state => {
+        return state.CsCartRedu;
+    });
+
     useEffect(()=>{
+        setCart();
         let url = window.location
         let typeUser = url.pathname.split("/")[1];
         setSubUrlState(url.pathname.split("/"));
         setTypeUserState(typeUser);
     },[])
+
+    const setCart = () => {
+
+        debugger
+        let payload = inStoreCart
+        if(!localStorage.getItem("listForCart")){
+            payload.listForCart = []
+        }else{
+            payload.listForCart = JSON.parse(localStorage.getItem("listForCart"))
+        }
+        
+        dispatch({ type: CartAct.LOAD_DATA, payload });
+    } 
+
     return (
         <>
         <Router>
@@ -102,6 +127,9 @@ export default function Main(props) {
             </Route>
             <Route path="/register">
                 <RegisterPage/>
+            </Route>
+            <Route path="/cart">
+                <CartPage/>
             </Route>
 
 

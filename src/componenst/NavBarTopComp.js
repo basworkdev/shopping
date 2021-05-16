@@ -1,7 +1,12 @@
 import React , {useState , useEffect} from "react";
+import { useSelector, useDispatch } from "react-redux";
 import { useHistory } from "react-router-dom";
 
 export default function NavBarTopComp(props) {
+    const dispatch = useDispatch();
+    const inStoreCart = useSelector(state => {
+        return state.CsCartRedu;
+    });
     let history = useHistory();
     return (
         <>
@@ -24,10 +29,10 @@ export default function NavBarTopComp(props) {
                         <button type="button"  className="btn btn-outline-light btn-sm" onClick={()=>history.push("/login")}>ลงชื่อเข้าใช้</button>
                     </li>
                     <li className="nav-item" style={{paddingLeft : "20px"}}>
-                        <div className="basket">
+                        <div className="basket" onClick={()=>history.push('/cart')}>
                             <i className="fas fa-shopping-basket"></i>
-                            <div className="in-basket"></div>
-                            <div className="num-in-basket">5</div>
+                            <div className="in-basket" hidden={inStoreCart.listForCart.length === 0}></div>
+                            <div className="num-in-basket">{inStoreCart.listForCart.length > 0 ? inStoreCart.listForCart.length : ""}</div>
                         </div>
                     </li>
                     

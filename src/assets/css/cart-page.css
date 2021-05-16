@@ -1,0 +1,25 @@
+@media (max-width: 767.98px) {
+    .product-detail-cart {
+      padding-top: 10px !important;
+    }
+    .product-detail-cart-p {
+        margin-bottom: 0px !important;
+  }
+}
+
+.line-cart-list {
+    display:block; 
+    width:100%; 
+    border-bottom:1px solid #ced4da; 
+    /* margin-top:25px;  */
+    text-align:center;
+    padding-top: 1rem;
+    margin-bottom: 1rem;
+    
+}
+
+.setail-sum-cart {
+    padding: 15px;
+    border-radius: 1rem;
+    color: #fff;
+}
