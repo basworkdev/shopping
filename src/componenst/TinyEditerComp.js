@@ -29,7 +29,7 @@ export default function TinyEditerComp(props) {
             */}
             <div className="tiny-main">
             <div style={{width : "100%" , marginBottom : "10px"}} className="text-right" >
-                <button type="button" class="btn btn-outline-secondary" data-toggle="modal" data-target="#previewEditer">Preview</button>
+                <button type="button" className="btn btn-outline-secondary" data-toggle="modal" data-target="#previewEditer">Preview</button>
             </div>
             <Editor
             name="desc"
@@ -88,14 +88,12 @@ export default function TinyEditerComp(props) {
                         reader.onload = async function () {
                             let data = file
                             let fileName = "";
-                            debugger
                             if(data.size > 10000000) {
                                 bootbox.alert(`Over 10 MB size "${data.name}"`);
                                 uploadStatus = false;
                             } else {
                                 const formData = new FormData() // #สร้างตัวแปร มารับ Class FormData
                                 formData.append('file', file) // #arg แรกนั้นเป็น ชื่อ Key ส่วน arg2 เป็น Value
-                                debugger
                                 uploadImage = await MainApi.doserviceUploadImage(formData);
                                 // setImageResState(uploadImage);
                                 console.log(uploadImage)
@@ -120,23 +118,23 @@ export default function TinyEditerComp(props) {
         </div>
 
 
-        {/* <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModal">
+        {/* <button type="button" className="btn btn-primary" data-toggle="modal" data-target="#exampleModal">
         Launch demo modal
         </button> */}
-        <div class="modal fade" id="previewEditer" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-            <div class="modal-dialog modal-xl">
-                <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title" id="exampleModalLabel">Preview</h5>
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+        <div className="modal fade" id="previewEditer" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+            <div className="modal-dialog modal-xl">
+                <div className="modal-content">
+                <div className="modal-header">
+                    <h5 className="modal-title" id="exampleModalLabel">Preview</h5>
+                    <button type="button" className="close" data-dismiss="modal" aria-label="Close">
                     <span aria-hidden="true">&times;</span>
                     </button>
                 </div>
-                <div class="modal-body">
+                <div className="modal-body">
                     <div dangerouslySetInnerHTML={{ __html: editerState }} />
                 </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                <div className="modal-footer">
+                    <button type="button" className="btn btn-secondary" data-dismiss="modal">Close</button>
                 </div>
                 </div>
             </div>

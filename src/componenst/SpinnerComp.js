@@ -5,7 +5,7 @@ export default function SpinnerComp (props) {
         {props.spinner ?
             <div className="background-loader" >
             <div className="sk-chase">
-                <div class="loader">Loading...</div>
+                <div className="loader">Loading...</div>
             </div>
             </div>
         : <></> }

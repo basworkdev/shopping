@@ -17,7 +17,6 @@ export default function LoginPage(props) {
 
     
     const onSubmit = (data) => {
-        debugger
         bootbox.alert(JSON.stringify(data));
         console.log(data);
     }
@@ -67,27 +66,27 @@ export default function LoginPage(props) {
                     
                     <center><h2 className="font-weight-bold">สมัครสมาชิกใหม่</h2></center>
                     <form style={{marginTop : "1.5rem"}} onSubmit={handleSubmit(onSubmit)}>
-                        <div class="form-group">
+                        <div className="form-group">
                             <label>ชื่อ - สกุล</label>
-                            <input type="text" name="fullName" class="form-control" ref={register({ required: true })}/>
-                            {errors.fullName && <small class="form-text text-danger">{tcv}</small>}
+                            <input type="text" name="fullName" className="form-control" ref={register({ required: true })}/>
+                            {errors.fullName && <small className="form-text text-danger">{tcv}</small>}
                         </div>
-                        <div class="form-group">
+                        <div className="form-group">
                             <label>เบอร์โทรศัพท์</label>
-                            <input type="text" name="tel" class="form-control" ref={register({ required: true })}/>
-                            {errors.tel && <small class="form-text text-danger">{tcv}</small>}
+                            <input type="text" name="tel" className="form-control" ref={register({ required: true })}/>
+                            {errors.tel && <small className="form-text text-danger">{tcv}</small>}
                         </div>
-                        <div class="form-group">
+                        <div className="form-group">
                             <label>เพศ</label>
                             <select className="form-control" name="sex" ref={register({ required: true })}>
                                 <option value=""></option>
                                 <option value="m">ชาย</option>
                                 <option value="f">หญิง</option>
                             </select>
-                            {errors.sex && <small class="form-text text-danger">{tcv}</small>}
+                            {errors.sex && <small className="form-text text-danger">{tcv}</small>}
                         </div>
                         <label>วันเกิด</label>
-                        <div class="form-group">
+                        <div className="form-group">
                             <div className="row">
                                 <div className="col-6">
                                     <select className="form-control" name="month" onChange={(e) => changeMonth(e)} ref={register({ required: true })}>
@@ -105,7 +104,7 @@ export default function LoginPage(props) {
                                         <option value="11">พฤศจิกายน</option>
                                         <option value="12">ธันวาคม</option>
                                     </select>
-                                    {errors.month && <small class="form-text text-danger">{tcv}</small>}
+                                    {errors.month && <small className="form-text text-danger">{tcv}</small>}
                                 </div>
                                 <div className="col-3">
                                     <select className="form-control" name="day" ref={register({ required: true })} disabled={dateSelectState.length===0}>
@@ -114,7 +113,7 @@ export default function LoginPage(props) {
                                             return <option value={data}>{data}</option>
                                         })}
                                     </select>
-                                    {errors.day && <small class="form-text text-danger">{tcv}</small>}
+                                    {errors.day && <small className="form-text text-danger">{tcv}</small>}
                                 </div>
                                 <div className="col-3">
                                     <select className="form-control" name="year" ref={register({ required: true })}>
@@ -123,30 +122,30 @@ export default function LoginPage(props) {
                                             return <option value={data}>{data}</option>
                                         })}
                                     </select>
-                                    {errors.year && <small class="form-text text-danger">{tcv}</small>}
+                                    {errors.year && <small className="form-text text-danger">{tcv}</small>}
                                 </div>
                             </div>
                         </div>
-                        <span class="line">
+                        <span className="line">
                             <p>ข้อมูลในการเข้าระบบ</p>
                         </span>
-                        <div class="form-group" style={{marginTop:"2rem"}}>
+                        <div className="form-group" style={{marginTop:"2rem"}}>
                             <label>อีเมล์</label>
-                            <input type="email" class="form-control" name="email" ref={register({ required: true })}/>
-                            {errors.email && <small class="form-text text-danger">{tcv}</small>}
+                            <input type="email" className="form-control" name="email" ref={register({ required: true })}/>
+                            {errors.email && <small className="form-text text-danger">{tcv}</small>}
                         </div>
-                        <div class="form-group">
+                        <div className="form-group">
                             <label>รหัสผ่าน</label>
-                            <input type="password" class="form-control" name="password" ref={register({ required: true })}/>
-                            {errors.password && <small class="form-text text-danger">{tcv}</small>}
+                            <input type="password" className="form-control" name="password" ref={register({ required: true })}/>
+                            {errors.password && <small className="form-text text-danger">{tcv}</small>}
                         </div>
-                        <div class="form-group">
+                        <div className="form-group">
                             <label>ยืนยันรหัสผ่าน</label>
-                            <input type="password" class="form-control" name="confirmPassword" ref={register({ required: true })}/>
-                            {errors.confirmPassword && <small class="form-text text-danger">{tcv}</small>}
+                            <input type="password" className="form-control" name="confirmPassword" ref={register({ required: true })}/>
+                            {errors.confirmPassword && <small className="form-text text-danger">{tcv}</small>}
                         </div>
 
-                        <center><button type="submit" class="btn btn-primary" style={{marginTop : "20px"}}>สมัครสมาชิก</button></center>
+                        <center><button type="submit" className="btn btn-primary" style={{marginTop : "20px"}}>สมัครสมาชิก</button></center>
                     </form>
                     
                 </div>

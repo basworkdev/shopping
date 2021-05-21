@@ -92,7 +92,6 @@ export default function CreateProductPage(props) {
   }
 
   const removeUpload = (data) => {
-      debugger
     let image = imagesUploadState;
     let evens = _.remove(image, function(n) {
         return n !== data;
@@ -235,6 +234,17 @@ export default function CreateProductPage(props) {
                                 defaultValue={productState.fullPrice}
                                 />
                             {errors.fullPrice && <span className="text-danger">{tcv}</span>}
+                        </div>
+                        <div className="form-group">
+                            <label>ค่าจัดส่ง</label>
+                            <input 
+                                type="text" 
+                                className="form-control" 
+                                name="deliveryCost" 
+                                ref={register({ required: true })}
+                                defaultValue={productState.deliveryCost}
+                                />
+                            {errors.deliveryCost && <span className="text-danger">{tcv}</span>}
                         </div>
                         
                     </div>

@@ -20,7 +20,6 @@ export default function AllProductsPage(props) {
 
   const deleteProduct = async (id,img) => {
     let confirmX = window.confirm("ยืนยันการลบสินค้า รหัส " + id);
-    debugger
     let imgList = img.split(",")
     imgList = imgList.map((data,index)=>{
       let name = data.split("/");

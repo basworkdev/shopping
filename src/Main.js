@@ -71,8 +71,6 @@ export default function Main(props) {
     },[])
 
     const setCart = () => {
-
-        debugger
         let payload = inStoreCart
         if(!localStorage.getItem("listForCart")){
             payload.listForCart = []

@@ -4,6 +4,7 @@ import { useSelector, useDispatch } from "react-redux";
 import apis from "../apis/ProductsApi";
 import apisMain from "../apis/MainApi"
 import tc from '../config/text.json'
+import bootbox from 'bootbox';
 
 // CSS
 import "../assets/css/product-page.css"
@@ -11,25 +12,30 @@ import "../assets/css/product-page.css"
 // Comp
 import CardProductComp from "../componenst/CardProductComp"
 import SpinnerComp from "../componenst/SpinnerComp"
+import CartAlertComp from "../componenst/CartAlertComp"
 
 // ACT
 import { CartAct } from "../actions/CartAct";
 
 
+const n = 0;
 export default function ProductPage(props) {
     const {key} = useParams();
+    let _ = require('lodash');
     const tcv = tc.validate;
     const dispatch = useDispatch();
     const numeral = require('numeral');
     const [spinnerState,setSpinnerState] = useState(false);
     const [productState,setProductStae] = useState();
     const [productTypeState , setProductTypeState ] = useState([])
+    const [detailPopUpCartState, setDetailPopUpCartState] = useState();
 
     const [productImageState , setProductImageState] = useState();
     const [colorActiveState , setColorActiveState] = useState();
     const [subDetailState , setSubDetailState] = useState(false);
     const [orderState , setOrderState] = useState(1);
     const [stockFullAlertState , setStockFullAlertState] = useState(false);
+    const [popupCartState , setPopUpCartState] = useState(false);
 
     const inStore = useSelector(state => {
         return state.CsCartRedu;
@@ -100,23 +106,53 @@ export default function ProductPage(props) {
     }
 
     const addtoCart = () => {
-        let payload = inStore
-        let Cart = {
-            productKey : productState.productKey,
-            color : colorActiveState,
-            price : productState.price,
-            fullPrice : productState.fullPrice,
-            order : orderState
+        try {
+            let product = {}
+            let payload = inStore
+            let order = 0;
+            let Cart = {};
+            product = _.find(payload.listForCart, ['id', productState.id]);
+            if(product) {
+                order = product.order;
+                let listCart = [];
+                payload.listForCart.map((data)=>{
+                    if(data.id !== product.id) {
+                        listCart.push(data)
+                    }
+                })
+                payload.listForCart = listCart;
+            } 
+            Cart = {
+                productKey : productState.productKey,
+                color : colorActiveState,
+                price : productState.price,
+                fullPrice : productState.fullPrice,
+                order : orderState,
+                stock : productState.stock,
+                mainImg : productState.mainImg,
+                id : productState.id,
+                name : productState.name,
+                brandId : productState.brandId,
+                brandName_th : productState.brandName_th,
+                deliveryCost : productState.deliveryCost
+            }
+            setDetailPopUpCartState({...Cart , order : orderState});
+            Cart.order = orderState + order
+            let listForCart = payload.listForCart ? payload.listForCart : []
+            listForCart.push(Cart);
+            payload.listForCart = listForCart
+            localStorage.setItem("listForCart" , JSON.stringify(payload.listForCart))
+            dispatch({ type: CartAct.LOAD_DATA, payload });
+            setPopUpCartState(true)
+        } catch (error) {
+            alert(tcv.pullStock)
         }
-        let listForCart = payload.listForCart ? payload.listForCart : []
-        listForCart.push(Cart);
-        payload.listForCart = listForCart
-        localStorage.setItem("listForCart" , JSON.stringify(payload.listForCart))
-        dispatch({ type: CartAct.LOAD_DATA, payload });
+        
     }
 
     return (
         <>
+        <CartAlertComp status={popupCartState} data={detailPopUpCartState} getStatus={(e) => setPopUpCartState(e)} />
         <SpinnerComp spinner={spinnerState}/>
         {productState ? 
         <div className="container">
@@ -190,6 +226,9 @@ export default function ProductPage(props) {
                                 </div>
                                 <span className="text-danger">{stockFullAlertState ? `${tcv.pullStock} ${productState.stock} ชิ้น` : ""}</span>
                             </div>
+                            <div className="col-12">
+                                {productState.deliveryCost>0?<p style={{marginTop : "5px"}}>( ค่าส่ง {numeral(productState.deliveryCost).format('0,0')} บาท/ชิ้น )</p>:<></>}
+                            </div>
                         </div>
                         <div className="row">
                             <div className="col-6">
@@ -231,7 +270,6 @@ export default function ProductPage(props) {
     :
     ""
     }
-    
     <br/>
     <br/>
     <br/>
