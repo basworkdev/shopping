@@ -2,22 +2,33 @@ import React , {useState , useEffect} from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { CartAct } from "../actions/CartAct";
 import bootbox from 'bootbox';
+import tc from '../config/text.json'
 
 // css
 import "../assets/css/cart-page.css"
 
+// API
+import proApis from "../apis/ProductsApi";
+
+// Comp
+import CardProductComp from "../componenst/CardProductComp"
+
 export default function CartPage(props) {
     const numeral = require('numeral');
     const dispatch = useDispatch();
+    const tcv = tc.validate;
     let inStoreCart = useSelector(state => {
         return state.CsCartRedu.listForCart;
     });
     let _ = require('lodash');
 
     const [sumOrderState , setSumOrderState] = useState({})
+    const [productState , setProductState ] = useState([]);
+    const [stockFullAlertState , setStockFullAlertState] = useState(false);
 
     useEffect(()=>{
         sumOrderFunction()
+        getProductAllByType()
     },[inStoreCart])
 
     const sumOrderFunction = () => {
@@ -36,7 +47,6 @@ export default function CartPage(props) {
             sumDiscount += (data.fullPrice-data.price)*data.order
             
         }
-        debugger
         sumDiscount = sumFullPrice-sumPrice;
         sumAllPrice = sumPrice+sumDeliveryCost;
         
@@ -54,7 +64,7 @@ export default function CartPage(props) {
     const removeProduct = (product) => {
         
         bootbox.confirm({
-            message: `<p class="text-danger">ยืนยันการลบสินค้า <span><b>${product.name}</b></span></p>`,
+            message: `<p>ยืนยันการลบสินค้า <span><b>${product.name}</b></span></p>`,
             buttons: {
                 confirm: {
                     label: 'ยืนยัน',
@@ -85,68 +95,75 @@ export default function CartPage(props) {
     }
 
 
-    const setOrderChange = (t) => {
-        // let order = orderState;
-        // if(t === "+") {
-        //     if(order >= productState.stock) {
-        //         order = productState.stock;
-        //         setStockFullAlertState(true);
-        //     } else {
-        //         order += 1;
-        //         setStockFullAlertState(false);
-        //     }
-        // } else {
-        //     order -= 1;
-        //     setStockFullAlertState(false);
-        // }
-        // if(order <= 0) {
-        //     order = 1;
-        // }
-        
-        // setOrderState(order);
+    const getProductAllByType = async () => {
+        let productList = await proApis.doserviceGetProductByType("all");
+        console.log(productList);
+        setProductState(productList);
     }
+
+    const setCardProduct = (data) => {
+        return data.map((data , index) => {
+            return <>
+                <div className="col-md-3 col-6">
+                    <CardProductComp product={data}/>
+                </div>
+            </>
+        })
+    }
+
+    const checkStock = (order,stock) => {
+        if(parseInt(order) > stock) {
+            setStockFullAlertState(true)
+        } else {
+            setStockFullAlertState(false)
+        }
+    }
+
     return <>
     <div style={{marginTop : "30px"}}>
     <div className="container">
-        <h1>สินค้าในตะกร้าทั้งหมด <span className="font-weight-bold">{inStoreCart.length}</span> รายการ</h1>
+        <h1>สินค้าในรถเข็นทั้งหมด <span className="font-weight-bold">{inStoreCart.length}</span> รายการ</h1>
         <div className="row" style={{marginTop : "30px"}}>
             <div className="col-md-8">
-                <table className="table table-hover" hidden={inStoreCart.length===0}>
-                    <tr>
-                        <th width="1%">ลบ</th>
-                        <th width="50%">สินค้า</th>
-                        <th className="text-right">ราคา</th>
-                        <th className="text-right" width="100px">จำนวน</th>
-                        <th className="text-right">รวม</th>
-                    </tr>
-
                     {inStoreCart.map((data)=>{
                         return <>
-                            <tr>
-                                <td className="text-secondary align-middle"><div className="pointer" onClick={()=>removeProduct(data)}><i className="fas fa-trash"></i></div></td>
-                                <td>
-                                <div className="row">
-                                    <div className="col-md-5">
-                                        <a href={`/product/${data.productKey}`} style={{textDecoration: "none" }}> <img src={`${process.env.REACT_APP_ENGINE_URL}images/${data.mainImg}`} width="100%"/> </a>
-                                    </div>
-                                    <div className="col-md-7 product-detail-cart">
-                                    <a href={`/product/${data.productKey}`} style={{textDecoration: "none" }}> <h4 className="font-weight-bold">{data.name}</h4> </a>
-                                        <p className="text-secondary product-detail-cart-p" style={{marginTop : "-10px"}}>แบรนด์ : {data.brandName_th}</p>
+                            <div className="row">
+                                <div className="col-md-1 col-12 text-right"><div className="pointer text-secondary" onClick={()=>removeProduct(data)}><i className="fas fa-trash"></i></div></div>
+                                <div className="col-md-7 col-11">
+                                    <div className="row">
+                                        <div className="col-3">
+                                            <a href={`/product/${data.productKey}`} style={{textDecoration: "none" }}> <img src={`${process.env.REACT_APP_ENGINE_URL}images/${data.mainImg}`} width="100%"/> </a>
+                                        </div>
+                                        <div className="col-9 product-detail-cart">
+                                            <a href={`/product/${data.productKey}`} style={{textDecoration: "none" }}> <h5 className="font-weight-bold">{data.name}</h5> </a>
+                                            <div className="text-secondary product-detail-cart-p" style={{marginTop : "-10px"}}>แบรนด์ : {data.brandName_th}</div>
+                                            <div class="pro-color-page-mini active" style={{backgroundColor: `${data.color}`}}></div>
+                                            {/* <div className="text-secondary product-detail-cart-p">สี : <div class="pro-color-page-mini active" style={{backgroundColor: `${data.color}`}}></div></div> */}
+                                        
+                                            <div>
+                                                <p className="text-secondary discount" hidden={data.fullPrice === data.price}>{numeral(data.fullPrice).format('0,0')}</p>
+                                                <p className="font-weight-bold" style={{marginTop : data.fullPrice === data.price ? "0px" : "-20px"}}>{numeral(data.price).format('0,0')}</p>
+                                            </div>
+                                        </div>
                                     </div>
                                 </div>
-                                </td>
-                                <td>
-                                    <p className="text-secondary text-right discount" hidden={data.fullPrice === data.price}>{numeral(data.fullPrice).format('0,0')}</p>
-                                    <p className="font-weight-bold text-right" style={{marginTop : data.fullPrice === data.price ? "0px" : "-20px"}}>{numeral(data.price).format('0,0')}</p>
-                                </td>
-                                <td className="text-right">
-                                    <input className="form-control" type="number" defaultValue={data.order}/>
-                                </td>
-                                <td className="text-right">{numeral(data.price * data.order).format('0,0')}</td>
-                            </tr>
+                                
+                                <div className="col-md-4 col-12">
+                                    <div className="row">
+                                        <div className="col-5 text-right">
+                                            จำนวน
+                                        </div>
+                                        <div className="col-6">
+                                            <div className="text-right"><input className="form-control" type="number" defaultValue={data.order} onChange={(e)=>checkStock(e.target.value,data.stock)}/></div>
+                                            {/* <span className="text-danger">{stockFullAlertState ? `${tcv.fullStock} ${data.fullStock} ชิ้น` : ""}</span> */}
+                                        </div>
+                                    </div>
+                                </div>
+                                {/* <div className="col-md-2 col-12 text-right">{numeral(data.price * data.order).format('0,0')}</div> */}
+                            </div>
+                            <div className="line" style={{padding : "20px 0px 0px 0px" , marginBottom : "20px"}}></div>
                         </>
                     })}
-                </table>
             </div>
             <div className="col-md-4">
                 <div className="setail-sum-cart bg-primary">
@@ -191,10 +208,30 @@ export default function CartPage(props) {
                 </div>
             </div>
         </div>
-        
-        <br/>
         <br/>
     </div>
+    </div>
+
+    <div class="bg-camping1"></div>
+    <br/>
+    <br/>
+    <div className="container">
+        {productState.length > 0 ?
+        <>
+        <div className="line-product-title">
+        <h4>{productState[0].typeName}</h4>
+        <p className="p-product-title text-secondary">{productState[0].typeDetail}</p>
+        </div>
+        <br/>
+        <div className="row">
+            {setCardProduct(productState)}
+        </div>
+        </>
+        : 
+        <div className="container text-center" style={{paddingTop : "70px" , paddingBottom : "70px" , fontSize : "2rem"}}>
+            ไม่พบสินค้า
+        </div>
+        }
     </div>
     </>
 }

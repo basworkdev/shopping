@@ -28,7 +28,7 @@ export default function CartAlertComp(props) {
                     <table>
                         <tr>
                             <td>สี : </td>
-                            <td style={{paddingLeft : "7px"}}><div class="pro-color-page" style={{backgroundColor: `${props.data.color}`}}></div></td>
+                            <td style={{paddingLeft : "7px"}}><div class="pro-color-page-mini active" style={{backgroundColor: `${props.data.color}`}}></div></td>
                         </tr>
                         <tr>
                             <td style={{paddingTop:"7px"}}>จำนวน : </td>
@@ -44,12 +44,18 @@ export default function CartAlertComp(props) {
             <div style={{padding : "15px 0 0px 0" , borderTop : "1px solid #dee2e6"}}>
                 <div className="container">
                     <div className="row">
-                        <div className="col-5">
-                            <button type="button" class="btn btn-secondary" data-dismiss="modal" onClick={()=>{handleClose();props.getStatus(false)}}>เลือกดูสินค้าเพิ่ม</button>
+                        <div className="col-md-5 col-12" style={{paddingBottom:"15px"}}>
+                            <button type="button" className="btn btn-secondary btn-block" data-dismiss="modal" onClick={()=>{handleClose();props.getStatus(false)}}>เลือกดูสินค้าเพิ่ม</button>
                         </div>
-                        <div className="col-7 text-right">
-                            <button type="button" class="btn btn-primary" onClick={()=>history.push('/cart')}>ไปยังรถเข็น</button>&nbsp;&nbsp;
-                            <button type="button" class="btn btn-danger">ชำระเงิน</button>
+                        <div className="col-md-7 col-12 text-right">
+                            <div className="row">
+                                <div className="col-6">
+                                    <button type="button" className="btn btn-primary btn-block" onClick={()=>history.push('/cart')}>ไปยังรถเข็น</button>
+                                </div>
+                                <div className="col-6">
+                                    <button type="button" className="btn btn-danger btn-block">ชำระเงิน</button>
+                                </div>
+                            </div>
                         </div>
                     </div>
                 </div>

@@ -44,6 +44,20 @@
 .pro-color-page.active {
     border: 5px solid #5d5d5d;
 }
+
+.pro-color-page-mini {
+  width: 20px;
+  height: 20px;
+  border-radius: 50%;
+  cursor: pointer;
+}
+.pro-color-page-mini:hover {
+  border: 3px solid #5d5d5d;
+}
+.pro-color-page-mini.active {
+  border: 3px solid #5d5d5d;
+}
+
 .pro-color-box-page {
     /* padding-top: 1rem; */
 }

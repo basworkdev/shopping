@@ -28,6 +28,7 @@ import CartPage from './page/CartPage'
 
 // Components
 import OpenChatComp from './componenst/OpenChatComp'
+import CartButtonComp from './componenst/CartButtonComp'
 import NavBarTopComp from './componenst/NavBarTopComp'
 import MenuTopComp from './componenst/MenuTopComp'
 import FooterComp from './componenst/FooterComp'
@@ -93,6 +94,7 @@ export default function Main(props) {
             </div>
         </div>
         <OpenChatComp/>
+        <CartButtonComp/>
         </>
         : 
         <>

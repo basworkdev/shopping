@@ -145,7 +145,7 @@ export default function ProductPage(props) {
             dispatch({ type: CartAct.LOAD_DATA, payload });
             setPopUpCartState(true)
         } catch (error) {
-            alert(tcv.pullStock)
+            alert(tcv.fullStock)
         }
         
     }
@@ -222,9 +222,9 @@ export default function ProductPage(props) {
                             <div className="col-12">
                                 <h5 style={{paddingTop : "1.2rem"}} className="font-weight-bold">จำนวน</h5>
                                 <div>
-                                    <span className="input-number-decrement" onClick={()=>setOrderChange("-")}>–</span><input className="input-number" type="text" value={orderState} min="0" max="10"/><span className="input-number-increment" onClick={()=>setOrderChange("+")}>+</span>
+                                    <span className="input-number-decrement" onClick={()=>setOrderChange("-")}>–</span><input className="input-number" type="text" value={orderState}/><span className="input-number-increment" onClick={()=>setOrderChange("+")}>+</span>
                                 </div>
-                                <span className="text-danger">{stockFullAlertState ? `${tcv.pullStock} ${productState.stock} ชิ้น` : ""}</span>
+                                <span className="text-danger">{stockFullAlertState ? `${tcv.fullStock} ${productState.stock} ชิ้น` : ""}</span>
                             </div>
                             <div className="col-12">
                                 {productState.deliveryCost>0?<p style={{marginTop : "5px"}}>( ค่าส่ง {numeral(productState.deliveryCost).format('0,0')} บาท/ชิ้น )</p>:<></>}
@@ -233,7 +233,7 @@ export default function ProductPage(props) {
                         <div className="row">
                             <div className="col-6">
                                 <button style={{marginTop:"30px"}} type="button" className="btn btn-primary btn-lg btn-block" onClick={()=>addtoCart()}>
-                                    <i className="fas fa-shopping-basket"></i> เพิ่มในตะกร้า
+                                    <i className="fas fa-shopping-cart"></i> เพิ่มในรถเข็น
                                 </button>
                             </div>
                             <div className="col-6">
