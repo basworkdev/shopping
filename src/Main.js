@@ -25,6 +25,7 @@ import CatalogPage from './page/CatalogPage'
 import LoginPage from './page/LoginPage'
 import RegisterPage from './page/RegisterPage'
 import CartPage from './page/CartPage'
+import ShipmentInfoPage from './page/ShipmentInfoPage'
 
 // Components
 import OpenChatComp from './componenst/OpenChatComp'
@@ -130,6 +131,9 @@ export default function Main(props) {
             </Route>
             <Route path="/cart">
                 <CartPage/>
+            </Route>
+            <Route path="/shipment-info">
+                <ShipmentInfoPage/>
             </Route>
 
 

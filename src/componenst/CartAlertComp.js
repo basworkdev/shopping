@@ -50,7 +50,7 @@ export default function CartAlertComp(props) {
                         <div className="col-md-7 col-12 text-right">
                             <div className="row">
                                 <div className="col-6">
-                                    <button type="button" className="btn btn-primary btn-block" onClick={()=>history.push('/cart')}>ไปยังรถเข็น</button>
+                                    <button type="button" className="btn btn-primary btn-block" onClick={()=>window.location='/cart'}>ไปยังรถเข็น</button>
                                 </div>
                                 <div className="col-6">
                                     <button type="button" className="btn btn-danger btn-block">ชำระเงิน</button>

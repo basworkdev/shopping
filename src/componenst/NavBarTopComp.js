@@ -29,7 +29,7 @@ export default function NavBarTopComp(props) {
                         <button type="button"  className="btn btn-outline-light btn-sm" onClick={()=>history.push("/login")}>ลงชื่อเข้าใช้</button>
                     </li>
                     <li className="nav-item" style={{paddingLeft : "20px"}}>
-                        <div className="basket" onClick={()=>history.push('/cart')}>
+                        <div className="basket" onClick={()=>window.location='/cart'}>
                             <i className="fas fa-shopping-cart"></i>
                             <div className="in-basket" hidden={inStoreCart.listForCart.length === 0}></div>
                             <div className="num-in-basket">{inStoreCart.listForCart.length > 0 ? inStoreCart.listForCart.length : ""}</div>

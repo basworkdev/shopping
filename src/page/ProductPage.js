@@ -178,6 +178,7 @@ export default function ProductPage(props) {
                             return <>
                                 <div className="col-2 col-md-2">
                                     <div 
+                                        style={{marginBottom : "15px"}}
                                         className={`pro-sum-img-page ${data === productImageState ? "active" : ""}`}
                                         onClick={()=>{clickViewImage(data)}}
                                     >

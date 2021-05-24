@@ -12,7 +12,7 @@ export default function OpenChatComp(props) {
     return (
         <>
         
-        <div class="cart-button-container pointer" onClick={()=>history.push('/cart')}>
+        <div class="cart-button-container pointer" onClick={()=>window.location='/cart'}>
             <div class="floating-button">
                 <div class="font-icon">
                     <div class="container-btn-cart">

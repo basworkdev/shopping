@@ -12,6 +12,7 @@ import proApis from "../apis/ProductsApi";
 
 // Comp
 import CardProductComp from "../componenst/CardProductComp"
+import OrderSummaryComp from "../componenst/OrderSummaryComp"
 
 export default function CartPage(props) {
     const numeral = require('numeral');
@@ -111,11 +112,40 @@ export default function CartPage(props) {
         })
     }
 
-    const checkStock = (order,stock) => {
-        if(parseInt(order) > stock) {
-            setStockFullAlertState(true)
-        } else {
-            setStockFullAlertState(false)
+    const checkStock = (order,stock,id) => {
+        try {
+            if(parseInt(order) > stock) {
+                // setStockFullAlertState(true)
+                document.getElementById(`order${id}`).innerHTML = `${tcv.maxStock} ${stock} ชิ้น`
+                document.getElementById(`numOrder${id}`).value = stock;
+            } else {
+                document.getElementById(`order${id}`).innerHTML = ""
+            }
+            if(parseInt(order)<1) {
+                document.getElementById(`numOrder${id}`).value = 1;
+            }
+        } catch (error) {
+            console.log(error)
+        }
+        
+    }
+
+    const editOrder = (order,id) => {
+        try {
+            let payload = {};
+            let newList = inStoreCart;
+            for(let i=0 ; i<newList.length ; i++) {
+                if(newList[i].id === parseInt(id)) {
+                    newList[i].order = parseInt(order);
+                }
+            }
+            console.log(newList)
+            payload.listForCart = newList
+            localStorage.setItem("listForCart" , JSON.stringify(payload.listForCart))
+            dispatch({ type: CartAct.LOAD_DATA, payload });
+
+        } catch (error) {
+            console.log(error)
         }
     }
 
@@ -125,7 +155,7 @@ export default function CartPage(props) {
         <h1>สินค้าในรถเข็นทั้งหมด <span className="font-weight-bold">{inStoreCart.length}</span> รายการ</h1>
         <div className="row" style={{marginTop : "30px"}}>
             <div className="col-md-8">
-                    {inStoreCart.map((data)=>{
+                    {inStoreCart.map((data,index)=>{
                         return <>
                             <div className="row">
                                 <div className="col-md-1 col-12 text-right"><div className="pointer text-secondary" onClick={()=>removeProduct(data)}><i className="fas fa-trash"></i></div></div>
@@ -154,8 +184,17 @@ export default function CartPage(props) {
                                             จำนวน
                                         </div>
                                         <div className="col-6">
-                                            <div className="text-right"><input className="form-control" type="number" defaultValue={data.order} onChange={(e)=>checkStock(e.target.value,data.stock)}/></div>
-                                            {/* <span className="text-danger">{stockFullAlertState ? `${tcv.fullStock} ${data.fullStock} ชิ้น` : ""}</span> */}
+                                            <div className="text-right">
+                                                <input 
+                                                    className="form-control" 
+                                                    id={`numOrder${index}`} 
+                                                    type="number" 
+                                                    defaultValue={data.order} 
+                                                    onChange={(e)=>checkStock(e.target.value,data.stock,`${index}`)}
+                                                    onBlur={(e)=>editOrder(e.target.value,`${data.id}`)}
+                                                />
+                                            </div>
+                                            <span className="text-danger" id={`order${index}`}></span>
                                         </div>
                                     </div>
                                 </div>
@@ -163,49 +202,11 @@ export default function CartPage(props) {
                             </div>
                             <div className="line" style={{padding : "20px 0px 0px 0px" , marginBottom : "20px"}}></div>
                         </>
-                    })}
+                    })}  
             </div>
             <div className="col-md-4">
-                <div className="setail-sum-cart bg-primary">
-                    <h4>สรุปรายการสั่งซื้อ</h4>
-                    <div className="row">
-                        <div className="col-7 text-white-50">
-                            <p>ยอดรวม ( จำนวน {sumOrderState.sumNumOrder} ชิ้น )</p>
-                        </div>
-                        <div className="col-5 text-right">
-                            <p>{numeral(sumOrderState.sumFullPrice).format('0,0')} บ.</p>
-                        </div>
-                        <div className="col-7 text-white-50">
-                            <p>ส่วนลด</p>
-                        </div>
-                        <div className="col-5 text-right">
-                            <p>{numeral(sumOrderState.sumDiscount).format('0,0')} บ.</p>
-                        </div>
-                        <div className="col-7 text-white-50">
-                            <p>รวม</p>
-                        </div>
-                        <div className="col-5 text-right">
-                            <p>{numeral(sumOrderState.sumPrice).format('0,0')} บ.</p>
-                        </div>
-
-                        <div className="col-7 text-white-50">
-                            <p>ค่าจัดส่ง</p>
-                        </div>
-                        <div className="col-5 text-right">
-                            <p>{numeral(sumOrderState.sumDeliveryCost).format('0,0')} บ.</p>
-                        </div>
-
-                        <div className="col-7 text-white-50">
-                            <p>ยอดรวมทั้งหมด</p>
-                        </div>
-                        <div className="col-5 text-right">
-                            <p>{numeral(sumOrderState.sumAllPrice).format('0,0')} บ.</p>
-                        </div>
-                    </div>
-                    <br/>
-                    <button className="btn btn-danger btn-block">ยืนยันการสั่งซื้อ</button>
-                        
-                </div>
+                <OrderSummaryComp btnText="ยืนยันการสั่งซื้อ" link="/shipment-info"/>
+                <br/>
             </div>
         </div>
         <br/>
