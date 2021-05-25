@@ -97,7 +97,12 @@ export default function OrderSummaryComp(props) {
             </div>
         </div>
         <br/>
+        {props.type === "submit" ?
+        <button className="btn btn-danger btn-block" type="submit">{props.btnText}</button>
+        :
         <button className="btn btn-danger btn-block" onClick={()=>window.location=props.link}>{props.btnText}</button>
+        }
+        
             
     </div>
     </>

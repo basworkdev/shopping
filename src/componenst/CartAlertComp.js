@@ -44,18 +44,11 @@ export default function CartAlertComp(props) {
             <div style={{padding : "15px 0 0px 0" , borderTop : "1px solid #dee2e6"}}>
                 <div className="container">
                     <div className="row">
-                        <div className="col-md-5 col-12" style={{paddingBottom:"15px"}}>
+                        <div className="col-md-6 col-6" style={{paddingBottom:"15px"}}>
                             <button type="button" className="btn btn-secondary btn-block" data-dismiss="modal" onClick={()=>{handleClose();props.getStatus(false)}}>เลือกดูสินค้าเพิ่ม</button>
                         </div>
-                        <div className="col-md-7 col-12 text-right">
-                            <div className="row">
-                                <div className="col-6">
-                                    <button type="button" className="btn btn-primary btn-block" onClick={()=>window.location='/cart'}>ไปยังรถเข็น</button>
-                                </div>
-                                <div className="col-6">
-                                    <button type="button" className="btn btn-danger btn-block">ชำระเงิน</button>
-                                </div>
-                            </div>
+                        <div className="col-md-6 col-6">
+                            <button type="button" className="btn btn-primary btn-block" onClick={()=>window.location='/cart'}>ไปยังรถเข็น</button>
                         </div>
                     </div>
                 </div>
