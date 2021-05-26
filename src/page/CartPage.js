@@ -203,6 +203,7 @@ export default function CartPage(props) {
                             <div className="line" style={{padding : "20px 0px 0px 0px" , marginBottom : "20px"}}></div>
                         </>
                     })}  
+                    <br/>
             </div>
             <div className="col-md-4">
                 <OrderSummaryComp btnText="ยืนยันการสั่งซื้อ" link="/shipment-info"/>

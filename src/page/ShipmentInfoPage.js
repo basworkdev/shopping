@@ -87,6 +87,7 @@ export default function CartPage(props) {
         data.amphureName = nameAmphuresState;
         data.districtName = nameDistrictsState;
         localStorage.setItem("customerAddress" , JSON.stringify(data))
+        window.location = '/payment';
         
     };
 
@@ -101,7 +102,7 @@ export default function CartPage(props) {
             <div className="col-md-8">
             <form>
                 <div className="row">
-                    <div className="col-md-6">
+                    <div className="col-md-12">
                         <div class="form-group">
                             <label>ชื่อ-สกุล</label>
                             <input 
@@ -129,6 +130,27 @@ export default function CartPage(props) {
                                 defaultValue={addressState.tel}
                             />
                             {errors.tel && <small class="form-text text-danger">{tcv.requestFiles}</small>}
+                        </div>
+                    </div>
+                    <div className="col-md-6">
+                        <div class="form-group">
+                            <label>อีเมล</label>
+                            <input 
+                                name="email"
+                                type="email" 
+                                class="form-control" 
+                                placeholder="email"
+                                min="0"
+                                ref={register({ 
+                                    required: tcv.requestFiles,
+                                    pattern: {
+                                        value: /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i,
+                                        message: tcv.emailFormat
+                                    }
+                                 })}
+                                defaultValue={addressState.email}
+                            />
+                            {errors.email && <small class="form-text text-danger">{errors.email.message}</small>}
                         </div>
                     </div>
                     <div className="col-md-12">
@@ -226,7 +248,7 @@ export default function CartPage(props) {
             
             </div>
             <div className="col-md-4">
-                <OrderSummaryComp btnText="ชำระเงิน" link="/shipment-info" type="submit"/>
+                <OrderSummaryComp btnText="ชำระเงิน" type="submit"/>
                 <br/>
             </div>
         </div>

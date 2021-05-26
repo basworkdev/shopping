@@ -26,6 +26,7 @@ import LoginPage from './page/LoginPage'
 import RegisterPage from './page/RegisterPage'
 import CartPage from './page/CartPage'
 import ShipmentInfoPage from './page/ShipmentInfoPage'
+import PaymentPage from './page/PaymentPage'
 
 // Components
 import OpenChatComp from './componenst/OpenChatComp'
@@ -134,6 +135,9 @@ export default function Main(props) {
             </Route>
             <Route path="/shipment-info">
                 <ShipmentInfoPage/>
+            </Route>
+            <Route path="/payment">
+                <PaymentPage/>
             </Route>
 
 
