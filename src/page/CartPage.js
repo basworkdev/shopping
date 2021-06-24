@@ -19,7 +19,7 @@ export default function CartPage(props) {
     const dispatch = useDispatch();
     const tcv = tc.validate;
     let inStoreCart = useSelector(state => {
-        return state.CsCartRedu.listForCart;
+        return state.CsCartRedu;
     });
     let _ = require('lodash');
 
@@ -30,7 +30,7 @@ export default function CartPage(props) {
     useEffect(()=>{
         sumOrderFunction()
         getProductAllByType()
-    },[inStoreCart])
+    },[inStoreCart.listForCart])
 
     const sumOrderFunction = () => {
         let sumPrice = 0;
@@ -39,8 +39,8 @@ export default function CartPage(props) {
         let sumNumOrder = 0;
         let sumDiscount  = 0;
         let sumAllPrice = 0;
-        for (let i=0 ; i<inStoreCart.length ; i++) {
-            let data = inStoreCart[i];
+        for (let i=0 ; i<inStoreCart.listForCart.length ; i++) {
+            let data = inStoreCart.listForCart[i];
             sumFullPrice += (data.fullPrice*data.order)
             sumPrice += (data.price*data.order)
             sumDeliveryCost += (data.deliveryCost*data.order)
@@ -79,7 +79,7 @@ export default function CartPage(props) {
             callback: function (result) {
                 if(result) {
                     let listCart = []
-                    inStoreCart.map((data)=>{
+                    inStoreCart.listForCart.map((data)=>{
                         if(data.id !== product.id) {
                             listCart.push(data)
                         }
@@ -88,6 +88,10 @@ export default function CartPage(props) {
                         listForCart : []
                     };
                     payload.listForCart = listCart
+                    let x = inStoreCart.update ? inStoreCart.update : 0
+                    x++;
+                    payload.update = x
+                    console.log(payload.update)
                     localStorage.setItem("listForCart" , JSON.stringify(payload.listForCart))
                     dispatch({ type: CartAct.LOAD_DATA, payload });
                 }
@@ -121,7 +125,7 @@ export default function CartPage(props) {
             } else {
                 document.getElementById(`order${id}`).innerHTML = ""
             }
-            if(parseInt(order)<1) {
+            if(parseInt(order)<1 || !parseInt(order)) {
                 document.getElementById(`numOrder${id}`).value = 1;
             }
         } catch (error) {
@@ -133,14 +137,17 @@ export default function CartPage(props) {
     const editOrder = (order,id) => {
         try {
             let payload = {};
-            let newList = inStoreCart;
+            let newList = inStoreCart.listForCart;
             for(let i=0 ; i<newList.length ; i++) {
                 if(newList[i].id === parseInt(id)) {
                     newList[i].order = parseInt(order);
                 }
             }
-            console.log(newList)
             payload.listForCart = newList
+            let x = inStoreCart.update ? inStoreCart.update : 0
+            x++;
+            payload.update = x
+            console.log(payload.update)
             localStorage.setItem("listForCart" , JSON.stringify(payload.listForCart))
             dispatch({ type: CartAct.LOAD_DATA, payload });
 
@@ -152,10 +159,10 @@ export default function CartPage(props) {
     return <>
     <div style={{marginTop : "30px"}}>
     <div className="container">
-        <h1>สินค้าในรถเข็นทั้งหมด <span className="font-weight-bold">{inStoreCart.length}</span> รายการ</h1>
+        <h1>สินค้าในรถเข็นทั้งหมด <span className="font-weight-bold">{inStoreCart.listForCart.length}</span> รายการ</h1>
         <div className="row" style={{marginTop : "30px"}}>
             <div className="col-md-8">
-                    {inStoreCart.map((data,index)=>{
+                    {inStoreCart.listForCart.map((data,index)=>{
                         return <>
                             <div className="row">
                                 <div className="col-md-1 col-12 text-right"><div className="pointer text-secondary" onClick={()=>removeProduct(data)}><i className="fas fa-trash"></i></div></div>
@@ -190,8 +197,8 @@ export default function CartPage(props) {
                                                     id={`numOrder${index}`} 
                                                     type="number" 
                                                     defaultValue={data.order} 
-                                                    onChange={(e)=>checkStock(e.target.value,data.stock,`${index}`)}
-                                                    onBlur={(e)=>editOrder(e.target.value,`${data.id}`)}
+                                                    onChange={(e)=>{checkStock(e.target.value,data.stock,`${index}`);editOrder(e.target.value,`${data.id}`)}}
+                                                    // onBlur={(e)=>editOrder(e.target.value,`${data.id}`)}
                                                 />
                                             </div>
                                             <span className="text-danger" id={`order${index}`}></span>

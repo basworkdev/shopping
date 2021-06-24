@@ -20,13 +20,16 @@ export default function OrderSummaryComp(props) {
     let inStoreCart = useSelector(state => {
         return state.CsCartRedu.listForCart;
     });
+    let inStoreCartRedu = useSelector(state => {
+        return state.CsCartRedu;
+    });
     let _ = require('lodash');
 
     const [sumOrderState , setSumOrderState] = useState({})
 
     useEffect(()=>{
         sumOrderFunction()
-    },[inStoreCart])
+    },[inStoreCartRedu.update,inStoreCart])
 
 
     const sumOrderFunction = () => {
@@ -56,6 +59,9 @@ export default function OrderSummaryComp(props) {
             sumDiscount : sumDiscount,
             sumAllPrice : sumAllPrice
         }
+        let payload = inStoreCartRedu
+        payload.OrderSummary = sumOrder;
+        dispatch({ type: CartAct.LOAD_DATA, payload });
         setSumOrderState(sumOrder);
     }
 
