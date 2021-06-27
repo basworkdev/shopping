@@ -1,5 +1,6 @@
 import React , {useState , useEffect} from "react";
 import { BrowserRouter as Router, useParams } from "react-router-dom";
+import { useHistory , useLocation } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
 import apis from "../apis/ProductsApi";
 import apisMain from "../apis/MainApi"
@@ -21,6 +22,8 @@ import { CartAct } from "../actions/CartAct";
 const n = 0;
 export default function ProductPage(props) {
     const {key} = useParams();
+    let history = useHistory();
+    const location = useLocation()
     let _ = require('lodash');
     const tcv = tc.validate;
     const dispatch = useDispatch();
@@ -103,6 +106,11 @@ export default function ProductPage(props) {
         }
         
         setOrderState(order);
+    }
+
+    const buyNow = () => {
+        addtoCart();
+        history.push('/cart')
     }
 
     const addtoCart = () => {
@@ -238,7 +246,7 @@ export default function ProductPage(props) {
                                 </button>
                             </div>
                             <div className="col-6">
-                                <button style={{marginTop:"30px"}} type="button" className="btn btn-danger btn-lg btn-block shadow">ซื้อ</button>
+                                <button style={{marginTop:"30px"}} type="button" className="btn btn-danger btn-lg btn-block shadow" onClick={()=>buyNow()}>ซื้อ</button>
                             </div>
                         </div>
                     </div>

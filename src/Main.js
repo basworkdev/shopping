@@ -82,7 +82,7 @@ export default function Main(props) {
             payload.listForCart = JSON.parse(localStorage.getItem("listForCart"))
         }
         
-        dispatch({ type: CartAct.LOAD_DATA, payload });
+        dispatch({ type: CartAct.LOAD_DATA, ...payload, payload });
     } 
 
     return (
@@ -96,8 +96,9 @@ export default function Main(props) {
                 <MenuTopComp/>
             </div>
         </div>
-        <OpenChatComp/>
         <CartButtonComp/>
+        <OpenChatComp/>
+        
         </>
         : 
         <>

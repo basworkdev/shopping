@@ -17,7 +17,7 @@ import CardProductComp from "../componenst/CardProductComp"
 import OrderSummaryComp from "../componenst/OrderSummaryComp"
 import SpinnerComp from "../componenst/SpinnerComp"
 
-export default function CartPage(props) {
+export default function ShipmentInfoPage(props) {
     const { register, handleSubmit, watch, formState: { errors } } = useForm();
     const tcv = tc.validate;
     const [spinnerState,setSpinnerState] = useState(false);

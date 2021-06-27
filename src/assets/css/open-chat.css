@@ -51,7 +51,7 @@
     bottom: 0;
     right: 0;
     /* margin: 35px 25px; */
-    margin: 100px 15px;
+    margin: 20px 15px;
     z-index: 20;
   }
   .floating-container:hover {

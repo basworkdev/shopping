@@ -1,11 +1,16 @@
 import React , {useState , useEffect} from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { useHistory } from "react-router-dom";
+import { CartAct } from "../actions/CartAct";
+
+// Comp 
+import OrderSummaryComp from "../componenst/OrderSummaryComp";
 
 // Apis
 import OrderApi from "../apis/OrderApi"
 export default function PaymentPage(props) {
     let history = useHistory();
+    const dispatch = useDispatch();
     let moment = require('moment');
     let inStoreCart = useSelector(state => {
         return state.CsCartRedu;
@@ -15,7 +20,7 @@ export default function PaymentPage(props) {
     })
     const saveOrder = async () => {
         let orderSummary = inStoreCart.OrderSummary;
-        let customer = localStorage.getItem("customerAddress");
+        let customer = JSON.parse(localStorage.getItem("customerAddress"));
         let id = moment().format("YYMMDDHHmmss").toString() + (Math.floor(Math.random()*(999-100+1)+100)).toString();
         console.log("id " , id)
         
@@ -41,12 +46,20 @@ export default function PaymentPage(props) {
             delivery_number : "",
             delivery_company : "",
             delivery_date : "",
-            user_id : ""
+            user_id : "",
+            orderDetail : inStoreCart.listForCart
         }
-        // return null
+        // return null\
+        debugger
         const resp = await OrderApi.doserviceSaveOrder(data);
         console.log(resp)
-        
+        if(resp.code === 1) {
+            localStorage.removeItem("listForCart");
+            let payload = inStoreCart;
+            payload.OrderSummary = {};
+            payload.listForCart = [];
+            dispatch({ type: CartAct.LOAD_DATA, payload });
+        }
         history.push("/order-status")
     }
 
@@ -59,6 +72,7 @@ export default function PaymentPage(props) {
         <br/>
         <br/>
         <center><button onClick={()=>{saveOrder()}}>ชำระเงินสำเร็จ</button></center>
+        
         <br/>
         <br/>
         <br/>
@@ -66,5 +80,8 @@ export default function PaymentPage(props) {
         <br/>
         <br/>
         <br/>
+        <div hidden>
+            <OrderSummaryComp btnText="ชำระเงิน" type="submit"/>
+        </div>
     </>
 }

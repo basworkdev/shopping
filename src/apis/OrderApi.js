@@ -2,7 +2,7 @@ import axios from "axios";
 
 const doserviceSaveOrder = (data) => {
     return new Promise((resolve, reject) => {
-        axios.get(`${process.env.REACT_APP_ENGINE_URL}saveOrder` , data , {
+        axios.post(`${process.env.REACT_APP_ENGINE_URL}saveOrder` , data , {
             headers: {
                 'Access-Control-Allow-Origin': '*'
             }
