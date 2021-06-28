@@ -65,6 +65,16 @@ export default function OrderSummaryComp(props) {
         setSumOrderState(sumOrder);
     }
 
+    const checkButton = () => {
+        if(props.type === "submit") {
+            return <button className="btn btn-danger btn-block" type="submit">{props.btnText}</button>
+        }else if(props.type === "hidden") {
+            return <></>
+        }else {
+            return <button className="btn btn-danger btn-block" onClick={()=>window.location=props.link}>{props.btnText}</button>
+        }
+    }
+
     return <>
     <div className="setail-sum-cart bg-primary">
         <h4>สรุปรายการสั่งซื้อ</h4>
@@ -103,11 +113,12 @@ export default function OrderSummaryComp(props) {
             </div>
         </div>
         <br/>
-        {props.type === "submit" ?
+        {/* {props.type === "submit" ?
         <button className="btn btn-danger btn-block" type="submit">{props.btnText}</button>
         :
         <button className="btn btn-danger btn-block" onClick={()=>window.location=props.link}>{props.btnText}</button>
-        }
+        } */}
+        {checkButton()}
         
             
     </div>

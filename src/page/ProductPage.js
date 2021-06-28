@@ -110,7 +110,7 @@ export default function ProductPage(props) {
 
     const buyNow = () => {
         addtoCart();
-        history.push('/cart')
+        window.location.href = '/cart'
     }
 
     const addtoCart = () => {

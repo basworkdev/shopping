@@ -157,11 +157,11 @@ export default function CartPage(props) {
     }
 
     return <>
-    <div style={{marginTop : "30px"}}>
+    <div style={{marginTop : "60px"}}>
     <div className="container">
-        <h1>สินค้าในรถเข็นทั้งหมด <span className="font-weight-bold">{inStoreCart.listForCart.length}</span> รายการ</h1>
         <div className="row" style={{marginTop : "30px"}}>
             <div className="col-md-8">
+            <h1 style={{marginBottom : "30px"}}>สินค้าในรถเข็นทั้งหมด <span className="font-weight-bold">{inStoreCart.listForCart.length}</span> รายการ</h1>
                     {inStoreCart.listForCart.map((data,index)=>{
                         return <>
                             <div className="row">
