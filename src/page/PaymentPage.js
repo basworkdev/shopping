@@ -1,10 +1,11 @@
 import React , {useState , useEffect} from "react";
+import { BrowserRouter as Router, useParams ,useHistory } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
-import { useHistory } from "react-router-dom";
 import { CartAct } from "../actions/CartAct";
 
 // Comp 
-import OrderSummaryComp from "../componenst/OrderSummaryComp";
+import OrderSumDetailComp from "../componenst/OrderSumDetailComp";
+import SpinnerComp from "../componenst/SpinnerComp";
 
 // CSS
 import "../assets/css/paymnet-page.css"
@@ -12,66 +13,40 @@ import "../assets/css/paymnet-page.css"
 // Apis
 import OrderApi from "../apis/OrderApi"
 export default function PaymentPage(props) {
+    const {orderId} = useParams();
     let history = useHistory();
     const dispatch = useDispatch();
     let moment = require('moment');
     let inStoreCart = useSelector(state => {
         return state.CsCartRedu;
     });
+    const [spinnerState,setSpinnerState] = useState(false);
+    const [orderState,setOrderState] = useState([]);
 
     useEffect(()=>{
-    })
-    const saveOrder = async () => {
-        let orderSummary = inStoreCart.OrderSummary;
-        let customer = JSON.parse(localStorage.getItem("customerAddress"));
-        let id = moment().format("YYMMDDHHmmss").toString() + (Math.floor(Math.random()*(999-100+1)+100)).toString();
-        console.log("id " , id)
-        
-        let data = {
-            id : id,
-            amount : orderSummary.sumNumOrder,
-            sum_full_price : orderSummary.sumFullPrice,
-            sum_discount : orderSummary.sumDiscount,
-            sum_price : orderSummary.sumPrice,
-            sum_shipping_cost : orderSummary.sumDeliveryCost,
-            total : orderSummary.sumAllPrice,
-            customer_name : customer.name,
-            customer_tel : customer.tel,
-            customer_email : customer.email,
-            customer_address : customer.address,
-            customer_province : customer.provinceName,
-            customer_amphure : customer.amphureName,
-            customer_district : customer.districtName,
-            customer_postcode : customer.postcode,
-            order_time : new Date(),
-            pay_status : "Y",
-            status : "P",
-            delivery_number : "",
-            delivery_company : "",
-            delivery_date : "",
-            user_id : "",
-            orderDetail : inStoreCart.listForCart
-        }
-        // return null\
-        debugger
-        const resp = await OrderApi.doserviceSaveOrder(data);
+        getOrderAndOrderDetail();
+    },[])
+
+    const getOrderAndOrderDetail = async () => {
+        setSpinnerState(true)
+        let resp = await OrderApi.doserviceGetOrderAndOrderDetail(orderId);
         console.log(resp)
-        if(resp.code === 1) {
-            localStorage.removeItem("listForCart");
-            let payload = inStoreCart;
-            payload.OrderSummary = {};
-            payload.listForCart = [];
-            dispatch({ type: CartAct.LOAD_DATA, payload });
-        }
-        history.push("/order-status")
+        setOrderState(resp)
+        setSpinnerState(false);
+    }
+
+    const saveOrder = async () => {
+        
+        history.push(`/order-status/${orderId}`)
     }
 
     return <>
+    <SpinnerComp spinner={spinnerState}/>
     <div style={{marginTop : "50px"}}>
     <div className="container">
-        <h1>ชำระเงิน</h1>
         <div className="row">
             <div className="col-md-8">
+            <h1>ชำระเงิน รหัสคำสั่งซื้อ : <b>{orderId}</b></h1>
                 <div style={{paddingTop:10}}>
                     <h5 className="font-weight-bold">รายละเอียด</h5>
                     <p>
@@ -132,8 +107,8 @@ export default function PaymentPage(props) {
                 </div>
             </div>
             <div className="col-md-4">
-                <div>
-                    <OrderSummaryComp btnText="ชำระเงิน" type="hidden"/>
+                <div style={{marginTop : "-10px"}}>
+                    {orderState ? <OrderSumDetailComp order={orderState}/> : <></>}
                 </div>
             </div>
         </div>

@@ -109,11 +109,11 @@ export default function ProductPage(props) {
     }
 
     const buyNow = () => {
-        addtoCart();
+        addtoCart(false);
         window.location.href = '/cart'
     }
 
-    const addtoCart = () => {
+    const addtoCart = (popup) => {
         try {
             let product = {}
             let payload = inStore
@@ -151,7 +151,10 @@ export default function ProductPage(props) {
             payload.listForCart = listForCart
             localStorage.setItem("listForCart" , JSON.stringify(payload.listForCart))
             dispatch({ type: CartAct.LOAD_DATA, payload });
-            setPopUpCartState(true)
+            if(popup) {
+                setPopUpCartState(true)
+            }
+            
         } catch (error) {
             alert(tcv.fullStock)
         }
@@ -241,7 +244,7 @@ export default function ProductPage(props) {
                         </div>
                         <div className="row">
                             <div className="col-6">
-                                <button style={{marginTop:"30px"}} type="button" className="btn btn-primary btn-lg btn-block" onClick={()=>addtoCart()}>
+                                <button style={{marginTop:"30px"}} type="button" className="btn btn-primary btn-lg btn-block" onClick={()=>addtoCart(true)}>
                                     <i className="fas fa-shopping-cart"></i> เพิ่มในรถเข็น
                                 </button>
                             </div>

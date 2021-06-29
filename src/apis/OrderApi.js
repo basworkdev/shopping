@@ -15,8 +15,24 @@ const doserviceSaveOrder = (data) => {
     });
 }
 
+const doserviceGetOrderAndOrderDetail = (orderId) => {
+    return new Promise((resolve, reject) => {
+        axios.get(`${process.env.REACT_APP_ENGINE_URL}getOrderAndOrderDetail/${orderId}` , {
+            headers: {
+                'Access-Control-Allow-Origin': '*'
+            }
+        })
+        .then(res => {
+            resolve(res.data);
+        }).catch(reason => {
+            reject(reason);
+        })
+    });
+}
+
 const apis = {
-    doserviceSaveOrder
+    doserviceSaveOrder,
+    doserviceGetOrderAndOrderDetail
 }
 
 export default apis;

@@ -109,7 +109,7 @@ export default function OrderSummaryComp(props) {
                 <p>ยอดรวมทั้งหมด</p>
             </div>
             <div className="col-5 text-right">
-                <p>{numeral(sumOrderState.sumAllPrice).format('0,0')} บ.</p>
+                <p  style={{fontSize:"1.7rem"}} className="font-weight-bold">{numeral(sumOrderState.sumAllPrice).format('0,0')} บ.</p>
             </div>
         </div>
         <br/>

@@ -138,10 +138,10 @@ export default function Main(props) {
             <Route path="/shipment-info">
                 <ShipmentInfoPage/>
             </Route>
-            <Route path="/payment">
+            <Route path="/payment/:orderId">
                 <PaymentPage/>
             </Route>
-            <Route path="/order-status">
+            <Route path="/order-status/:orderId">
                 <ProductStepPage/>
             </Route>
 

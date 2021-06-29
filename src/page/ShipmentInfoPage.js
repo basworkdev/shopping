@@ -1,5 +1,6 @@
 import React , {useState , useEffect} from "react";
 import { useSelector, useDispatch } from "react-redux";
+import { useHistory } from "react-router-dom";
 import { CartAct } from "../actions/CartAct";
 import bootbox from 'bootbox';
 import tc from '../config/text.json'
@@ -11,15 +12,20 @@ import "../assets/css/cart-page.css"
 // API
 import proApis from "../apis/ProductsApi";
 import addressApi from "../apis/AddressApi";
+import OrderApi from "../apis/OrderApi"
 
 // Comp
 import CardProductComp from "../componenst/CardProductComp"
 import OrderSummaryComp from "../componenst/OrderSummaryComp"
 import SpinnerComp from "../componenst/SpinnerComp"
 
+
 export default function ShipmentInfoPage(props) {
     const { register, handleSubmit, watch, formState: { errors } } = useForm();
     const tcv = tc.validate;
+    let history = useHistory();
+    const dispatch = useDispatch();
+    let moment = require('moment');
     const [spinnerState,setSpinnerState] = useState(false);
     const [provincesState , setProvincesState] = useState([]);
     const [amphuresState , setAmphuresState] = useState([]);
@@ -29,6 +35,9 @@ export default function ShipmentInfoPage(props) {
     const [nameDistrictsState , setNameDistrictsState] = useState([]);
     const [addressState , setAddressState] = useState({})
 
+    let inStoreCart = useSelector(state => {
+        return state.CsCartRedu;
+    });
     
 
     useEffect(()=>{
@@ -81,13 +90,57 @@ export default function ShipmentInfoPage(props) {
         setSpinnerState(false)
     }
 
-    const onSubmit = (data) => {
+    const onSubmit = async (data) => {
         console.log(data);
+        // ------------------------------ //
+        let orderSummary = inStoreCart.OrderSummary;
+        let customer = JSON.parse(localStorage.getItem("customerAddress"));
+        let id = moment().format("YYMMDDHHmmss").toString() + (Math.floor(Math.random()*(999-100+1)+100)).toString();
+        console.log("id " , id)
+        
+        let dataOrder = {
+            id : id,
+            amount : orderSummary.sumNumOrder,
+            sum_full_price : orderSummary.sumFullPrice,
+            sum_discount : orderSummary.sumDiscount,
+            sum_price : orderSummary.sumPrice,
+            sum_shipping_cost : orderSummary.sumDeliveryCost,
+            total : orderSummary.sumAllPrice,
+            customer_name : customer.name,
+            customer_tel : customer.tel,
+            customer_email : customer.email,
+            customer_address : customer.address,
+            customer_province : customer.provinceName,
+            customer_amphure : customer.amphureName,
+            customer_district : customer.districtName,
+            customer_postcode : customer.postcode,
+            order_time : new Date(),
+            pay_status : "Y",
+            status : "P",
+            delivery_number : "",
+            delivery_company : "",
+            delivery_date : "",
+            user_id : "",
+            orderDetail : inStoreCart.listForCart
+        }
+        debugger
+        const resp = await OrderApi.doserviceSaveOrder(dataOrder);
+        console.log(resp)
+        if(resp.code === 1) {
+            localStorage.removeItem("listForCart");
+            let payload = inStoreCart;
+            payload.OrderSummary = {};
+            payload.listForCart = [];
+            dispatch({ type: CartAct.LOAD_DATA, payload });
+        }
+
+        // ------------------------------ //
+
         data.provinceName = nameProvincesState;
         data.amphureName = nameAmphuresState;
         data.districtName = nameDistrictsState;
         localStorage.setItem("customerAddress" , JSON.stringify(data))
-        window.location = '/payment';
+        window.location = `/payment/${id}`;
         
     };
 
