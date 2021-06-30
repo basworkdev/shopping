@@ -116,6 +116,12 @@ export default function CartPage(props) {
         })
     }
 
+    const checkNullValue = (order,id) => {
+        if(parseInt(order)<1 || !parseInt(order)) {
+            document.getElementById(`numOrder${id}`).value = 1;
+        }
+    }
+
     const checkStock = (order,stock,id) => {
         try {
             if(parseInt(order) > stock) {
@@ -124,9 +130,6 @@ export default function CartPage(props) {
                 document.getElementById(`numOrder${id}`).value = stock;
             } else {
                 document.getElementById(`order${id}`).innerHTML = ""
-            }
-            if(parseInt(order)<1 || !parseInt(order)) {
-                document.getElementById(`numOrder${id}`).value = 1;
             }
         } catch (error) {
             console.log(error)
@@ -198,7 +201,7 @@ export default function CartPage(props) {
                                                     type="number" 
                                                     defaultValue={data.order} 
                                                     onChange={(e)=>{checkStock(e.target.value,data.stock,`${index}`);editOrder(e.target.value,`${data.id}`)}}
-                                                    // onBlur={(e)=>editOrder(e.target.value,`${data.id}`)}
+                                                    onBlur={(e)=>checkNullValue(e.target.value,`${index}`)}
                                                 />
                                             </div>
                                             <span className="text-danger" id={`order${index}`}></span>

@@ -67,11 +67,11 @@ export default function OrderSummaryComp(props) {
 
     const checkButton = () => {
         if(props.type === "submit") {
-            return <button className="btn btn-danger btn-block" type="submit">{props.btnText}</button>
+            return <button className="btn btn-danger btn-block btn-lg" type="submit">{props.btnText}</button>
         }else if(props.type === "hidden") {
             return <></>
         }else {
-            return <button className="btn btn-danger btn-block" onClick={()=>window.location=props.link}>{props.btnText}</button>
+            return <button className="btn btn-danger btn-block btn-lg" onClick={()=>window.location=props.link}>{props.btnText}</button>
         }
     }
 

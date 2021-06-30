@@ -94,7 +94,7 @@ export default function ShipmentInfoPage(props) {
         console.log(data);
         // ------------------------------ //
         let orderSummary = inStoreCart.OrderSummary;
-        let customer = JSON.parse(localStorage.getItem("customerAddress"));
+        // let customer = JSON.parse(localStorage.getItem("customerAddress"));
         let id = moment().format("YYMMDDHHmmss").toString() + (Math.floor(Math.random()*(999-100+1)+100)).toString();
         console.log("id " , id)
         
@@ -106,14 +106,14 @@ export default function ShipmentInfoPage(props) {
             sum_price : orderSummary.sumPrice,
             sum_shipping_cost : orderSummary.sumDeliveryCost,
             total : orderSummary.sumAllPrice,
-            customer_name : customer.name,
-            customer_tel : customer.tel,
-            customer_email : customer.email,
-            customer_address : customer.address,
-            customer_province : customer.provinceName,
-            customer_amphure : customer.amphureName,
-            customer_district : customer.districtName,
-            customer_postcode : customer.postcode,
+            customer_name : data.name,
+            customer_tel : data.tel,
+            customer_email : data.email,
+            customer_address : data.address,
+            customer_province : data.provinceName,
+            customer_amphure : data.amphureName,
+            customer_district : data.districtName,
+            customer_postcode : data.postcode,
             order_time : new Date(),
             pay_status : "Y",
             status : "P",
