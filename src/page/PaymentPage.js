@@ -24,7 +24,8 @@ export default function PaymentPage(props) {
     });
     const [spinnerState,setSpinnerState] = useState(false);
     const [orderState,setOrderState] = useState([]);
-    const [imageState,setImageState] = useState()
+    const [imageState,setImageState] = useState();
+    const [showImageState , setShowImageState] = useState();
 
     useEffect(()=>{
         getOrderAndOrderDetail();
@@ -40,17 +41,106 @@ export default function PaymentPage(props) {
 
     const saveOrder = async () => {
         let resp = await MainApi.doserviceUploadImageSlipPay(imageState);
+        setShowImageState(resp);
         console.log("resp",resp);
         //history.push(`/order-status/${orderId}`)
     }
 
+    const checkStatusPay = () => {
+        if(orderState && orderState.length > 0) {
+            if(orderState[0].pay_status === "Y") {
+                return (
+                    <>
+                    (<span className="text-success">ชำระเงินเรียบร้อยแล้ว</span>)
+                    </>
+                )
+            }else if (orderState[0].pay_status === "N") {
+                return (
+                    <>
+                    </>
+                )
+            }else if (orderState[0].pay_status === "C") {
+                return (
+                    <>
+                    (<span className="text-warning">กำลังตรวจสอบการชำระเงิน</span>)
+                    </>
+                )
+            }
+        }else {
+            return (
+                <>
+                (<span className="text-danger">ไม่พบออเดอร์นี้ กรุณาติดต่อผู้ดูแลระบบ</span>)
+                </>
+            )
+        }
+    }
+    const statusPayment = () => {
+        if(orderState && orderState.length > 0) {
+            if(orderState[0].pay_status === "Y") {
+                return(
+                    <>
+                    <div >
+                    <br/>
+                    <center>
+                        <b><h3 className="text-success">ชำระเงินเรียบร้อยแล้ว</h3></b>
+                        <br/>
+                        <center><button type="button" class="btn btn-primary btn-lg">ดูสถานะสินค้า</button></center>
+                    </center>
+                    </div>
+                    </>
+                )
+
+            }else if (orderState[0].pay_status === "N") {
+                return(
+                    <>
+                    <div className="row">
+                        <div className="col-md-4"></div>
+                        <div className="col-md-4">
+                            <div style={{marginBottom : 20}}>
+                            {imageState ?
+                            <img 
+                                // src={`${process.env.REACT_APP_ENGINE_URL}imagesSlipPay/${showImageState.filename}`}
+                                src={`${showImageState}`}
+                                width="100%"
+                            />
+                            : 
+                            <></>
+                            }
+                            
+                            </div>
+                        </div>
+                    </div>
+                    <UploadImageComp upload={(e)=>{console.log("upload",e);setImageState(e)}} uploadImage={(e)=>{console.log(e); setShowImageState(e)}} detailShow={showImageState ? false : true}/>
+                    <br/>
+                    <center><button type="button" class="btn btn-primary btn-lg" onClick={()=>{saveOrder()}}>ส่งหลักฐานการชำระเงิน</button></center>
+                    
+                    </>
+                )
+
+            }else if (orderState[0].pay_status === "C") {
+                return(
+                    <>
+                    <div >
+                    <br/>
+                    <center>
+                        <b><h3 className="text-warning">กำลังตรวจสอบการชำระเงิน</h3></b>
+                        <br/>
+                        <center><button type="button" class="btn btn-primary btn-lg">ดูสถานะสินค้า</button></center>
+                    </center>
+                    </div>
+                    </>
+                )
+            }
+        }
+    }
     return <>
     <SpinnerComp spinner={spinnerState}/>
     <div style={{marginTop : "50px"}}>
     <div className="container">
         <div className="row">
             <div className="col-md-8">
-            <h1>ชำระเงิน รหัสคำสั่งซื้อ : <b>{orderId}</b></h1>
+            <h1>ชำระเงิน รหัสคำสั่งซื้อ : <b>{orderId}</b> </h1>
+            <h3>{checkStatusPay()}</h3>
                 <div style={{paddingTop:10}}>
                     <h5 className="font-weight-bold">รายละเอียด</h5>
                     <p>
@@ -118,34 +208,7 @@ export default function PaymentPage(props) {
         </div>
             
             <br/>
-            <div className="row">
-                <div className="col-md-4"></div>
-                <div className="col-md-4">
-                    <div style={{marginBottom : 20}}>
-                    <img 
-                        src="https://scontent.fbkk4-2.fna.fbcdn.net/v/t1.18169-9/26047058_200987323782256_8182740281214316978_n.jpg?_nc_cat=102&ccb=1-3&_nc_sid=973b4a&_nc_ohc=tOex1x_8H04AX_v4vkD&_nc_ht=scontent.fbkk4-2.fna&oh=127c0a27ff35582bbe1c71074f91c1c1&oe=60E083A7"
-                        width="100%"
-                    />
-                    </div>
-                </div>
-            </div>
-            <UploadImageComp upload={(e)=>{console.log("upload",e);setImageState(e)}}/>
-            {/* <div className="box-payment">
-                <div>
-                    <div style={{marginBottom : "-110px"}}>
-                        <div style={{paddingTop:30}}>
-                            <p className="text-secondary text-center">
-                                ยังไม่มีเอกสาร
-                            </p>
-                            <center><button type="button" class="btn btn-danger btn-lg">อัพโหลดหลักฐานการชำระเงิน (คลิก)</button></center>
-                        </div>
-                    </div>
-                    <input type="file" className="file-upload" style={{marginTop : "-100px"}}/>
-                    
-                </div>   
-            </div> */}
-            <br/>
-            <center><button type="button" class="btn btn-primary btn-lg" onClick={()=>{saveOrder()}}>ส่งหลักฐานการชำระเงิน</button></center>
+            {statusPayment()}
         </div>
     </div>
         

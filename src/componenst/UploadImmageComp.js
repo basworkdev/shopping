@@ -17,6 +17,7 @@ export default function UploadImageComp(props) {
         reader.onloadend = () => { // ## เป็น eventของFileReaderเมื่อโหลดภาพเสร็จ
             setFile(file) // ## ทำการ setState
             setImagePreviewUrl(reader.result) // ##เหมือนด้านบน
+            props.uploadImage(reader.result)
         }
         reader.readAsDataURL(file) // ## เป็นส่วนของการแสดงรูป ไม่ค่อยแน่ใจครับ ผู้รู้ช่วยคอมเม้นบอกด้วยนะครับ
     }
@@ -39,9 +40,13 @@ export default function UploadImageComp(props) {
                 <div>
                     <div style={{marginBottom : "-110px"}}>
                         <div style={{paddingTop:30}}>
+                            {props.detailShow ?
                             <p className="text-secondary text-center">
                                 ยังไม่มีเอกสาร
                             </p>
+                             :
+                            <div style={{paddingTop:20}}></div>}
+                            
                             <center><button type="button" class="btn btn-danger btn-lg">อัพโหลดหลักฐานการชำระเงิน (คลิก)</button></center>
                         </div>
                     </div>
@@ -50,7 +55,7 @@ export default function UploadImageComp(props) {
                         className="file-upload" 
                         style={{marginTop : "-100px"}}
                         onChange={handleUploadImage}
-                        onBlur={()=>{onClickUpload()}}
+                        onBlur={(e)=>{onClickUpload();}}
                     />
                     
                 </div>   

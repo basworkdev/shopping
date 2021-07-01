@@ -115,7 +115,7 @@ export default function ShipmentInfoPage(props) {
             customer_district : data.districtName,
             customer_postcode : data.postcode,
             order_time : new Date(),
-            pay_status : "Y",
+            pay_status : "N",
             status : "P",
             delivery_number : "",
             delivery_company : "",
