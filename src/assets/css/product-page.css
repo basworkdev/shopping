@@ -37,6 +37,7 @@
     height: 30px;
     border-radius: 50%;
     cursor: pointer;
+    border: 1px solid #ccc;
 }
 .pro-color-page:hover {
     border: 5px solid #5d5d5d;

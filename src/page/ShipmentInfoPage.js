@@ -91,6 +91,7 @@ export default function ShipmentInfoPage(props) {
     }
 
     const onSubmit = async (data) => {
+        debugger
         console.log(data);
         // ------------------------------ //
         let orderSummary = inStoreCart.OrderSummary;
@@ -110,20 +111,19 @@ export default function ShipmentInfoPage(props) {
             customer_tel : data.tel,
             customer_email : data.email,
             customer_address : data.address,
-            customer_province : data.provinceName,
-            customer_amphure : data.amphureName,
-            customer_district : data.districtName,
+            customer_province : nameProvincesState,
+            customer_amphure : nameAmphuresState,
+            customer_district : nameDistrictsState,
             customer_postcode : data.postcode,
             order_time : new Date(),
-            pay_status : "N",
-            status : "P",
+            pay_status : "NOT",
+            status : "ORDER",
             delivery_number : "",
             delivery_company : "",
             delivery_date : "",
             user_id : "",
             orderDetail : inStoreCart.listForCart
         }
-        debugger
         const resp = await OrderApi.doserviceSaveOrder(dataOrder);
         console.log(resp)
         if(resp.code === 1) {

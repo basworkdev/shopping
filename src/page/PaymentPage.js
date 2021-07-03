@@ -2,6 +2,8 @@ import React , {useState , useEffect} from "react";
 import { BrowserRouter as Router, useParams ,useHistory } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
 import { CartAct } from "../actions/CartAct";
+import tc from "../config/text.json"
+import bootbox from 'bootbox';
 
 // Comp 
 import OrderSumDetailComp from "../componenst/OrderSumDetailComp";
@@ -41,28 +43,47 @@ export default function PaymentPage(props) {
 
     const saveOrder = async () => {
         let resp = await MainApi.doserviceUploadImageSlipPay(imageState);
+        if(resp.filename) {
+            let dataUpdate = {
+                orderId : orderId,
+                pay_status : "UPLOADSLIP",
+                pay_date : new Date(),
+                status : "UPLOADSLIP",
+                pay_image : `${process.env.REACT_APP_ENGINE_URL}imagesSlipPay/${resp.filename}`
+            }
+            let respUpdate = await OrderApi.doserviceUpdateSlip(dataUpdate);
+            if(respUpdate.code === 1) {
+                nextStepPage();
+            }
+        } else {
+            bootbox.alert(tc.validate.errorUploadImage);
+        }
         setShowImageState(resp);
         console.log("resp",resp);
         //history.push(`/order-status/${orderId}`)
     }
 
+    const nextStepPage = () => {
+        history.push(`/order-status/${orderId}`)
+    }
+
     const checkStatusPay = () => {
         if(orderState && orderState.length > 0) {
-            if(orderState[0].pay_status === "Y") {
+            if(orderState[0].pay_status === "PAY") {
                 return (
                     <>
-                    (<span className="text-success">ชำระเงินเรียบร้อยแล้ว</span>)
+                    (<span className="text-success">{tc.statusOrder.SUCCESS}</span>)
                     </>
                 )
-            }else if (orderState[0].pay_status === "N") {
+            }else if (orderState[0].pay_status === "NOT") {
                 return (
                     <>
                     </>
                 )
-            }else if (orderState[0].pay_status === "C") {
+            }else if (orderState[0].pay_status === "UPLOADSLIP") {
                 return (
                     <>
-                    (<span className="text-warning">กำลังตรวจสอบการชำระเงิน</span>)
+                    (<span className="text-warning">{tc.statusOrder.UPLOADSLIP}</span>)
                     </>
                 )
             }
@@ -76,21 +97,21 @@ export default function PaymentPage(props) {
     }
     const statusPayment = () => {
         if(orderState && orderState.length > 0) {
-            if(orderState[0].pay_status === "Y") {
+            if(orderState[0].pay_status === "PAY") {
                 return(
                     <>
                     <div >
                     <br/>
                     <center>
-                        <b><h3 className="text-success">ชำระเงินเรียบร้อยแล้ว</h3></b>
+                        <b><h3 className="text-success">{tc.statusOrder.SUCCESS}</h3></b>
                         <br/>
-                        <center><button type="button" class="btn btn-primary btn-lg">ดูสถานะสินค้า</button></center>
+                        <center><button type="button" class="btn btn-primary btn-lg" onClick={()=>nextStepPage()}>ดูสถานะสินค้า</button></center>
                     </center>
                     </div>
                     </>
                 )
 
-            }else if (orderState[0].pay_status === "N") {
+            }else if (orderState[0].pay_status === "NOT") {
                 return(
                     <>
                     <div className="row">
@@ -117,15 +138,15 @@ export default function PaymentPage(props) {
                     </>
                 )
 
-            }else if (orderState[0].pay_status === "C") {
+            }else if (orderState[0].pay_status === "UPLOADSLIP") {
                 return(
                     <>
                     <div >
                     <br/>
                     <center>
-                        <b><h3 className="text-warning">กำลังตรวจสอบการชำระเงิน</h3></b>
+                        <b><h3 className="text-warning">{tc.statusOrder.UPLOADSLIP}</h3></b>
                         <br/>
-                        <center><button type="button" class="btn btn-primary btn-lg">ดูสถานะสินค้า</button></center>
+                        <center><button type="button" class="btn btn-primary btn-lg" onClick={()=>nextStepPage()}>ดูสถานะสินค้า</button></center>
                     </center>
                     </div>
                     </>
