@@ -5,6 +5,7 @@ import tc from "../config/text.json"
 // Comp
 import OrderStepComp from '../componenst/OrderStepComp'
 import OrderSumDetailComp from "../componenst/OrderSumDetailComp";
+import DeliveryAddressComp from "../componenst/DeliveryAddressComp";
 
 //Apis
 import OrderApi from "../apis/OrderApi"
@@ -12,7 +13,7 @@ import OrderApi from "../apis/OrderApi"
 
 export default function ProductStepPage(props) {
     const {orderId} = useParams();
-
+    const [orderMainState,setOrderMainState] = useState([]);
     const [orderState,setOrderState] = useState([]);
     const [statusState,setStatusState] = useState("");
 
@@ -21,9 +22,11 @@ export default function ProductStepPage(props) {
     },[])
 
     const nowStatus = async () => {
+        let mainOrder = await OrderApi.doserviceGetOrderById(orderId);
         let resp = await OrderApi.doserviceGetOrderAndOrderDetail(orderId);
         console.log(resp);
         setOrderState(resp)
+        setOrderMainState(mainOrder);
         if(resp.length>0) {
             checkStatus(resp[0]);
         }
@@ -63,12 +66,15 @@ export default function ProductStepPage(props) {
             <h2 className="text-center font-weight-bold" style={{marginTop : "30px"}}>({statusState ? statusState.text : "ไม่พบคำสั่งซื้อนี้"})</h2>
             {statusState ?
             <>
-            <div style={{marginTop : "30px"}}>
-                <OrderStepComp order={orderState} status={statusState}/>
-            </div>
-            <div style={{marginTop : 50}}>
-            {orderState ? <OrderSumDetailComp order={orderState}/> : <></>}
-            </div> 
+                <div style={{marginTop : "30px"}}>
+                    <OrderStepComp order={orderMainState} status={statusState}/>
+                </div>
+                <div style={{marginTop : 50}}>
+                {orderState ? <OrderSumDetailComp order={orderState}/> : <></>}
+                </div> 
+                <div style={{marginTop : 30}}>
+                    {orderMainState ? <DeliveryAddressComp order={orderMainState}/> : <></>}
+                </div>
             </>
             : 
             <></>

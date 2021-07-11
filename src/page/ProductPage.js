@@ -230,6 +230,8 @@ export default function ProductPage(props) {
                             })}
                             
                         </div>
+                        {productState.stock > 0 ?
+                        <>
                         <div className="row">
                             <div className="col-12">
                                 <h5 style={{paddingTop : "1.2rem"}} className="font-weight-bold">จำนวน</h5>
@@ -242,6 +244,7 @@ export default function ProductPage(props) {
                                 {productState.deliveryCost>0?<p style={{marginTop : "5px"}}>( ค่าส่ง {numeral(productState.deliveryCost).format('0,0')} บาท/ชิ้น )</p>:<></>}
                             </div>
                         </div>
+                        
                         <div className="row">
                             <div className="col-6">
                                 <button style={{marginTop:"30px"}} type="button" className="btn btn-primary btn-lg btn-block" onClick={()=>addtoCart(true)}>
@@ -252,6 +255,14 @@ export default function ProductPage(props) {
                                 <button style={{marginTop:"30px"}} type="button" className="btn btn-danger btn-lg btn-block shadow" onClick={()=>buyNow()}>ซื้อ</button>
                             </div>
                         </div>
+                        </>
+                        :
+                        <div style={{marginTop : 50}}>
+                            <div className="out-of-stock font-weight-bold">สินค้าหมดชั่วคราว</div>
+                        </div>
+                        
+                        }
+                        
                     </div>
                 </div>
             </div>

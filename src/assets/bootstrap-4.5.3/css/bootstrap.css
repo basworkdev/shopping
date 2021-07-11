@@ -80,7 +80,7 @@ h1, h2, h3, h4, h5, h6 {
 
 p {
   margin-top: 0;
-  margin-bottom: 1rem;
+  margin-bottom: 0.3rem;
 }
 
 abbr[title],
@@ -288,6 +288,8 @@ input[type="radio"],
 input[type="checkbox"] {
   box-sizing: border-box;
   padding: 0;
+  height: 20px;
+  width: 20px;
 }
 
 textarea {
@@ -2199,6 +2201,7 @@ textarea.form-control {
 
 .form-check-label {
   margin-bottom: 0;
+  margin-left: 10px;
 }
 
 .form-check-inline {
@@ -3677,9 +3680,9 @@ input[type="button"].btn-block {
   color: #495057;
   text-align: center;
   white-space: nowrap;
-  background-color: #e9ecef;
+  /* background-color: #e9ecef; */
   border: 1px solid #ced4da;
-  border-radius: 0.25rem;
+  border-radius: 1rem;
 }
 
 .input-group-text input[type="radio"],

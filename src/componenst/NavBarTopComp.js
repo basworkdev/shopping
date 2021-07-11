@@ -22,12 +22,12 @@ export default function NavBarTopComp(props) {
                     <li className="nav-item">
                         <a className="nav-link text-white" href="#"><i className="fab fa-line"></i></a>
                     </li> */}
-                    <li className="nav-item nav-item-top">
+                    <li className="nav-item nav-item-top" onClick={()=>{window.location.href = `/tracking`}}>
                         <font>ติดตามสินค้า</font>
                     </li>
-                    <li className="nav-item">
+                    {/* <li className="nav-item">
                         <button type="button"  className="btn btn-outline-light btn-sm" onClick={()=>history.push("/login")}>ลงชื่อเข้าใช้</button>
-                    </li>
+                    </li> */}
                     <li className="nav-item" style={{paddingLeft : "20px"}}>
                         <div className="basket" onClick={()=>window.location='/cart'}>
                             <i className="fas fa-shopping-cart"></i>

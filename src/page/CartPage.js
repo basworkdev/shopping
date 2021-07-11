@@ -13,6 +13,8 @@ import proApis from "../apis/ProductsApi";
 // Comp
 import CardProductComp from "../componenst/CardProductComp"
 import OrderSummaryComp from "../componenst/OrderSummaryComp"
+import RecommendProductComp from "../componenst/RecommendProductComp";
+import BillboardComp from "../componenst/BillboardComp";
 
 export default function CartPage(props) {
     const numeral = require('numeral');
@@ -24,12 +26,10 @@ export default function CartPage(props) {
     let _ = require('lodash');
 
     const [sumOrderState , setSumOrderState] = useState({})
-    const [productState , setProductState ] = useState([]);
     const [stockFullAlertState , setStockFullAlertState] = useState(false);
 
     useEffect(()=>{
         sumOrderFunction()
-        getProductAllByType()
     },[inStoreCart.listForCart])
 
     const sumOrderFunction = () => {
@@ -97,13 +97,6 @@ export default function CartPage(props) {
                 }
             }
         });
-    }
-
-
-    const getProductAllByType = async () => {
-        let productList = await proApis.doserviceGetProductByType("all");
-        console.log(productList);
-        setProductState(productList);
     }
 
     const setCardProduct = (data) => {
@@ -223,27 +216,9 @@ export default function CartPage(props) {
         <br/>
     </div>
     </div>
-
-    <div class="bg-camping1"></div>
+    <BillboardComp/>
     <br/>
     <br/>
-    <div className="container">
-        {productState.length > 0 ?
-        <>
-        <div className="line-product-title">
-        <h4>{productState[0].typeName}</h4>
-        <p className="p-product-title text-secondary">{productState[0].typeDetail}</p>
-        </div>
-        <br/>
-        <div className="row">
-            {setCardProduct(productState)}
-        </div>
-        </>
-        : 
-        <div className="container text-center" style={{paddingTop : "70px" , paddingBottom : "70px" , fontSize : "2rem"}}>
-            ไม่พบสินค้า
-        </div>
-        }
-    </div>
+    <RecommendProductComp/>
     </>
 }

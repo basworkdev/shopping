@@ -13,7 +13,7 @@ export default function MenuTopComp(props) {
                 <span className="navbar-toggler-icon"></span>
             </button>
             <SearchComp/>
-            <a className="navbar-brand logo-menu" style={{cursor : "pointer"}} onClick={()=>history.push("/home")}><img src="../image/logo2.png" width="80px"/></a>
+            <a className="navbar-brand logo-menu" style={{cursor : "pointer"}} href="/home"><img src="../image/logo2.png" width="80px"/></a>
             
             <div className="collapse navbar-collapse" id="navbarTogglerDemo03">
                 <ul className="navbar-nav mr-auto mt-2 mt-lg-0">

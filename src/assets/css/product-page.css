@@ -138,3 +138,10 @@
   border-left: none;
   border-radius: 0 15px 15px 0;
 }
+.out-of-stock {
+  width: 100%;
+  padding: 1rem;
+  background-color: #ccc;
+  text-align: center;
+  font-size: 1.5rem;
+} 

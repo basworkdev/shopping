@@ -28,6 +28,7 @@ import CartPage from './page/CartPage'
 import ShipmentInfoPage from './page/ShipmentInfoPage'
 import PaymentPage from './page/PaymentPage'
 import ProductStepPage from './page/ProductStepPage'
+import TrackingPage from './page/TrackingPage'
 
 // Components
 import OpenChatComp from './componenst/OpenChatComp'
@@ -143,6 +144,9 @@ export default function Main(props) {
             </Route>
             <Route path="/order-status/:orderId">
                 <ProductStepPage/>
+            </Route>
+            <Route path="/tracking">
+                <TrackingPage/>
             </Route>
 
 

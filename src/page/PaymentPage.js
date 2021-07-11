@@ -9,6 +9,7 @@ import bootbox from 'bootbox';
 import OrderSumDetailComp from "../componenst/OrderSumDetailComp";
 import SpinnerComp from "../componenst/SpinnerComp";
 import UploadImageComp from "../componenst/UploadImmageComp";
+import DeliveryAddressComp from "../componenst/DeliveryAddressComp";
 
 // CSS
 import "../assets/css/paymnet-page.css"
@@ -25,6 +26,7 @@ export default function PaymentPage(props) {
         return state.CsCartRedu;
     });
     const [spinnerState,setSpinnerState] = useState(false);
+    const [orderMainState,setOrderMainState] = useState([]);
     const [orderState,setOrderState] = useState([]);
     const [imageState,setImageState] = useState();
     const [showImageState , setShowImageState] = useState();
@@ -35,8 +37,10 @@ export default function PaymentPage(props) {
 
     const getOrderAndOrderDetail = async () => {
         setSpinnerState(true)
+        let mainOrder = await OrderApi.doserviceGetOrderById(orderId);
         let resp = await OrderApi.doserviceGetOrderAndOrderDetail(orderId);
         console.log(resp)
+        setOrderMainState(mainOrder);
         setOrderState(resp)
         setSpinnerState(false);
     }
@@ -225,11 +229,14 @@ export default function PaymentPage(props) {
                 <div style={{marginTop : "-10px"}}>
                     {orderState ? <OrderSumDetailComp order={orderState}/> : <></>}
                 </div>
+                <div style={{marginTop : 20}}>
+                    {orderMainState ? <DeliveryAddressComp order={orderMainState}/> : <></>}
+                </div>
             </div>
         </div>
-            
-            <br/>
+        <div style={{marginTop : 2}}>
             {statusPayment()}
+        </div>
         </div>
     </div>
         

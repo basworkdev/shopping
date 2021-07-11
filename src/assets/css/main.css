@@ -37,7 +37,7 @@ body {
 .discount-product {
     font-size: 1rem;
     color: #5d5d5d;
-    margin-top: -22px !important;
+    margin-top: -10px !important;
     text-decoration: line-through;
 }
 
@@ -116,7 +116,7 @@ body {
     cursor: pointer;
 }
 .nav-item-top :hover {
-    color: #5d5d5d;
+    color: #000;
 }
 
 .footer {

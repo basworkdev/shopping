@@ -34,7 +34,7 @@ export default function OrderSumDetailComp(props) {
         {setOrderList()}
     </div>
     </div>
-    <div className="setail-sum-cart bg-primary">
+    <div className="setail-sum-cart bg-primary" style={{marginTop : 10}}>
         <h4>สรุปยอด</h4>
         <div className="row">
             <div className="col-7 text-white-50">

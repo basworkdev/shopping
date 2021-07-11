@@ -30,6 +30,21 @@ const doserviceGetOrderAndOrderDetail = (orderId) => {
     });
 }
 
+const doserviceGetOrderById = (orderId) => {
+    return new Promise((resolve, reject) => {
+        axios.get(`${process.env.REACT_APP_ENGINE_URL}getOrderById/${orderId}` , {
+            headers: {
+                'Access-Control-Allow-Origin': '*'
+            }
+        })
+        .then(res => {
+            resolve(res.data);
+        }).catch(reason => {
+            reject(reason);
+        })
+    });
+}
+
 const doserviceUpdateSlip = (data) => {
     let dataUpdate = {
         orderId : data.orderId,
@@ -52,10 +67,27 @@ const doserviceUpdateSlip = (data) => {
     });
 }
 
+const doserviceSearchOrder = (data) => {
+    return new Promise((resolve, reject) => {
+        axios.post(`${process.env.REACT_APP_ENGINE_URL}searchOrder` , data, {
+            headers: {
+                'Access-Control-Allow-Origin': '*'
+            }
+        })
+        .then(res => {
+            resolve(res.data);
+        }).catch(reason => {
+            reject(reason);
+        })
+    });
+}
+
 const apis = {
     doserviceSaveOrder,
     doserviceGetOrderAndOrderDetail,
-    doserviceUpdateSlip
+    doserviceUpdateSlip,
+    doserviceGetOrderById,
+    doserviceSearchOrder
 }
 
 export default apis;
