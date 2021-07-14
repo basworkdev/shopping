@@ -82,12 +82,29 @@ const doserviceSearchOrder = (data) => {
     });
 }
 
+const doservicesearchOrderDetailByOrderId = (order_id) => {
+    return new Promise((resolve, reject) => {
+        axios.get(`${process.env.REACT_APP_ENGINE_URL}searchOrderDetailByOrderId/${order_id}` , {
+            headers: {
+                'Access-Control-Allow-Origin': '*'
+            }
+        })
+        .then(res => {
+            resolve(res.data);
+        }).catch(reason => {
+            reject(reason);
+        })
+    });
+}
+
+
 const apis = {
     doserviceSaveOrder,
     doserviceGetOrderAndOrderDetail,
     doserviceUpdateSlip,
     doserviceGetOrderById,
-    doserviceSearchOrder
+    doserviceSearchOrder,
+    doservicesearchOrderDetailByOrderId
 }
 
 export default apis;
