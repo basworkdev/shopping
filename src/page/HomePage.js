@@ -140,7 +140,7 @@ export default function HomePage(props) {
                     {setCardProduct(tentState)}
                 </div>
                 <div className="text-right other-btn">
-                    <a href="/catalog" type="button" className="btn btn-primary">เพิ่มเติม</a>
+                    <a href="/catalog/tent" type="button" className="btn btn-primary">เพิ่มเติม</a>
                 </div>
             </div>
             <br/>
@@ -149,11 +149,12 @@ export default function HomePage(props) {
                     <h4>อุปกรณ์แคมป์ปิ้ง</h4>
                     <p className="p-product-title text-secondary">เต็นท์สำหรับรถยนต์ ไม่ว่าจะรถเล็กหรือรถใหญ่ก็สามารถติดตั้งได้</p>
                 </div>
+                <br/>
                 <div className="row">
                     {setCardProduct(assistiveDeviceState)}
                 </div>
                 <div className="text-right other-btn">
-                    <a href="/catalog" type="button" className="btn btn-primary">เพิ่มเติม</a>
+                    <a href="/catalog/assistive-device" type="button" className="btn btn-primary">เพิ่มเติม</a>
                 </div>
             </div>
             <br/>

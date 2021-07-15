@@ -175,7 +175,7 @@ export default function CartPage(props) {
                                         
                                             <div>
                                                 <p className="text-secondary discount" hidden={data.fullPrice === data.price}>{numeral(data.fullPrice).format('0,0')}</p>
-                                                <p className="font-weight-bold" style={{marginTop : data.fullPrice === data.price ? "0px" : "-20px"}}>{numeral(data.price).format('0,0')}</p>
+                                                <p className="font-weight-bold" style={{marginTop : data.fullPrice === data.price ? "0px" : "-10px"}}>{numeral(data.price).format('0,0')}</p>
                                             </div>
                                         </div>
                                     </div>

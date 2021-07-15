@@ -16,7 +16,7 @@ export default function FooterComp(props) {
                         <div className="col-md-4" style={{paddingBottom : "4rem"}}>
                             <center>
                             <h5>แบรนด์ที่จำหน่าย</h5>
-                            <div className="row" style={{marginTop : "1rem"}}>
+                            <div className="row" style={{marginTop : "1.5rem"}}>
                                 <div className="col-3 col-md-3 footer-brand">
                                     <img src={`${process.env.REACT_APP_WEB}image/patagonia.png`} className="footer-brand-image"/>
                                 </div>
@@ -29,18 +29,7 @@ export default function FooterComp(props) {
                                 <div className="col-3 col-md-3 footer-brand">
                                     <img src={`${process.env.REACT_APP_WEB}image/arc-teryx.png`} className="footer-brand-image"/>
                                 </div>
-                                <div className="col-3 col-md-3 footer-brand">
-                                    <img src={`${process.env.REACT_APP_WEB}image/patagonia.png`} className="footer-brand-image"/>
-                                </div>
-                                <div className="col-3 col-md-3 footer-brand">
-                                    <img src={`${process.env.REACT_APP_WEB}image/marmot.png`} className="footer-brand-image"/>
-                                </div>
-                                <div className="col-3 col-md-3 footer-brand">
-                                    <img src={`${process.env.REACT_APP_WEB}image/the-north-face.png`} className="footer-brand-image"/>
-                                </div>
-                                <div className="col-3 col-md-3 footer-brand">
-                                    <img src={`${process.env.REACT_APP_WEB}image/arc-teryx.png`} className="footer-brand-image"/>
-                                </div>
+                                
                                 
                                 
                             </div>

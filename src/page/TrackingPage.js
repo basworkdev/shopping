@@ -22,7 +22,7 @@ export default function TrackingPage(props) {
     const [orderListState , setOrderListState] = useState({data : []});
     const [updateState , setUpdateState] = useState(0)
     const [spinnerState,setSpinnerState] = useState(false);
-
+    const [clickSearchState,setClickSearchState] = useState(false);
     useEffect(()=>{
         // setUpdateState(updateState+1)
     },[])
@@ -76,11 +76,36 @@ export default function TrackingPage(props) {
             }
         }
         setSpinnerState(false)
+        setClickSearchState(true)
     }
 
     const checkOrder = (orderId) => {
         // window.location.href = `/order-status/${orderId}`
         window.open( `/order-status/${orderId}`, '_blank');
+    }
+
+    const orderList = () => {
+        return orderListState.data.map((data)=>{
+            return (
+                <div class="list-group" style={{cursor : "pointer"}}>
+                    <a class="list-group-item list-group-item-action" onClick={()=>checkOrder(data.id)}>
+                        <div class="d-flex w-100 justify-content-between">
+                        <h5 class="mb-1">รหัสคำสั่งซื้อ <span className="font-weight-bold">{data.id}</span></h5>
+                        <small>วันที่ <span className="font-weight-bold">{moment(data.order_time).format("DD/MM/YYYY")}</span></small>
+                        </div>
+                        <p class="mb-1">รายการสินค้า</p>
+                        <div style={{marginTop : "-5px"}}>
+                        {Array.isArray(data.detail) ? data.detail.map((dataD)=>{
+                            return <>
+                            <small>{dataD.name} ( {dataD.order_amount} ชิ้น )</small><br/>
+                            </>
+                        }) : <></>}
+                        </div>
+                    </a>
+                </div>
+            )         
+        })
+        
     }
 
     return <>
@@ -148,26 +173,20 @@ export default function TrackingPage(props) {
                     <div style={{marginTop : "2rem"}}>
                         <h5 className="font-weight-bold">กรุณาเลือกคำสั่งซื้อที่ท่านต้องการติดตาม</h5>
                         {/* {JSON.stringify(orderListState)} */}
-                        {orderListState.data.map((data)=>{
-                            return (
-                                <div class="list-group" style={{cursor : "pointer"}}>
-                                    <a class="list-group-item list-group-item-action" onClick={()=>checkOrder(data.id)}>
-                                        <div class="d-flex w-100 justify-content-between">
-                                        <h5 class="mb-1">รหัสคำสั่งซื้อ <span className="font-weight-bold">{data.id}</span></h5>
-                                        <small>วันที่ <span className="font-weight-bold">{moment(data.order_time).format("DD/MM/YYYY")}</span></small>
-                                        </div>
-                                        <p class="mb-1">รายการสินค้า</p>
-                                        {Array.isArray(data.detail) ? data.detail.map((dataD)=>{
-                                            return <>
-                                            <small>{dataD.name} ( {dataD.order_amount} ชิ้น )</small><br/>
-                                            </>
-                                        }) : <></>}
-                                    </a>
-                                </div>
-                            )
-                        })}
+                        {orderList()}
                     </div>
-                    :<></>}
+                    :<>
+                        {clickSearchState ?
+                        <div style={{marginTop : "50px"}}> 
+                            <center>
+                                <span style={{fontSize : "4rem"}}>
+                                    <i class="fas fa-box-open"></i>
+                                </span>
+                                <p style={{marginTop:20,fontSize:"1.5rem"}}>ไม่พบคำสั่งซื้อ กรุณาค้นหาใหม่ หรือติดต่อผ่านช่องทางต่างๆของทางร้าน</p>
+                            </center> 
+                        </div>
+                        : <></>}
+                    </>}
                 </div>
             </div>
         </div>
