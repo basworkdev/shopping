@@ -24,6 +24,11 @@ export default function CreateProductPage(props) {
   const [productState , setProductState] = useState([]);
   const [oldMainImageState , setOldMainImageState] = useState("");
   const [uploadMainImageState , setUploadMainImageState] = useState(false);
+  const [selectSalesType,setSelectSalesType] = useState({ value: 'CASH', label: 'Cash' })
+  const [salesType , setSalesType] = useState([
+        { value: 'CASH', label: 'Cash' },
+        { value: 'PREORDER', label: 'Pre-order' }
+    ])
 //   const [mainImgState , setMainImgState] = useState([]);
 
   const tcv = tc.validate.requestFiles;
@@ -41,6 +46,8 @@ export default function CreateProductPage(props) {
         setImagesUploadState( pd.img ? pd.img.split(",") : [])
         setSelectColorState(pd.color.split(","))
         setOldMainImageState(pd.mainImg);
+        let salesTypeData = _.find(salesType , {value : pd.salesType})
+        setSelectSalesType(salesTypeData)
         console.log("edit : " , pd);
     }
     getBrand();
@@ -344,6 +351,17 @@ export default function CreateProductPage(props) {
                             />
                             {errors.stock && <span className="text-danger">{tcv}</span>}
                         </div>
+                        <div className="form-group">
+                            <label>ประเภทการขาย</label>
+                            <Select 
+                                options={salesType} 
+                                value={selectSalesType}
+                                onChange={(e)=>setSelectSalesType(e)}
+                            />
+                            <input hidden className="form-control" name="salesType" value={selectSalesType.value} ref={register({ required: true })}/>
+                            {errors.stock && <span className="text-danger">{tcv}</span>}
+                        </div>
+
                         <div className="form-group">
                             <label>สถานะ</label>
                             <br/>

@@ -32,7 +32,7 @@ export default function MenuTopComp(props) {
                         <a className="nav-link" onClick={()=>changeHistory("/admin/all-product")}>สินค้า</a>
                     </li>
                     <li className="nav-item">
-                        <a className="nav-link" href="#">Link</a>
+                        <a className="nav-link" href="#">คำสั่งซื้อ</a>
                     </li>
                     <li className="nav-item dropdown">
                         <a className="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">

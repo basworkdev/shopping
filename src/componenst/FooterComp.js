@@ -8,8 +8,8 @@ export default function FooterComp(props) {
                     <div className="row">
                         <div className="col-md-4" style={{paddingBottom : "4rem"}}>
                             <center>
-                                <img src={`${process.env.REACT_APP_WEB}image/logo_footer.png`} width="200px"/>
-                                
+                                <img src={`../image/logo_footer.png`} width="200px"/>
+                                {/* <img src={`${process.env.REACT_APP_WEB}image/logo_footer.png`} width="200px"/> */}
                             </center>
                             
                         </div>
@@ -18,16 +18,16 @@ export default function FooterComp(props) {
                             <h5>แบรนด์ที่จำหน่าย</h5>
                             <div className="row" style={{marginTop : "1.5rem"}}>
                                 <div className="col-3 col-md-3 footer-brand">
-                                    <img src={`${process.env.REACT_APP_WEB}image/patagonia.png`} className="footer-brand-image"/>
+                                    <img src={`../image/patagonia.png`} className="footer-brand-image"/>
                                 </div>
                                 <div className="col-3 col-md-3 footer-brand">
-                                    <img src={`${process.env.REACT_APP_WEB}image/marmot.png`} className="footer-brand-image"/>
+                                    <img src={`../image/marmot.png`} className="footer-brand-image"/>
                                 </div>
                                 <div className="col-3 col-md-3 footer-brand">
-                                    <img src={`${process.env.REACT_APP_WEB}image/the-north-face.png`} className="footer-brand-image"/>
+                                    <img src={`../image/the-north-face.png`} className="footer-brand-image"/>
                                 </div>
                                 <div className="col-3 col-md-3 footer-brand">
-                                    <img src={`${process.env.REACT_APP_WEB}image/arc-teryx.png`} className="footer-brand-image"/>
+                                    <img src={`../image/arc-teryx.png`} className="footer-brand-image"/>
                                 </div>
                                 
                                 

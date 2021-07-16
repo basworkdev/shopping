@@ -161,6 +161,44 @@ export default function ProductPage(props) {
         
     }
 
+    const setButton = () => {
+        if(productState.salesType === "PREORDER") {
+            return <div style={{marginTop : 50}}>
+                <div className="pre-order-button ">เป็นสินค้าพรีออเดอร์ กรุณาสอบถามกับทางร้านก่อนสั่งซื้อ</div>
+            </div>
+        } else {
+            if(productState.stock > 0) {
+                return <>
+                <div className="row">
+                    <div className="col-12">
+                        <h5 style={{paddingTop : "1.2rem"}} className="font-weight-bold">จำนวน</h5>
+                        <div>
+                            <span className="input-number-decrement" onClick={()=>setOrderChange("-")}>–</span><input className="input-number" type="text" value={orderState}/><span className="input-number-increment" onClick={()=>setOrderChange("+")}>+</span>
+                        </div>
+                        <span className="text-danger">{stockFullAlertState ? `${tcv.fullStock} ${productState.stock} ชิ้น` : ""}</span>
+                    </div>
+                    <div className="col-12">
+                        {productState.deliveryCost>0?<p style={{marginTop : "5px"}}>( ค่าส่ง {numeral(productState.deliveryCost).format('0,0')} บาท/ชิ้น )</p>:<></>}
+                    </div>
+                </div>
+                
+                <div className="row">
+                    <div className="col-6">
+                        <button style={{marginTop:"30px"}} type="button" className="btn btn-primary btn-lg btn-block" onClick={()=>addtoCart(true)}>
+                            <i className="fas fa-shopping-cart"></i> เพิ่มในรถเข็น
+                        </button>
+                    </div>
+                    <div className="col-6">
+                        <button style={{marginTop:"30px"}} type="button" className="btn btn-danger btn-lg btn-block shadow" onClick={()=>buyNow()}>ซื้อ</button>
+                    </div>
+                </div>
+                </>
+            } else {
+                return 
+            }
+        }
+    }
+
     return (
         <>
         <CartAlertComp status={popupCartState} data={detailPopUpCartState} getStatus={(e) => setPopUpCartState(e)} />
@@ -206,6 +244,7 @@ export default function ProductPage(props) {
                 <div className="pro-product-page">
                     <h1 className="pro-name-page font-weight-bold">{productState.name}</h1>
                     <p>{productState.brandName_th}</p>
+                    {productState.salesType === "PREORDER" ? <div className="pre-order-box">สินค้าพรีออเดอร์</div> : <></>}
                     <h5 style={{paddingTop : "0.5rem"}} className="font-weight-bold">รายละเอียด</h5>
                     <p>{productState.detail}</p>
                     <div hidden={!subDetailState} style={{paddingBottom : "20px"}}>
@@ -230,38 +269,7 @@ export default function ProductPage(props) {
                             })}
                             
                         </div>
-                        {productState.stock > 0 ?
-                        <>
-                        <div className="row">
-                            <div className="col-12">
-                                <h5 style={{paddingTop : "1.2rem"}} className="font-weight-bold">จำนวน</h5>
-                                <div>
-                                    <span className="input-number-decrement" onClick={()=>setOrderChange("-")}>–</span><input className="input-number" type="text" value={orderState}/><span className="input-number-increment" onClick={()=>setOrderChange("+")}>+</span>
-                                </div>
-                                <span className="text-danger">{stockFullAlertState ? `${tcv.fullStock} ${productState.stock} ชิ้น` : ""}</span>
-                            </div>
-                            <div className="col-12">
-                                {productState.deliveryCost>0?<p style={{marginTop : "5px"}}>( ค่าส่ง {numeral(productState.deliveryCost).format('0,0')} บาท/ชิ้น )</p>:<></>}
-                            </div>
-                        </div>
-                        
-                        <div className="row">
-                            <div className="col-6">
-                                <button style={{marginTop:"30px"}} type="button" className="btn btn-primary btn-lg btn-block" onClick={()=>addtoCart(true)}>
-                                    <i className="fas fa-shopping-cart"></i> เพิ่มในรถเข็น
-                                </button>
-                            </div>
-                            <div className="col-6">
-                                <button style={{marginTop:"30px"}} type="button" className="btn btn-danger btn-lg btn-block shadow" onClick={()=>buyNow()}>ซื้อ</button>
-                            </div>
-                        </div>
-                        </>
-                        :
-                        <div style={{marginTop : 50}}>
-                            <div className="out-of-stock font-weight-bold">สินค้าหมดชั่วคราว</div>
-                        </div>
-                        
-                        }
+                        {setButton()}
                         
                     </div>
                 </div>

@@ -129,7 +129,7 @@ export default function AllProductsPage(props) {
     console.log(dataProductsState.filter(item => item.name && item.name.toLowerCase().includes(filterText.toLowerCase())))
     const filteredItems = dataProductsState.filter(item => 
         item.name && item.name.toLowerCase().includes(filterText.toLowerCase()) ||
-        item.id && item.id.toLowerCase().includes(filterText.toLowerCase()) ||
+        // item.id && item.id.toLowerCase().includes(filterText.toLowerCase()) ||
         item.brand && item.brand.toLowerCase().includes(filterText.toLowerCase()) ||
         item.type && item.type.toLowerCase().includes(filterText.toLowerCase())
         );

@@ -14,6 +14,7 @@ export default function CardProductComp(props) {
                 : ""}
             </div>
             <div className="card-product-main-detail">
+                {productState.salesType === "PREORDER" ? <div className="pre-order-box-product">พรีออเดอร์</div> : <></>}
                 <h5 className="card-title">{productState.name}</h5>
                 {/* <p className="card-text text-black-50 card-product-detail">{productState.subDetail}</p> */}
                 <div className="price-box">

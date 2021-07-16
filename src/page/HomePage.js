@@ -108,7 +108,7 @@ export default function HomePage(props) {
                             <p style={{textDecoration: "line-through"}} className="text-secondary">35,000</p>
                             <p style={{fontSize : "2rem",marginTop:"-20px"}} className="font-weight-bold">30,000</p>
                             <div style={{width:"100%",marginTop:"-60px"}} className="text-right">
-                                <a href="/product" className="btn btn-danger" style={{width:"100px"}}>รายละเอียด</a>
+                                <a href="/product" className="btn btn-primary" style={{width:"100px"}}>รายละเอียด</a>
                             </div>
                             </div>
                             

@@ -131,7 +131,7 @@ export default function TrackingPage(props) {
                                             </label>
                                         </div>
                                     </div>
-                                    <div className="col-5 col-md-4">
+                                    <div className="col-6 col-md-4">
                                         <div class="form-check">
                                             <input class="form-check-input" type="radio" name="type"  value="tel" checked={typeSearchState.type==="tel"} onClick={(e)=>changeType(e)}/>
                                             <label class="form-check-label">
