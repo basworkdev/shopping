@@ -43,6 +43,7 @@ import TopUpComp from './componenst/TopUpComp'
 import AdminMenuTopComp from './componenst/admin/MenuTopComp'
 import AllProductsPage from './page/admin/products/AllProductsPage'
 import CreateProductPage from './page/admin/products/CreateProductPage'
+import OrderTable from "./page/admin/order/OrderTable";
 
 // ACT
 import { CartAct } from "./actions/CartAct";
@@ -166,6 +167,9 @@ export default function Main(props) {
             </Route>
             <Route path="/admin/product/:event/:id">
                 <CreateProductPage/>
+            </Route>
+            <Route path="/admin/all-order">
+                <OrderTable/>
             </Route>
             </Switch>
         </Router>

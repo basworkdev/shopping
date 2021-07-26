@@ -4,14 +4,14 @@ import { useHistory } from "react-router-dom";
 export default function MenuTopComp(props) {
     let history = useHistory();
     useEffect(() => {
-        if(!sessionStorage.getItem("user")) {
-            sessionStorage.clear();
+        if(!localStorage.getItem("user")) {
+            localStorage.clear();
             window.location.replace('/admin/login');
         }
     }, [])
 
     const logout = () => {
-        sessionStorage.clear();
+        localStorage.clear();
         window.location.replace('/admin/login');
     }
     const changeHistory = (location) => {
@@ -29,10 +29,10 @@ export default function MenuTopComp(props) {
                 <div className="collapse navbar-collapse" id="navbarSupportedContent" style={{cursor : "pointer"}}>
                     <ul className="navbar-nav mr-auto">
                     <li className="nav-item active">
-                        <a className="nav-link" onClick={()=>changeHistory("/admin/all-product")}>สินค้า</a>
+                        <a className="nav-link" href="/admin/all-product">สินค้า</a>
                     </li>
                     <li className="nav-item">
-                        <a className="nav-link" href="#">คำสั่งซื้อ</a>
+                        <a className="nav-link" href="/admin/all-order">คำสั่งซื้อ</a>
                     </li>
                     <li className="nav-item dropdown">
                         <a className="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">

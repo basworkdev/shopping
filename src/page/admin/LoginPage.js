@@ -9,7 +9,7 @@ export default function LoginPage(props) {
     let history = useHistory();
 
     useEffect(()=>{
-        sessionStorage.clear();
+        localStorage.clear();
     },[])
 
     
@@ -21,7 +21,7 @@ export default function LoginPage(props) {
         }
         const login = await LoginApi.doserviceLogin(loginData);
         if(login.code === 1) {
-            sessionStorage.setItem("user" , JSON.stringify({
+            localStorage.setItem("user" , JSON.stringify({
                 userName : loginData.userName,
                 name : login.name
             }));
