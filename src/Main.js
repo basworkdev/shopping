@@ -44,6 +44,7 @@ import AdminMenuTopComp from './componenst/admin/MenuTopComp'
 import AllProductsPage from './page/admin/products/AllProductsPage'
 import CreateProductPage from './page/admin/products/CreateProductPage'
 import OrderTable from "./page/admin/order/OrderTable";
+import OrderDetailPage from "./page/admin/order/OrderDetailPage";
 
 // ACT
 import { CartAct } from "./actions/CartAct";
@@ -170,6 +171,9 @@ export default function Main(props) {
             </Route>
             <Route path="/admin/all-order">
                 <OrderTable/>
+            </Route>
+            <Route path="/admin/order-detail/:orderId">
+                <OrderDetailPage/>
             </Route>
             </Switch>
         </Router>

@@ -21,7 +21,6 @@ export default function OrderTable(props) {
     
   const getData = async () => {
     let resp = await OrderApi.doserviceGetOrderAll();
-    console.log('order', resp);
     setDataState(resp);
   }
     
@@ -39,15 +38,18 @@ export default function OrderTable(props) {
   );
     
   const columns = [
-    {
-      cell: (data) => <>
-        <button type="button" class="btn btn-primary btn-sm"><i class="fas fa-file"></i></button>
-      </>
-    },
+    // {
+    //   cell: (data) => {
+    //     return <button type="button" class="btn btn-primary btn-sm"><i class="fas fa-file"></i></button>
+    //   },
+    //   width : "50px"
+      
+    // },
     {
       name: 'รหัส',
       selector: 'id',
       sortable: true,
+      width : "150px"
     },
     {
       name: 'ชื่อ',
@@ -121,18 +123,25 @@ export default function OrderTable(props) {
       return <FilterComponent onFilter={e => setFilterText(e.target.value)} onClear={handleClear} filterText={filterText} />;
     }, [filterText, resetPaginationToggle]);
   
+    const rowClick = (e) => {
+      window.open( `/admin/order-detail/${e.id}`, '_blank');
+      
+    }
     return (
-      <DataTable
-        // title="Contact List"
-        columns={columns}
-        data={filteredItems}
-        pagination
-        paginationResetDefaultPage={resetPaginationToggle} // optionally, a hook to reset pagination to page 1
-        subHeader
-        subHeaderComponent={subHeaderComponentMemo}
-        // selectableRows
-        persistTableHead
-      />
+      <div style={{cursor : "pointer"}}>
+        <DataTable
+          noHeader
+          columns={columns}
+          data={filteredItems}
+          pagination
+          paginationResetDefaultPage={resetPaginationToggle} // optionally, a hook to reset pagination to page 1
+          subHeader
+          subHeaderComponent={subHeaderComponentMemo}
+          // selectableRows
+          persistTableHead
+          onRowClicked={(e)=>rowClick(e)}
+        />
+      </div>
     );
   };
 return(
