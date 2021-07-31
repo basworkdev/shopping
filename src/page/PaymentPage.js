@@ -8,7 +8,7 @@ import bootbox from 'bootbox';
 // Comp 
 import OrderSumDetailComp from "../componenst/OrderSumDetailComp";
 import SpinnerComp from "../componenst/SpinnerComp";
-import UploadImageComp from "../componenst/UploadImmageComp";
+import UploadImmagePaySlipComp from "../componenst/UploadImmagePaySlipComp";
 import DeliveryAddressComp from "../componenst/DeliveryAddressComp";
 
 // CSS
@@ -118,27 +118,17 @@ export default function PaymentPage(props) {
             }else if (orderState[0].pay_status === "NOT") {
                 return(
                     <>
-                    <div className="row">
-                        <div className="col-md-4"></div>
-                        <div className="col-md-4">
-                            <div style={{marginBottom : 20}}>
-                            {imageState ?
-                            <img 
-                                // src={`${process.env.REACT_APP_ENGINE_URL}imagesSlipPay/${showImageState.filename}`}
-                                src={`${showImageState}`}
-                                width="100%"
-                            />
-                            : 
-                            <></>
-                            }
-                            
-                            </div>
-                        </div>
-                    </div>
-                    <UploadImageComp upload={(e)=>{console.log("upload",e);setImageState(e)}} uploadImage={(e)=>{console.log(e); setShowImageState(e)}} detailShow={showImageState ? false : true}/>
-                    <br/>
-                    <center><button type="button" class="btn btn-primary btn-lg" onClick={()=>{saveOrder()}}>ส่งหลักฐานการชำระเงิน</button></center>
+                    <UploadImmagePaySlipComp 
+                        detailShow={showImageState ? false : true} 
+                        order={{
+                            orderId : orderId,
+                            pay_status : "UPLOADSLIP",
+                            status : "UPLOADSLIP"
+                        }} 
+                        nextStepPage={`/order-status/${orderId}`}
+                        />
                     
+                    <br/>                    
                     </>
                 )
 
