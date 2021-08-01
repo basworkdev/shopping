@@ -20,10 +20,12 @@ import SpinnerComp from "../../../componenst/SpinnerComp"
 
 export default function OrderDetailPage(props) {
     const { register, handleSubmit, watch, errors } = useForm();
+    let _ = require('lodash');
     const {orderId} = useParams();
     let moment = require('moment');
     let numeral = require('numeral');
     const tcv = tc.validate.requestFiles;
+    const selectedDefault = { value: "", label: "" };
     const [spinnerState,setSpinnerState] = useState(false);
     const [orderState,setOrderState] = useState({});
     const [orderDetailState,setOrderDetailState] = useState([]);
@@ -39,6 +41,11 @@ export default function OrderDetailPage(props) {
     const [deliveryCompanyState , setDeliveryCompanyState] = useState(itemCon.deliveryCompany);
     const [updateNumState , setUpdateNumState] = useState(0)
 
+    // Selected
+    const [selectedOrderStatusState , setSelectedOrderStatusState] = useState({ value: "", label: "" });
+    const [selectedPayStatusState , setSelectedPayStatusState] = useState({ value: "", label: "" });
+    const [selectedDeliveryCompanyState , setSelectedDeliveryCompanyState] = useState({ value: "", label: "" , trace: "" })
+
     useEffect(()=>{
         getOrder();
     },[updateNumState])
@@ -47,10 +54,20 @@ export default function OrderDetailPage(props) {
         setSpinnerState(true)
         let orderData = await OrderApi.doserviceGetOrderById(orderId);
         let orderDetailData = await OrderApi.doserviceGetOrderAndOrderDetail(orderId);
+        orderData = orderData[0]
         console.log("orderData" , orderData);
         console.log("orderDetailData" , orderDetailData);
-        setOrderState(orderData[0]);
+        
+        let selectedOrderStatus = orderData.status ? _.find(orderStatusState , {value : orderData.status}) : selectedDefault;
+        let selectedPayStatus = orderData.pay_status ? _.find(payStatusState , {value : orderData.pay_status}) : selectedDefault;
+        selectedDefault.trace = ""
+        let selectedDeliveryCompany = orderData.delivery_company ? _.find(deliveryCompanyState , {value : orderData.delivery_company}) : selectedDefault;
+        setOrderState(orderData);
         setOrderDetailState(orderDetailData);
+        setSelectedOrderStatusState(selectedOrderStatus);
+        setSelectedPayStatusState(selectedPayStatus);
+        setSelectedDeliveryCompanyState(selectedDeliveryCompany);
+
         setSpinnerState(false)
 
     }
@@ -168,6 +185,23 @@ export default function OrderDetailPage(props) {
         }
     }
 
+    const onSubmit = async (data) => {
+        data.orderId = orderId;
+        if(!data.pay_date) {
+            data.pay_date = null
+        }
+        if(!data.delivery_date) {
+            data.delivery_date = null
+        }
+        setSpinnerState(true)
+        let resp = await OrderApi.doserviceUpdateOrderDetail(data);
+        setSpinnerState(false)
+        bootbox.alert(resp.message);
+        setUpdateNumState(updateNumState + 1)
+
+        
+    }
+
     const payDetailForm = () => {
         return <>
             <h2>การชำระเงิน</h2>
@@ -177,19 +211,18 @@ export default function OrderDetailPage(props) {
                         <label>สถานะการชำระเงิน</label>
                         <Select 
                             options={payStatusState} 
-                            value={""}
-                            // onChange={(e)=>setSelectSalesType(e)}
+                            value={selectedPayStatusState}
+                            onChange={(e)=>setSelectedPayStatusState(e)}
                         />
-                        {/* <input hidden className="form-control" name="salesType" value={selectSalesType.value} ref={register({ required: true })}/> */}
-                            {errors.stock && <span className="text-danger">{tcv}</span>}
+                        <input hidden className="form-control" name="pay_status" value={selectedPayStatusState.value} ref={register({ required: false })}/>
+                        {errors.pay_status && <span className="text-danger">{tcv}</span>}
                     </div>
                 </div>
                 <div className="col-md-6">
                     <div className="form-group">
-                        <label>วันที่ส่ง</label>
-                        {orderState.pay_date} 
-                        <input className="form-control" type="date" name="salesType" value={new Date(orderState.pay_date)} ref={register({ required: true })}/>
-                        {errors.stock && <span className="text-danger">{tcv}</span>}
+                        <label>วันที่</label>
+                        <input className="form-control" type="date" name="pay_date" defaultValue={moment(orderState.pay_date).format("YYYY-MM-DD")} ref={register({ required: false })}/>
+                        {errors.pay_date && <span className="text-danger">{tcv}</span>}
                     </div>
                 </div>
                 <div className="col-md-6">
@@ -214,11 +247,11 @@ export default function OrderDetailPage(props) {
                         <label>สถานนะการสั่งซื้อ</label>
                         <Select 
                             options={orderStatusState} 
-                            value={""}
-                            // onChange={(e)=>setSelectSalesType(e)}
+                            value={selectedOrderStatusState}
+                            onChange={(e)=>setSelectedOrderStatusState(e)}
                         />
-                        {/* <input hidden className="form-control" name="salesType" value={selectSalesType.value} ref={register({ required: true })}/> */}
-                        {errors.stock && <span className="text-danger">{tcv}</span>}
+                        <input hidden className="form-control" name="status" value={selectedOrderStatusState.value} ref={register({ required: false })}/>
+                        {errors.status && <span className="text-danger">{tcv}</span>}
                     </div>
                 </div>
             </div>
@@ -230,32 +263,32 @@ export default function OrderDetailPage(props) {
                             <label>บริษัทขนส่ง</label>
                             <Select 
                                 options={deliveryCompanyState} 
-                                value={""}
-                                // onChange={(e)=>setSelectSalesType(e)}
+                                value={selectedDeliveryCompanyState}
+                                onChange={(e)=>setSelectedDeliveryCompanyState(e)}
                             />
-                            {/* <input hidden className="form-control" name="salesType" value={selectSalesType.value} ref={register({ required: true })}/> */}
-                            {errors.stock && <span className="text-danger">{tcv}</span>}
+                            <input hidden className="form-control" name="delivery_company" value={selectedDeliveryCompanyState.value} ref={register({ required: false })}/>
+                            {errors.delivery_company && <span className="text-danger">{tcv}</span>}
                         </div>
                     </div>
                     <div className="col-md-6">
                         <div className="form-group">
                             <label>วันที่ส่ง</label>
-                            <input className="form-control" type="date" name="salesType" ref={register({ required: true })}/>
-                            {errors.stock && <span className="text-danger">{tcv}</span>}
+                            <input className="form-control" type="date" name="delivery_date" defaultValue={orderState.delivery_date ? moment(orderState.delivery_date).format("YYYY-MM-DD") : null }  ref={register({ required: false })}/>
+                            {errors.delivery_date && <span className="text-danger">{tcv}</span>}
                         </div>
                     </div>
                     <div className="col-md-6">
                         <div className="form-group">
                             <label>เลขพัสดุ</label>
-                            <input className="form-control" type="text" name="salesType" ref={register({ required: true })}/>
-                            {errors.stock && <span className="text-danger">{tcv}</span>}
+                            <input className="form-control" type="text" name="delivery_number" defaultValue={orderState.delivery_number} ref={register({ required: false })}/>
+                            {errors.delivery_number && <span className="text-danger">{tcv}</span>}
                         </div>
                     </div>
                     <div className="col-md-6">
                         <div className="form-group">
                             <label>ลิ้งค์ติดตามสินค้า</label>
-                            <input className="form-control" type="text" name="salesType" ref={register({ required: true })}/>
-                            {errors.stock && <span className="text-danger">{tcv}</span>}
+                            <input className="form-control" type="text" name="delivery_trace" defaultValue={orderState.delivery_trace} value={selectedDeliveryCompanyState.trace} ref={register({ required: false })}/>
+                            {errors.delivery_trace && <span className="text-danger">{tcv}</span>}
                         </div>
                     </div>
                 </div>
@@ -355,13 +388,15 @@ export default function OrderDetailPage(props) {
                     onRowClicked={(e)=>showProduct(e)}
                 />
                 </div>
+                
                 <hr/>
-                {payDetailForm()}
-                <hr/>
-                {StatusOrderForm()}
-
-                <br/>
-                <center><button type="button" class="btn btn-primary">บันทึก</button></center>
+                <form onSubmit={handleSubmit(onSubmit)}>
+                    {payDetailForm()}
+                    <hr/>
+                    {StatusOrderForm()}
+                    <br/>
+                    <center><button type="submit" class="btn btn-primary">บันทึก</button></center>
+                </form>
             </div>
         </>
     )

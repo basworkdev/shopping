@@ -33,7 +33,8 @@ export default function OrderStepComp(props) {
                     {orderState.delivery_company ?
                     <>
                     <div className="md-step-title">{tc.statusOrder.DELIVER}โดย : {orderState.delivery_company}</div>
-                    <div className="md-step-optional">เช็คสถานนะพัสดุ : <a href={orderState.delivery_trace}>คลิก</a></div>
+                    <div className="md-step-optional">เลขพัสดุ : <span className="font-weight-bold">{orderState.delivery_number}</span></div>
+                    <div className="md-step-optional">เช็คสถานนะพัสดุ : <a href={orderState.delivery_trace} target="_blank"><span className="font-weight-bold">คลิก</span></a></div>
                     </>
                     : 
                     <>
@@ -70,7 +71,8 @@ export default function OrderStepComp(props) {
                         {orderState.delivery_company ?
                         <>
                         <strong>{tc.statusOrder.DELIVER}โดย : {orderState.delivery_company}</strong>
-                        เช็คสถานนะพัสดุ : <a href={orderState.delivery_trace}>คลิก</a>
+                        <p>เลขพัสดุ : <span className="font-weight-bold">{orderState.delivery_number}</span> </p>
+                        <a href={orderState.delivery_trace} target="_blank"><p style={{marginTop : "-5px"}}>เช็คสถานนะพัสดุ : <span className="font-weight-bold">คลิก</span></p></a>
                         </>
                         : 
                         <>
@@ -78,7 +80,7 @@ export default function OrderStepComp(props) {
                         </>
                         }
                     </li>
-                    <li className={`StepProgress-item is-success ${props.status.step >= 3 ? "active" : "text-black-50"}`}><strong>{tc.statusOrder.SUCCESS}</strong></li>
+                    <li className={`StepProgress-item is-success ${props.status.step >= 4 ? "active" : "text-black-50"}`}><strong>{tc.statusOrder.SUCCESS}</strong></li>
                 </ul>
             </div>
         </div>

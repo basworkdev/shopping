@@ -120,7 +120,6 @@ export default function ShipmentInfoPage(props) {
             status : "ORDER",
             delivery_number : "",
             delivery_company : "",
-            delivery_date : "",
             user_id : "",
             orderDetail : inStoreCart.listForCart
         }

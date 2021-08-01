@@ -13,6 +13,7 @@
         { "value": "SUCCESS", "label": "สินค้าถูกจัดส่งเรียบร้อย" }
     ],
     "deliveryCompany" : [
+        { "value": "", "label": "-" , "trace": ""},
         { "value": "Kerry-Express", "label": "Kerry Express" , "trace": "https://th.kerryexpress.com/en/home"},
         { "value": "FedEx", "label": "FedEx" , "trace": "https://www.fedex.com/th-th/home.html"},
         { "value": "DHL-Express", "label": "DHL Express" , "trace": "https://www.dhl.com/th-th/home.html"},
