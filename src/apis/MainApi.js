@@ -1,4 +1,8 @@
 import axios from "axios";
+import pv from "../config/province.json"
+import ap from "../config/amphures.json"
+import ds from "../config/districts.json"
+let _ = require('lodash');
 
 const doserviceUploadImage = (formData) => {
     return new Promise((resolve, reject) => {
@@ -41,11 +45,43 @@ const percentSell = (fullPrice , price) => {
     return percent;
 }
 
+const getProvinces = () => {
+    return _.sortBy(pv, ['name_th']);
+}
+
+const getAmphure = (province_id) => {
+    let amphure = _.filter(ap,{province_id : parseInt(province_id)})
+    return _.sortBy(amphure, ['name_th']); 
+}
+
+const getDistricts = (amphure_id) => {
+    amphure_id = amphure_id.toString()
+    let districts = []
+    for(let i=0 ; i<ds.length ; i++ ) {
+        let idDs = ds[i].id.toString();
+        idDs = idDs.substring(0, 4);
+        if(idDs === amphure_id) {
+            districts.push(ds[i])
+        }
+    }
+
+    return _.sortBy(districts, ['name_th']);
+}
+
+const getPostCode = (districts_id) => {
+    let postCode = _.find(ds , {id : districts_id})
+    return postCode.zip_code
+}
+
 
 const apis = {
     doserviceUploadImage,
     doserviceUploadImageSlipPay,
-    percentSell
+    percentSell,
+    getProvinces,
+    getAmphure,
+    getDistricts,
+    getPostCode
 }
 
 export default apis;

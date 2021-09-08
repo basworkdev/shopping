@@ -12,7 +12,8 @@ import "../assets/css/cart-page.css"
 // API
 import proApis from "../apis/ProductsApi";
 import addressApi from "../apis/AddressApi";
-import OrderApi from "../apis/OrderApi"
+import OrderApi from "../apis/OrderApi";
+import MainApi from "../apis/MainApi"
 
 // Comp
 import CardProductComp from "../componenst/CardProductComp"
@@ -42,6 +43,7 @@ export default function ShipmentInfoPage(props) {
 
     useEffect(()=>{
         let address = JSON.parse(localStorage.getItem("customerAddress"))
+        debugger
         if(address) {
             setAddressState(address);
             if(address.province) {
@@ -62,7 +64,8 @@ export default function ShipmentInfoPage(props) {
 
     const getProvinces = async () => {
         setSpinnerState(true)
-        const provinces = await addressApi.doserviceGetProvinces();
+        // const provinces = await addressApi.doserviceGetProvinces();
+        const provinces = MainApi.getProvinces()
         setProvincesState(provinces);
         setSpinnerState(false)
     }
@@ -73,10 +76,15 @@ export default function ShipmentInfoPage(props) {
             province_id = 0
         }
         setSpinnerState(true)
-        amphures = await addressApi.doserviceGetAmphures(province_id);
+        // amphures = await addressApi.doserviceGetAmphures(province_id);
+        amphures = await MainApi.getAmphure(province_id)
         setAmphuresState(amphures);
         setDistrictsState([]);
         setSpinnerState(false)
+        // setAddressState({
+        //     ...addressState,
+        //     postcode : ""
+        // })
     }
 
     const getDistricts = async (amphure_id) => {
@@ -85,9 +93,22 @@ export default function ShipmentInfoPage(props) {
             amphure_id = 0
         }
         setSpinnerState(true)
-        districts = await addressApi.doserviceGetDistricts(amphure_id);
+        // districts = await addressApi.doserviceGetDistricts(amphure_id);
+        districts = await MainApi.getDistricts(parseInt(amphure_id))
         setDistrictsState(districts);
         setSpinnerState(false)
+        // setAddressState({
+        //     ...addressState,
+        //     postcode : ""
+        // })
+    }
+
+    const getPostCode = async (districts_id) => {
+        let postCode = await MainApi.getPostCode(parseInt(districts_id));
+        setAddressState({
+            ...addressState,
+            postcode : postCode
+        })
     }
 
     const onSubmit = async (data) => {
@@ -270,11 +291,12 @@ export default function ShipmentInfoPage(props) {
                                 disabled={districtsState.length===0}
                                 onChange={(e)=>{
                                     setNameDistrictsState(e.target.options[e.target.selectedIndex].innerHTML);
+                                    getPostCode(e.target.value);
                                 }}
                             >
                                 <option value="">กรุณาเลือกตำบล</option>
                                 {districtsState.map((data)=>{
-                                    return <option value={data.id} selected={data.id===addressState.district}>{data.name_th}</option>
+                                    return <option value={data.id} selected={data.id===parseInt(addressState.district)}>{data.name_th}</option>
                                 })}
                             </select>
                             {errors.district && <small class="form-text text-danger">{tcv.requestFiles}</small>}
@@ -290,6 +312,13 @@ export default function ShipmentInfoPage(props) {
                                 placeholder="รหัสไปรษณีย์"
                                 ref={register({ required: true })}
                                 defaultValue={addressState.postcode}
+                                value={addressState.postcode}
+                                onChange={(e)=>{
+                                    setAddressState({
+                                        ...addressState,
+                                        postcode : e.target.value
+                                    })
+                                }}
                             />
                             {errors.postcode && <small class="form-text text-danger">{tcv.requestFiles}</small>}
                         </div>
